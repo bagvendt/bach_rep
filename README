@@ -1,1 +1,6 @@
-DET HER ER FOR VILDT
+Har bygget et simpelt framework op der burde være generisk nok.
+
+Scriptet main.py kan nu køres således:
+main.py <index>
+
+Hvor index svarer til det element i listen fra proc.py
