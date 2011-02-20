@@ -12,9 +12,6 @@ fname(img,env, **kwargs)
 and fname should return the tuple (img,env)
 """
 
-
-
-
 def setup(image,env):
 	"""Loads the image and sets up the environment"""
 	#flatten=1 makes image grayscaled.
