@@ -1,4 +1,9 @@
-Har bygget et simpelt framework op der burde være generisk nok.
+Vi benytter:
+Scipy 0.8.0
+Numpy 1.5.1
+AwesUmPy 3.12
+
+Der er nu bygget et simpelt framework der burde være generisk nok.
 
 Scriptet main.py kan nu køres således:
 main.py <index>
