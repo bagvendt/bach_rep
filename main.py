@@ -1,6 +1,6 @@
 from proc import *
 import sys
-
+#test
 def main():
 	arg = sys.argv 
 	if len(arg) != 2:
