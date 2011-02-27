@@ -18,11 +18,11 @@ test2 = (
 test3 = ( 
 	'../img/test.jpg',
 	[
-	(fft2,{}),
-	(fftshift,{}),
+	#(fft2,{}),
+	#(fftshift,{}),
 	#(test_func,{}),
-	(ifft2,{}),
-	(abs_func,{}),
+	#(ifft2,{}),
+	#(abs_func,{}),
 	(display,{})],
 	)
 
