@@ -10,7 +10,7 @@ from scipy.ndimage import gaussian_filter
 from proc import *
 import matplotlib.pyplot as plt
 import Image,ImageFilter,ImageOps
-import matplotlib
+
 
 """
 When implementing new functions functions should be of the form
@@ -22,14 +22,13 @@ def setup(image,env):
 	"""Loads the image and sets up the environment"""
 	#flatten=1 makes image grayscaled.
 	#img = imread1(image,flatten=1).astype('float32')	
-	img = imread(image)
-	img.matplotlib.pyplot.gray()	
-	#img = toimage(img)
+	img = pylab.imread(image)	
+	img = toimage(img)
 	#r,g,b = img.split()
 	#img = img.draft('L',img.size)
 	#img = ImageOps.grayscale(img)
-	#img = img.convert("1")
-	#img = fromimage(img)	
+	img = img.convert("L")
+	img = fromimage(img)	
 	#img = Image.merge("RGB", (g,g,g))
 	return (img,env)
 
@@ -43,7 +42,9 @@ def display(img,env,**kwargs):
 	pylab.figure()
 	img = pylab.flipud(img)
 	pylab.imshow(img)
+	pylab.gray()
 	pylab.show()
+
 	return (img,env)
 
 def abs_func(img,env,**kwargs):
@@ -81,7 +82,7 @@ def fftshift(img,env,**kwargs):
 def test_func(img,env,**kwargs):
 	n,m = 360,480
 	x,y = n/2,m/2
-	cutoff = 100
+	cutoff = 200
 	for i1,a in enumerate(img):
 		for i2,b in enumerate(a):
 			if numpy.sqrt(((i1-x) ** 2) + ((i2-y)**2)) > cutoff: 

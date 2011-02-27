@@ -19,8 +19,9 @@ test3 = (
 	'../img/test.jpg',
 	[
 	(fft2,{}),
-	#(test_func,{}),
+	(test_func,{}),
 	(ifft2,{}),
+	(abs_func,{}),	
 	(display,{})],
 	)
 
