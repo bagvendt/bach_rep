@@ -55,14 +55,23 @@ def fft2(img,env,**kwargs):
 	img = numpy.fft.fft2(img)
 	return (img,env)
 
+def ifft2(img,env,**kwargs):
+	img = numpy.fft.ifft2(img)
+	return (img,env)
+
+def rfft2(img,env,**kwargs):
+	img = numpy.fft.rfft2(img)
+	return (img,env)
+
+def irfft2(img,env,**kwargs):
+	img = numpy.fft.irfft2(img)
+	return (img,env)
+
 def gauss(img,env,**kwargs):
 	value = kwargs['value']
 	img = gaussian_filter(img,value, )
 	return (img,env)
 
-def ifft2(img,env,**kwargs):
-	img = numpy.fft.ifft2(img)
-	return (img,env)
 
 def fftshift(img,env,**kwargs):
 	img = numpy.fft.fftshift(img)
