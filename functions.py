@@ -21,12 +21,10 @@ def setup(image,env):
 	"""Loads the image and sets up the environment"""
 	#flatten=1 makes image grayscaled.
 	#img = imread1(image,flatten=1).astype('float32')
-	img = imread(image)
-	img = toimage(img)
+	img = imread1(image)
 	#r,g,b = img.split()
 	#img = img.draft('L',img.size)
 	#img = ImageOps.grayscale(img)
-	img = img.convert("L")
 	#img = fromimage(img)
 	
 	#img = Image.merge("RGB", (g,g,g))
@@ -40,8 +38,8 @@ def display(img,env,**kwargs):
 	any sense atm.
 	"""
 	pylab.figure()
-	img = pylab.flipud(img)
-	pylab.imshow(img,interpolation="bilinear")
+	#img = pylab.flipud(img)
+	pylab.imshow(img)
 	pylab.show()
 	return (img,env)
 
@@ -54,14 +52,23 @@ def fft2(img,env,**kwargs):
 	img = numpy.fft.fft2(img)
 	return (img,env)
 
+def ifft2(img,env,**kwargs):
+	img = numpy.fft.ifft2(img)
+	return (img,env)
+
+def rfft2(img,env,**kwargs):
+	img = numpy.fft.rfft2(img)
+	return (img,env)
+
+def irfft2(img,env,**kwargs):
+	img = numpy.fft.irfft2(img)
+	return (img,env)
+
 def gauss(img,env,**kwargs):
 	value = kwargs['value']
 	img = gaussian_filter(img,value, )
 	return (img,env)
 
-def ifft2(img,env,**kwargs):
-	img = numpy.fft.ifft2(img)
-	return (img,env)
 
 def fftshift(img,env,**kwargs):
 	img = numpy.fft.fftshift(img)
