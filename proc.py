@@ -22,7 +22,7 @@ sobel_test = (
 	)
 
 epic_test = ( 
-	'../img/cykel.jpg',
+	'img/cykel.jpg',
 	[(fft2,{}),
 	(smooth,{'sigma_x':120,
 			 'sigma_y':120,
@@ -41,7 +41,7 @@ epic_test = (
 	)
 
 displayy = ( 
-	'../img/test.jpg',
+	'img/test.jpg',
 	[
 	(display,{})],
 	)
