@@ -1,41 +1,45 @@
 from functions import *
+from leg import *
 
-test1 = ( 
+smooth_test = ( 
 	'../img/celle1.png',
 	[(fft2,{}),
-	(abs_func,{}),
-	(gauss,{'value':0.0044,}),
-	(fftshift,{}),
-	(display,{})],
-	)
-
-test2 = ( 
-	'../img/celle1.png',
-	[(fft2,{}),
-	(abs_func,{}),
-	(display,{})],
-	)
-test3 = ( 
-	'../img/test.jpg',
-	[
-	(fft2,{}),
-	(test_func,{}),
-	(ifft2,{}),
-	(abs_func,{}),	
-	(display,{})],
-	)
-
-test4 = ( 
-	'../img/test.jpg',
-	[
-	(fft2,{}),
-	(abs_func,{}),
-	(fftshift,{}),
-	#(gauss,{'value':0.5,}),
+	(smooth,{'sigma_x':140,
+			 'sigma_y':140,
+			 'x_0':180,
+			 'y_0':240,
+			 'A':1,
+			}),
 	(ifft2,{}),
 	(abs_func,{}),
 	(display,{})],
 	)
+
+sobel_test = ( 
+	'../img/celle1.png',
+	[(rigmor_sobel,{}),
+	(display,{})],
+	)
+
+epic_test = ( 
+	'../img/cykel.jpg',
+	[(fft2,{}),
+	(smooth,{'sigma_x':120,
+			 'sigma_y':120,
+			 'x_0':180,
+			 'y_0':240,
+			 'A':1,
+			}),
+	(ifft2,{}),
+	(rigmor_sobel,{}),
+	(fft2,{}),
+	(fftshift,{}),
+	(low_pass,{}),
+	(ifft2,{}),
+	(abs_func,{}),
+	(display,{})],
+	)
+
 displayy = ( 
 	'../img/test.jpg',
 	[
@@ -43,4 +47,4 @@ displayy = (
 	)
 
 #Remember to add new procedures to this list
-func_list = [test1,test2,test3,test4,displayy]
+func_list = [smooth_test,sobel_test,epic_test]

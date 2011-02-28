@@ -10,7 +10,7 @@ from scipy.ndimage import gaussian_filter
 from proc import *
 import matplotlib.pyplot as plt
 import Image,ImageFilter,ImageOps
-
+import math
 
 """
 When implementing new functions functions should be of the form
@@ -79,7 +79,23 @@ def fftshift(img,env,**kwargs):
 	return (img,env)
 
 
-def test_func(img,env,**kwargs):
+def rigmor_sobel(img,env,**kwargs):
+	"""TODO: Maybe og fucking garanteret different name"""
+	vert = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
+	hor  = numpy.array([[-1,-2,-1],[0,0,0],[1,2,1]])
+	#G_x = numpy.fft.fft2(img) * numpy.fft.fft2(vert)
+	#G_y = numpy.fft.fft2(img) * numpy.fft.fft2(hor)
+	G_x = scipy.signal.sepfir2d(img, [1,2,1], [1,0,-1])
+	G_y = scipy.signal.sepfir2d(img, [1,0,-1], [1,2,1])
+	G = numpy.sqrt(G_x**2 + G_y ** 2)	
+	return (G,env)
+
+def low_pass(img,env,**kwargs):
+	"""
+	Needs more work. 
+	Needs to be dynamic. Non static cutoff and size values
+	"""
+	print img.dtype
 	n,m = 360,480
 	x,y = n/2,m/2
 	cutoff = 200
