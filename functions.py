@@ -95,7 +95,6 @@ def low_pass(img,env,**kwargs):
 	Needs more work. 
 	Needs to be dynamic. Non static cutoff and size values
 	"""
-	print img.dtype
 	n,m = 360,480
 	x,y = n/2,m/2
 	cutoff = 200
