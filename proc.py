@@ -46,9 +46,16 @@ displayy = (
 
 mexican_test = ( 
 	'../img/celle1.png',
-	[(tondcheck,{}),
+	[(gaussderiv,{}),
+	(display,{})],
+	)
+
+sobel_together_with_a_mexican = ( 
+	'../img/cykel.jpg',
+	[(rigmor_sobel,{}),
+	(edge_improved,{}),
 	(display,{})],
 	)
 
 #Remember to add new procedures to this list
-func_list = [smooth_test,sobel_test,epic_test,mexican_test]
+func_list = [smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican]

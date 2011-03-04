@@ -13,6 +13,7 @@ import Image,ImageFilter,ImageOps
 import math
 import scipy.signal as sig
 from constants import *
+import copy
 
 """
 When implementing new functions functions should be of the form
@@ -30,7 +31,8 @@ def setup(image,env):
 	#img = img.draft('L',img.size)
 	#img = ImageOps.grayscale(img)
 	img = img.convert("L")
-	img = fromimage(img)	
+	img = fromimage(img)
+	env['org_img'] = copy.deepcopy(img)
 	#img = Image.merge("RGB", (g,g,g))
 	return (img,env)
 
@@ -87,9 +89,11 @@ def rigmor_sobel_OLD(img,env,**kwargs):
 	hor  = numpy.array([[-1,-2,-1],[0,0,0],[1,2,1]])
 	#G_x = numpy.fft.fft2(img) * numpy.fft.fft2(vert)
 	#G_y = numpy.fft.fft2(img) * numpy.fft.fft2(hor)
-	G_x = scipy.signal.sepfir2d(img, [1,2,1], [1,0,-1])
-	G_y = scipy.signal.sepfir2d(img, [1,0,-1], [1,2,1])
-	G = numpy.sqrt(G_x**2 + G_y ** 2)	
+	G_x = sig.convolve2d(img, vert,"same")
+	G_y = sig.convolve2d(img, hor,"same")
+	#G_x = scipy.signal.sepfir2d(img, [1,2,1], [1,0,-1])
+	#G_y = scipy.signal.sepfir2d(img, [1,0,-1], [1,2,1])
+	G = numpy.sqrt(G_x**2 + G_y ** 2)
 	return (G,env)
 
 def low_pass(img,env,**kwargs):
@@ -114,12 +118,27 @@ def low_pass(img,env,**kwargs):
 
 	return (img,env)
 
-def tondcheck(img,env,**kwargs):
-	"""
-	Needs more work. 
-	Needs to be dynamic. Non static cutoff and size values
-	"""
-	img = sig.convolve2d(img,MEXHAT_LARGE)	
+def gaussderiv(img,env,**kwargs):
+	img = sig.convolve2d(img,MEXHAT_LARGE,"same")	
+	return (img,env)
+
+def edge_improved(img,env,**kwargs):
+	orig_img = env['org_img']
+	deriv = sig.convolve2d(orig_img, MEXHAT_LARGE,"same")
+	sobel = img
+	w,h = orig_img.shape
+	for i,a in enumerate(deriv):
+		#print len(deriv)
+		for j,b in enumerate(a):
+			#print i
+			#b = deriv[i][j]
+			if ((i < w -2 ) and (j < h-2)):
+				if (abs(b)+deriv[i+1][j]+deriv[i][j+1] == abs(b)+abs(deriv[i+1][j]) + abs(deriv[i][j+1])):
+					#print i,j
+					sobel[i][j] = 0
+			else:
+				sobel[i][j] = 0
+	img = sobel
 	return (img,env)
 
 
