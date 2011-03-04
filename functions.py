@@ -83,39 +83,50 @@ def fftshift(img,env,**kwargs):
 	return (img,env)
 
 
-def rigmor_sobel_OLD(img,env,**kwargs):
+def gaussian_blur(img,env,**kwargs):
+## Math from : http://en.wikipedia.org/wiki/Gaussian_blur
+	sigma = kwargs['sigma']
+	x_0, y_0 = img.shape
+	x_0 = x_0 / 2
+	y_0 = y_0 / 2
+	for i1,a in enumerate(img):
+		for i2,b in enumerate(a):
+			enum_x = (i1 - x_0) ** 2  
+			enum_y = (i2 - y_0) ** 2  
+			enum = -enum_x-enum_y
+			denom = 2 * (sigma ** 2)
+			frac = (1/(2*math.pi*(sigma**2)))
+			G = frac*math.exp(enum/denom)
+			img[i1][i2] = img[i1][i2] * G
+	return (img,env)
+
+def rigmor_sobel(img,env,**kwargs):
 	"""TODO: Maybe og fucking garanteret different name"""
+	maxval = 0
 	vert = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 	hor  = numpy.array([[-1,-2,-1],[0,0,0],[1,2,1]])
-	#G_x = numpy.fft.fft2(img) * numpy.fft.fft2(vert)
-	#G_y = numpy.fft.fft2(img) * numpy.fft.fft2(hor)
-	G_x = sig.convolve2d(img, vert,"same")
-	G_y = sig.convolve2d(img, hor,"same")
-	#G_x = scipy.signal.sepfir2d(img, [1,2,1], [1,0,-1])
-	#G_y = scipy.signal.sepfir2d(img, [1,0,-1], [1,2,1])
+	dim_x,dim_y = vert.shape
+	G_x = sig.convolve2d(img,vert)
+	G_y = sig.convolve2d(img,hor)
 	G = numpy.sqrt(G_x**2 + G_y ** 2)
+	for i1,a in enumerate(G):
+		for i2,b in enumerate(a):
+			if G[i1][i2] > maxval:
+				maxval = G[i1][i2]
+	env['sobel'] = G
+	env['G_x'] = G_x
+	env['G_y'] = G_y
+	env['maxval'] = maxval
 	return (G,env)
 
 def low_pass(img,env,**kwargs):
-	"""
-	Needs more work. 
-	Needs to be dynamic. Non static cutoff and size values
-	"""
-	n,m = 360,480
+	n,m = img.shape
 	x,y = n/2,m/2
 	cutoff = 200
 	for i1,a in enumerate(img):
 		for i2,b in enumerate(a):
 			if numpy.sqrt(((i1-x) ** 2) + ((i2-y)**2)) > cutoff: 
 				img[i1][i2] = 0
-			
-			#for i3,c in enumerate(b):
-			#	if numpy.sqrt(((u-x) ** 2) + ((v-y)**2)) > cutoff: 
-			#		img[i1][i2] var = numpy.sqrt(i)
-			#	var = numpy.sqrt(i)
-	
-
-
 	return (img,env)
 
 def gaussderiv(img,env,**kwargs):
@@ -124,7 +135,7 @@ def gaussderiv(img,env,**kwargs):
 
 def edge_improved(img,env,**kwargs):
 	orig_img = img
-	deriv = sig.convolve2d(orig_img, MEXHAT_LARGE,"same")
+	deriv = sig.convolve2d(orig_img, MEXHAT_SMALL,"same")
 	sobel = env['sobel']
 	w,h = orig_img.shape
 	for i,a in enumerate(deriv):
@@ -156,7 +167,7 @@ def threshold_and_edgemap(img,env,**kwargs):
 					dirmap[i1][i2] += PI_2
 	env['edgemap'] = edgemap
 	env['dirmap'] = dirmap
-	return (img,env)
+	return (dirmap,env)
 
 def sign(a):
 	if a > 0:

@@ -54,8 +54,8 @@ mexican_test = (
 sobel_together_with_a_mexican = ( 
 	'images/car/01-car.pgm',
 	[(rigmor_sobel,{}),
-	(threshold_and_edgemap,{'threshold':60}),
-	(edge_improved,{}),
+	(threshold_and_edgemap,{'threshold':80}),
+	#(edge_improved,{}),
 	(display,{})],
 	)
 
