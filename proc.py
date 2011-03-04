@@ -39,5 +39,11 @@ displayy = (
 	(display,{})],
 	)
 
+mexican_test = ( 
+	'../img/celle1.png',
+	[(tondcheck,{}),
+	(display,{})],
+	)
+
 #Remember to add new procedures to this list
-func_list = [smooth_test,sobel_test,epic_test]
+func_list = [smooth_test,sobel_test,epic_test,mexican_test]

@@ -11,6 +11,8 @@ from proc import *
 import matplotlib.pyplot as plt
 import Image,ImageFilter,ImageOps
 import math
+import scipy.signal as sig
+from constants import *
 
 """
 When implementing new functions functions should be of the form
@@ -110,6 +112,14 @@ def low_pass(img,env,**kwargs):
 	
 
 
+	return (img,env)
+
+def tondcheck(img,env,**kwargs):
+	"""
+	Needs more work. 
+	Needs to be dynamic. Non static cutoff and size values
+	"""
+	img = sig.convolve2d(img,MEXHAT_LARGE)	
 	return (img,env)
 
 
