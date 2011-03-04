@@ -13,8 +13,13 @@ smooth_test = (
 	)
 
 sobel_test = ( 
-	'../img/celle1.png',
-	[(rigmor_sobel,{}),
+	'img/engine.PNG',
+	[
+	(fft2,{}),
+	#(fftshift,{}),	
+	(rigmor_sobel,{}),
+	(ifft2,{}),
+	(abs_func,{}),
 	(display,{})],
 	)
 
@@ -22,8 +27,7 @@ epic_test = (
 	'../img/celle1.png',
 	[(fft2,{}),
 	(fftshift,{}),
-	(gaussian_blur,{'sigma':15,
-			}),
+	(gaussian_blur,{'sigma':15,}),
 	(ifft2,{}),
 	(rigmor_sobel,{}),
 	#(fft2,{}),
