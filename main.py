@@ -15,7 +15,7 @@ def main():
 
 def run(arg):
 	image,funcs = arg
-	(img,env) = setup(image,())
+	(img,env) = setup(image,{})
 	for func,args in funcs:
 		(img,env) = func.__call__(img=img,env=env ,**args )
 	
