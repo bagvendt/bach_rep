@@ -33,6 +33,7 @@ def rigmor_sobel(img,env,**kwargs):
 	"""TODO: Maybe og fucking garanteret different name"""
 	vert = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 	hor  = numpy.array([[-1,-2,-1],[0,0,0],[1,2,1]])
+	dim_x,dim_y = vert.shape
 	G_x = sig.convolve2d(img,vert)
 	G_y = sig.convolve2d(img,hor)
 	G = numpy.sqrt(G_x**2 + G_y ** 2)	
