@@ -26,3 +26,5 @@ MEXHAT_SMALL = numpy.array([[0,0,-1,0,0],
 							])
 
 PI_4 = math.pi/4
+PI_2 = math.pi/2
+PI   = math.pi

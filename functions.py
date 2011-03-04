@@ -123,23 +123,19 @@ def gaussderiv(img,env,**kwargs):
 	return (img,env)
 
 def edge_improved(img,env,**kwargs):
-	orig_img = env['edgemap']
+	orig_img = img
 	deriv = sig.convolve2d(orig_img, MEXHAT_LARGE,"same")
 	sobel = env['sobel']
 	w,h = orig_img.shape
 	for i,a in enumerate(deriv):
-		#print len(deriv)
 		for j,b in enumerate(a):
-			#print i
-			#b = deriv[i][j]
 			if ((i < w -2 ) and (j < h-2)):
 				if (abs(b)+deriv[i+1][j]+deriv[i][j+1] == abs(b)+abs(deriv[i+1][j]) + abs(deriv[i][j+1])):
-					#print i,j
 					sobel[i][j] = 0
 			else:
 				sobel[i][j] = 0
 	env['improved_edgemap'] = sobel
-	return (img,env)
+	return (sobel,env)
 
 def threshold_and_edgemap(img,env,**kwargs):
 	threshold = kwargs['threshold']
@@ -154,7 +150,10 @@ def threshold_and_edgemap(img,env,**kwargs):
 			if img[i1][i2]/maxval*255 >= threshold:
 				edgemap[i1][i2] = 255
 				dirmap[i1][i2] = math.atan2(G_x[i1][i2],G_y[i1][i2])
-				#if dirmap[i1][i2] > 
+				if dirmap[i1][i2] > PI_2:
+					dirmap[i1][i2] -= PI_2;
+				if dirmap[i1][i2] < -PI_2:
+					dirmap[i1][i2] += PI_2
 	env['edgemap'] = edgemap
 	env['dirmap'] = dirmap
 	return (img,env)
