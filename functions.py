@@ -79,7 +79,7 @@ def fftshift(img,env,**kwargs):
 	return (img,env)
 
 
-def rigmor_sobel(img,env,**kwargs):
+def rigmor_sobel_OLD(img,env,**kwargs):
 	"""TODO: Maybe og fucking garanteret different name"""
 	vert = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 	hor  = numpy.array([[-1,-2,-1],[0,0,0],[1,2,1]])

@@ -26,9 +26,9 @@ epic_test = (
 			}),
 	(ifft2,{}),
 	(rigmor_sobel,{}),
-	(fft2,{}),
-	(low_pass,{}),
-	(ifft2,{}),
+	#(fft2,{}),
+	#(low_pass,{}),
+	#(ifft2,{}),
 	(abs_func,{}),
 	(display,{})],
 	)
