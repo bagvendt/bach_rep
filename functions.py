@@ -139,7 +139,7 @@ def edge_improved(img,env,**kwargs):
 			else:
 				sobel[i][j] = 0
 	env['improved_edgemap'] = sobel
-	return (sobel,env)
+	return (img,env)
 
 def threshold_and_edgemap(img,env,**kwargs):
 	threshold = kwargs['threshold']
@@ -168,7 +168,7 @@ def sign(a):
 def abspace(img,env,**kwargs):
 	minr = kwargs['minr']
 	maxr = kwargs['maxr']
-	edgemap = env['edgemap']
+	edgemap = env['improved_edgemap']
 	dirmap = env['dirmap']
 	w,h = img.shape
 	abspace = numpy.arange(w*h).reshape(w,h)*0

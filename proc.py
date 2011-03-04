@@ -54,7 +54,7 @@ mexican_test = (
 sobel_together_with_a_mexican = ( 
 	'images/car/01-car.pgm',
 	[(rigmor_sobel,{}),
-	(threshold_and_edgemap,{'threshold':40}),
+	(threshold_and_edgemap,{'threshold':80}),
 	(edge_improved,{}),
 	(display,{})],
 	)
@@ -63,12 +63,12 @@ edgemap_test = (
 	'images/car/01-car.pgm',
 	[
 	(rigmor_sobel,{}),
-	(threshold_and_edgemap,{'threshold':40}),
+	(threshold_and_edgemap,{'threshold':80}),
+	(edge_improved,{}),
 	(abspace,{
 		'minr':3,
 		'maxr':50,
 	}),
-	(edge_improved,{}),
 	(display,{})],
 	)
 
