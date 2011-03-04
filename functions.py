@@ -125,7 +125,7 @@ def gaussderiv(img,env,**kwargs):
 def edge_improved(img,env,**kwargs):
 	orig_img = env['org_img']
 	deriv = sig.convolve2d(orig_img, MEXHAT_LARGE,"same")
-	sobel = img
+	sobel = env['sobel']
 	w,h = orig_img.shape
 	for i,a in enumerate(deriv):
 		#print len(deriv)
@@ -138,9 +138,25 @@ def edge_improved(img,env,**kwargs):
 					sobel[i][j] = 0
 			else:
 				sobel[i][j] = 0
-	img = sobel
+	env['edgemap'] = sobel
 	return (img,env)
 
+def threshold_and_edgemap(img,env,**kwargs):
+	threshold = kwargs['threshold']
+	maxval = env['maxval']
+	G_x = env['G_x']
+	G_y = env['G_y']
+	w,h = img.shape
+	edgemap = numpy.arange(w*h).reshape(w,h)*0
+	dirmap = numpy.arange(w*h).reshape(w,h)*0
+	for i1,a in enumerate(img):
+		for i2,b in enumerate(a):
+			if img[i1][i2]/maxval*255 >= threshold:
+				edgemap[i1][i2] = 255
+				dirmap[i1][i2] = math.atan2(G_x[i1][i2],G_y[i1][i2])
+				#if dirmap[i1][i2] > 
+	env['edgemap'] = edgemap
+	return (edgemap,env)
 
 def convolve_test(img,env,**kwargs):
 	a = numpy.arange(10).reshape(2,5)

@@ -24,13 +24,14 @@ sobel_test = (
 	)
 
 epic_test = ( 
-	'../img/celle1.png',
+	'images/car/01-car.pgm',
 	[
-	(fft2,{}),
+	#(fft2,{}),
 	#(fftshift,{}),
-	(gaussian_blur,{'sigma':150,}),
-	(ifft2,{}),
+	#(gaussian_blur,{'sigma':150,}),
+	#(ifft2,{}),
 	(rigmor_sobel,{}),
+	(edge_improved,{}),
 	#(fft2,{}),
 	#(low_pass,{}),
 	#(ifft2,{}),
@@ -57,5 +58,14 @@ sobel_together_with_a_mexican = (
 	(display,{})],
 	)
 
+edgemap_test = ( 
+	'images/car/01-car.pgm',
+	[
+	(rigmor_sobel,{}),
+	(threshold_and_edgemap,{'threshold':40}),
+	(edge_improved,{}),
+	(display,{})],
+	)
+
 #Remember to add new procedures to this list
-func_list = [smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican]
+func_list = [smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test]
