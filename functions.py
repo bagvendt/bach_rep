@@ -167,7 +167,7 @@ def threshold_and_edgemap(img,env,**kwargs):
 					dirmap[i1][i2] += PI_2
 	env['edgemap'] = edgemap
 	env['dirmap'] = dirmap
-	return (edgemap,env)
+	return (dirmap,env)
 
 def sign(a):
 	if a > 0:
@@ -178,7 +178,7 @@ def sign(a):
 def abspace(img,env,**kwargs):
 	minr = kwargs['minr']
 	maxr = kwargs['maxr']
-	edgemap = env['improved_edgemap']
+	edgemap = env['edgemap']
 	dirmap = env['dirmap']
 	w,h = img.shape
 	abspace = numpy.arange(w*h).reshape(w,h)*0

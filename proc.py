@@ -2,7 +2,7 @@ from functions import *
 from leg import *
 
 smooth_test = ( 
-	'../img/test20_57.jpg',
+	'images/car/01-car.pgm',
 	[(fft2,{}),
 	(fftshift,{}),
 	(gaussian_blur,{'sigma':15,
@@ -24,7 +24,7 @@ sobel_test = (
 	)
 
 epic_test = ( 
-	'../img/test20_57.jpg',
+	'img/cirkel.png',
 	[
 	#(fft2,{}),
 	#(fftshift,{}),
@@ -32,11 +32,11 @@ epic_test = (
 	#(ifft2,{}),
 	(rigmor_sobel,{}),
 	(threshold_and_edgemap,{'threshold':40}),
-	(edge_improved,{}),
-	#(abspace,{
-	#	'minr':5,
-	#	'maxr':10,
-	#}),
+	#(edge_improved,{}),
+	(abspace,{
+		'minr':5,
+		'maxr':10,
+	}),
 	(abs_func,{}),
 	(display,{})],
 	)
@@ -48,13 +48,13 @@ displayy = (
 	)
 
 mexican_test = ( 
-	'../img/test20_57.jpg',
+	'images/car/01-car.pgm',
 	[(gaussderiv,{}),
 	(display,{})],
 	)
 
 sobel_together_with_a_mexican = ( 
-	'../img/test20_57.jpg',
+	'images/car/01-car.pgm',
 	[(rigmor_sobel,{}),
 	(threshold_and_edgemap,{'threshold':40}),
 	(edge_improved,{}),
@@ -62,7 +62,7 @@ sobel_together_with_a_mexican = (
 	)
 
 edgemap_test = ( 
-	'../img/test20_57.jpg',
+	'images/car/01-car.pgm',
 	[
 	(rigmor_sobel,{}),
 	(threshold_and_edgemap,{'threshold':80}),
