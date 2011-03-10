@@ -167,7 +167,7 @@ def threshold_and_edgemap(img,env,**kwargs):
 					dirmap[i1][i2] += PI_2
 	env['edgemap'] = edgemap
 	env['dirmap'] = dirmap
-	return (dirmap,env)
+	return (edgemap,env)
 
 def sign(a):
 	if a > 0:
