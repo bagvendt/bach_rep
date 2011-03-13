@@ -118,6 +118,7 @@ def rigmor_sobel(img,env,**kwargs):
 	env['G_x'] = G_x
 	env['G_y'] = G_y
 	env['maxval'] = maxval
+	print G[55][50]
 	return (G,env)
 
 def low_pass(img,env,**kwargs):

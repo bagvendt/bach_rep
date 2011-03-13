@@ -99,6 +99,15 @@ manual_gauss_test = (
 	}),
 	(display,{})],
 	)
+ghost = ( 
+	'images/coins1/01-coins1.pgm',
+	[
+	
+	#(gaussian_blur,{'sigma':15,}),
+	(rigmor_sobel,{}),
+	(hough_run,{}),
+	(display,{})],
+	)
 
 #Remember to add new procedures to this list
-func_list = [smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
+func_list = [ghost, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
