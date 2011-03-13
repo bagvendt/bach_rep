@@ -96,7 +96,8 @@ def gaussian_blur(img,env,**kwargs):
 			enum = -enum_x-enum_y
 			denom = 2 * (sigma ** 2)
 			frac = (1/(2*math.pi*(sigma**2)))
-			G = frac*math.exp(enum/denom)
+			G = frac*math.exp(enum/float(denom))
+			print G
 			img[i1][i2] = img[i1][i2] * G
 	return (img,env)
 
@@ -160,7 +161,7 @@ def threshold_and_edgemap(img,env,**kwargs):
 		for i2,b in enumerate(a):
 			if img[i1][i2]/maxval*255 >= threshold:
 				edgemap[i1][i2] = 255
-				dirmap[i1][i2] = math.atan2(G_x[i1][i2],G_y[i1][i2])
+				dirmap[i1][i2] = math.atan2(-G_y[i1][i2],G_x[i1][i2]) #Har aendret til -y,x for at faa vinkelret linje.
 				if dirmap[i1][i2] > PI_2:
 					dirmap[i1][i2] -= PI_2;
 				if dirmap[i1][i2] < -PI_2:
@@ -184,7 +185,7 @@ def abspace(img,env,**kwargs):
 	abspace = numpy.arange(w*h).reshape(w,h)*0
 
 	for i1,a in enumerate(edgemap):
-		print i1
+		print str(i1*100/w)+"%"
 		for i2,b in enumerate(a):
 			if edgemap[i1][i2] == 0: 
 				continue
@@ -196,20 +197,40 @@ def abspace(img,env,**kwargs):
 			else:
 				dy = sign(y)
 				dx = dy/math.tan(dirmap[i1][i2])
-
+			#abspace[y1][x1]
 			while math.sqrt(x**2+y**2) < maxr:
 				x1 = i2+x 
 				y1 = i1-y
 				x2 = i2-x
 				y2 = i1+y
 				if((x1<w) and (x1>=0) and (y1<h) and (y1>=0)):
-					abspace[y1][x1] += edgemap[i1][i2] / math.sqrt(x**2+y**2)
+					abspace[x1][y1] += edgemap[i1][i2] / math.sqrt(x**2+y**2)
 				if((x2<w) and (x2>=0) and (y2<h) and (y2>=0)):
-					abspace[y2][x2] += edgemap[i1][i2] / math.sqrt(x**2+y**2)
+					abspace[x2][y2] += edgemap[i1][i2] / math.sqrt(x**2+y**2)
 				x = x+dx
 				y = y+dy
 	env['abspace'] = abspace
 	return (abspace,env)
+
+def abspace_threshold(img,env,**kwargs):
+	orig = env['org_img']
+	centers = []
+	for i1,a in enumerate(img):
+		for i2,a in enumerate(a):
+			if img[i1][i2] > 25:
+				img[i1][i2] = 255
+				orig[i1][i2] = 0
+				centers.append((i1,i2))
+			else:
+				img[i1][i2] = 0
+	radi = 100
+	
+	for i1,a in enumerate(orig):
+		for i2,b in enumerate(a):
+			for center in centers:
+				if numpy.sqrt((i1-center[0])**2+(i2-center[1])**2) in range(radi-3,radi+3):
+					orig[i1][i2] = 0
+	return (orig,env)
 
 
 def convolve_test(img,env,**kwargs):
