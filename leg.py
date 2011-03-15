@@ -32,6 +32,12 @@ def manual_gauss(img,env,**kwargs):
 	
 	return (deriv,env)
 
+def penis(img,env,**kwargs):
+	w,h = img.shape 
+	lut = numpy.arange(w*h).reshape(w,h) * 0
+	for i in range(0,240):
+		lut[i,i] = 255
+	return (lut,env)
 
 def hough_run(img,env,**kwargs):
 	#offx = r.x;
@@ -40,7 +46,7 @@ def hough_run(img,env,**kwargs):
 	#height = r.height;
 	#offset = ip.getWidth()
 	radiusMin = 10
-	radiusMax = 50 
+	radiusMax = 20 
 	radiusInc = 2
 	w,h = img.shape
 	depth = int(round(((radiusMax-radiusMin)/float(radiusInc)))+1)
@@ -48,7 +54,8 @@ def hough_run(img,env,**kwargs):
 
 	houghmap = houghTransform(lut,lutsize,radiusMin,radiusMax,radiusInc,w,h,depth,img)
 	img = createHoughPixels(houghmap,w,h)
-
+	#print img
+	img = draw_center_points(img,900,houghmap,radiusMin,radiusMax,radiusInc,h,w)
 	return (img,env)
 
 
@@ -61,8 +68,6 @@ def buildlookuptable(radiusMin,radiusMax,radiusInc,depth):
 		print radius
 		for incNun in range(incDen):
 			angle = (2*math.pi * float(incNun)) / float(incDen)
-			if (incNun == 60):
-				print angle,'angle'
 			indexR = int((radius-radiusMin)/float(radiusInc))
 			#print indexR,'indexR'	
 			#print indexR
@@ -86,7 +91,7 @@ def houghTransform(lut,lutsize,radiusMin,radiusMax,radiusInc,width,height,depth,
 	for x in range(width):
 		for y in range(height):
 			for radius in range(radiusMin,radiusMax+1,radiusInc):
-				if(img[x][y] != 255):
+				if(img[x][y] != 0):
 					indexR = (radius-radiusMin) / radiusInc
 					print ((x+1)*100) / (width)
 					for i in range(lutsize):
@@ -117,4 +122,29 @@ def createHoughPixels(houghValues,width,height):
 			houghPixels[x,y] = round((houghValues[x,y,0] * 255.0) / d)
 
 	return houghPixels
-		
+
+
+def draw_center_points(img,maxCircles,houghValues,radiusMin,radiusMax,radiusInc,height,width):
+	xMax = 0
+	yMax = 0
+	rMax = 0
+	canvas = numpy.arange(width*height*1).reshape(width,height) * 0
+	for i in range(0,maxCircles):
+		counterMax = -1
+		for radius in range(radiusMin,radiusMax+1,radiusInc):
+			indexR = (radius-radiusMin)/radiusInc
+			for y in range(height):
+					for x in range(width):
+						if(houghValues[x,y,indexR] > counterMax):
+							print 'NU'
+							counterMax = houghValues[x,y,indexR]
+							xMax = x
+							yMax = y
+							rMax = radius
+							print x,y
+							canvas[x,y] = 239 
+							canvas[x,y+1] = 239
+							canvas[x+1,y+1] = 239
+							canvas[x+1,y] = 239
+							canvas[x-1,y] = 239
+	return canvas

@@ -108,6 +108,14 @@ ghost = (
 	(hough_run,{}),
 	(display,{})],
 	)
+ghost1 = ( 
+	'images/coins1/01-coins1.pgm',
+	[
+	
+	#(gaussian_blur,{'sigma':15,}),
+	(penis,{}),
+	(display,{})],
+	)
 
 #Remember to add new procedures to this list
-func_list = [ghost, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
+func_list = [ghost,ghost1, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
