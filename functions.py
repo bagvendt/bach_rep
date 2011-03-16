@@ -14,6 +14,7 @@ import math
 import scipy.signal as sig
 from constants import *
 import copy
+import time
 
 """
 When implementing new functions functions should be of the form
@@ -44,7 +45,7 @@ def display(img,env,**kwargs):
 	any sense atm.
 	"""
 	pylab.figure()
-	img = pylab.flipud(img)
+#	img = pylab.flipud(img)
 	pylab.imshow(img)
 	pylab.gray()
 	pylab.show()
@@ -100,6 +101,21 @@ def gaussian_blur(img,env,**kwargs):
 			print G
 			img[i1][i2] = img[i1][i2] * G
 	return (img,env)
+
+def gaussian_blur_conv(img,env,**kwargs):
+## Math from : http://en.wikipedia.org/wiki/Gaussian_blur
+	sigma = kwargs['sigma']
+	x_0, y_0 = img.shape
+	edgemap = numpy.arange(x_0*y_0,dtype='f').reshape(x_0,y_0)*0
+	for i1,a in enumerate(img):
+		for i2,b in enumerate(a):
+			enum_x = (i1) ** 2  
+			enum_y = (i2) ** 2  
+			enum = -enum_x-enum_y
+			denom = 2 * (sigma ** 2)
+			frac = (1/(2*math.pi*(sigma**2)))
+			edgemap[i1][i2] = frac*math.exp(enum/float(denom))
+	return (sig.convolve2d(img,edgemap,"same"),env)
 
 def rigmor_sobel(img,env,**kwargs):
 	"""TODO: Maybe og fucking garanteret different name"""
@@ -232,6 +248,69 @@ def abspace_threshold(img,env,**kwargs):
 				if numpy.sqrt((i1-center[0])**2+(i2-center[1])**2) in range(radi-3,radi+3):
 					orig[i1][i2] = 0
 	return (orig,env)
+
+def gaussian_derived(img,env,**kwargs):
+	start = time.time()
+## Math from : http://en.wikipedia.org/wiki/Gaussian_filter
+	sigma = kwargs['sigma']
+	Gx = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	Gy = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+
+	max_i = 0
+	for i1,a in enumerate(img):
+		for i2,b in enumerate(a):
+			Gx[i1][i2] = (-1*i1*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)*img[i1][i2]
+			Gy[i1][i2] = (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)*img[i1][i2]
+	
+	Gi = numpy.sqrt(Gx**2+Gy**2)
+
+	return (Gi,env)
+
+def gaussian_derived_conv(img,env,**kwargs):
+	start = time.time()
+## Math from : http://en.wikipedia.org/wiki/Gaussian_filter
+	sigma = kwargs['sigma']
+	Gx = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	Gy = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+
+	max_i = 0
+	for i1,a in enumerate(img):
+		for i2,b in enumerate(a):
+			Gx[i1][i2] = (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
+			Gy[i1][i2] = (-1*i1*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
+	#		if (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4) != 0:
+	#			max_i = i1
+	
+	Gi_x = sig.convolve2d(img,Gx,"same")
+	print "DONE WITH THE FIRST Gi, it took " + str(int(time.time()-start))+" secs"
+
+	Gi_y = sig.convolve2d(img,Gy,"same")
+
+	Gi = numpy.sqrt(Gi_x**2+Gi_y**2)
+	print "DONE! It took: "+str(int((time.time()-start)/60))+" mins and "+str(int((time.time()-start)%60))+" secs."
+	print img.shape,Gx.shape, Gy.shape, Gi_x.shape, Gi_y.shape, Gi.shape
+
+	return (Gi,env)
+
+def image_convolve(img,env,**kwargs):
+	images = kwargs['images'];
+	for image in images:
+		testimage,PLACEHOLDER = setup(image,env)
+		testimage_sum = sum(sum(testimage**2))
+		outimg = sig.convolve2d(img,testimage/float(testimage_sum),"same")
+		"""
+	print outimg
+	for i1,a in enumerate(outimg):
+		for i2,b in enumerate(a):
+			if outimg[i1][i2] > 1000:
+				outimg[i1][i2] = 255"""
+
+	return (outimg,env)
+
+def hat_convolve(img,env,**kwargs):
+	outimg = sig.convolve2d(img,CELL_HAT,"full")
+	#outimg = sig.convolve2d(img,CELL_HAT2,"full")
+	return (outimg,env)
 
 
 def convolve_test(img,env,**kwargs):

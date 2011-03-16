@@ -100,22 +100,34 @@ manual_gauss_test = (
 	(display,{})],
 	)
 ghost = ( 
-	'images/coins1/01-coins1.pgm',
+	'../img/celle1.png',
 	[
-	
-	#(gaussian_blur,{'sigma':15,}),
-	(rigmor_sobel,{}),
-	(hough_run,{}),
+	#(fft2,{}),
+	#(fftshift,{}),
+	(gaussian_derived_conv,{'sigma':3,}),
+	#(ifft2,{}),
+	#(abs_func,{}),
+	#(rigmor_sobel,{}),
+	#(hough_run,{}),
 	(display,{})],
 	)
 ghost1 = ( 
-	'images/coins1/01-coins1.pgm',
+	'../img/celle1.png',
 	[
-	
-	#(gaussian_blur,{'sigma':15,}),
-	(penis,{}),
+	#(fft2,{}),
+	#(gaussian_blur,{'sigma':2,}),
+	(gaussian_blur_conv,{'sigma':2,}),
+	#(ifft2,{}),
+	#(abs_func,{}),
+	(display,{})],
+	)
+
+ghost2 = ('../img/celle1.png',
+	[
+	#(image_convolve,{'images':["img/single_cell_1.png"]}),
+	(hat_convolve,{}),
 	(display,{})],
 	)
 
 #Remember to add new procedures to this list
-func_list = [ghost,ghost1, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
+func_list = [ghost,ghost1,ghost2, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
