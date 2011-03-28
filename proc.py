@@ -104,28 +104,38 @@ ghost = (
 	[
 	#(fft2,{}),
 	#(fftshift,{}),
-	(gaussian_derived_conv,{'sigma':3,}),
+	#(gaussian_derived_conv,{'sigma':3,}),
 	#(ifft2,{}),
 	#(abs_func,{}),
-	#(rigmor_sobel,{}),
+	(rigmor_sobel,{}),
 	#(hough_run,{}),
 	(display,{})],
 	)
 ghost1 = ( 
 	'../img/celle1.png',
 	[
-	#(fft2,{}),
-	#(gaussian_blur,{'sigma':2,}),
-	(gaussian_blur_conv,{'sigma':2,}),
-	#(ifft2,{}),
-	#(abs_func,{}),
+	(fft2,{}),
+	(gaussian_blur,{'sigma':10,}),
+	#(gaussian_blur_conv,{'sigma':2,}),
+	(ifft2,{}),
+	(abs_func,{}),
 	(display,{})],
 	)
 
-ghost2 = ('../img/celle1.png',
+ghost2 = ('../img/celle1.png', #circ2
 	[
-	#(image_convolve,{'images':["img/single_cell_1.png"]}),
+	(invert_color,{}),
+	#(rigmor_sobel,{}),	
 	(hat_convolve,{}),
+	#(invert_color,{}),	
+	#(invert_color,{}),	
+	(image_convolve,{'images':["img/single_cell_convolved.png"]}), # circ
+	(image_convolve_threshold,{'threshold':90,}), # circ = circ3 = 0.95
+	#(image_convolve_draw_circles,{'circle_radius':7,}), # 58 = circ, 12 = circ3
+		
+	
+	#(invert_dimensions,{}),	
+	
 	(display,{})],
 	)
 

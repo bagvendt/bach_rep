@@ -98,7 +98,6 @@ def gaussian_blur(img,env,**kwargs):
 			denom = 2 * (sigma ** 2)
 			frac = (1/(2*math.pi*(sigma**2)))
 			G = frac*math.exp(enum/float(denom))
-			print G
 			img[i1][i2] = img[i1][i2] * G
 	return (img,env)
 
@@ -295,7 +294,14 @@ def gaussian_derived_conv(img,env,**kwargs):
 def image_convolve(img,env,**kwargs):
 	images = kwargs['images'];
 	for image in images:
-		testimage,PLACEHOLDER = setup(image,env)
+
+		testimage = pylab.imread(image)	
+		testimage = toimage(testimage)
+		testimage = testimage.convert("L")
+		testimage = fromimage(testimage)
+
+		testimage,PLACEHOLDER = invert_color(testimage,env,**kwargs)
+		testimage,PLACEHOLDER = invert_dimensions(testimage,env,**kwargs)		
 		testimage_sum = sum(sum(testimage**2))
 		outimg = sig.convolve2d(img,testimage/float(testimage_sum),"same")
 		"""
@@ -308,8 +314,8 @@ def image_convolve(img,env,**kwargs):
 	return (outimg,env)
 
 def hat_convolve(img,env,**kwargs):
-	outimg = sig.convolve2d(img,CELL_HAT,"full")
-	#outimg = sig.convolve2d(img,CELL_HAT2,"full")
+	#outimg = sig.convolve2d(img,PIXEL_HAT,"full")
+	outimg = sig.convolve2d(img,CELL_HAT2,"full")
 	return (outimg,env)
 
 
@@ -317,4 +323,56 @@ def convolve_test(img,env,**kwargs):
 	a = numpy.arange(10).reshape(2,5)
 	img = scipy.signal.fftconvolve(img,a)
 	return (img,env)
+
+def invert_dimensions(img,env,**kwargs):
+	w,h = img.shape
+	newimg = numpy.arange(w*h,dtype='f').reshape(w,h)*0
+	w1=0
+	while w1 < w:
+		h1 = 0
+		while h1 < h:
+			newimg[w1][h1] = img[w-w1-1][h-h1-1]
+			h1 = h1+1
+		w1= w1+1
+	return (newimg,env)
+
+def invert_color(img,env,**kwargs):
+	for x,a in enumerate(img):
+		for y,b in enumerate(a):
+			img[x][y] = numpy.abs(img[x][y]-255)
+	return (img,env)
+
+def image_convolve_threshold(img,env,**kwargs):
+	w,h = img.shape
+	thres = kwargs['threshold']
+	newimg = numpy.arange(w*h,dtype='f').reshape(w,h)*0
+	print "Doing threshold"
+	for x,a in enumerate(img):
+		for y,b in enumerate(a):
+			if img[x][y] >= thres:
+				print img[x][y]
+			if img[x][y] >= thres:
+				newimg[x][y] = 255
+			else:
+				newimg[x][y] = 0
+	env['img_conv_thres'] = newimg
+	return (newimg,env)
+			
+def image_convolve_draw_circles(img,env,**kwargs):
+	print "Drawing circles"
+	circle_radius = kwargs['circle_radius']
+	org_img = env['org_img']
+	thres_img = env['img_conv_thres']
+	for x, a in enumerate(thres_img):
+		print str(x*100/org_img.shape[1])+"%"
+		for y,b in enumerate(a):
+			if thres_img[x][y] == 255:
+				angle = 0
+				while angle<360:
+					x1 = int((circle_radius)*numpy.cos(angle))
+					y1 = int(circle_radius*numpy.sin(angle))
+					if x+x1 in range(0,org_img.shape[0]) and y+y1 in range(0,org_img.shape[1]):
+						org_img[x+x1][y+y1] = 123
+					angle += 1
+	return (org_img,env)
 
