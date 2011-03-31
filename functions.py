@@ -104,21 +104,26 @@ def gaussian_blur(img,env,**kwargs):
 def gaussian_blur_conv(img,env,**kwargs):
 ## Math from : http://en.wikipedia.org/wiki/Gaussian_blur
 	sigma = kwargs['sigma']
-	y_0, x_0 = img.shape
-	edgemap = numpy.arange(x_0*y_0,dtype='f').reshape(y_0,x_0)*0
+	x_0, y_0 = img.shape
+	edgemap = numpy.arange(25,dtype='f').reshape(5,5)*0
 	print img.shape,edgemap.shape
-	for i1,a in enumerate(img):
-		for i2,b in enumerate(a):
+	for i1 in range(-2,3):
+		for i2 in range(-2,3):
+			ii1 = i1 + 2
+			ii2 = i2 + 2
 			enum_x = (i1) ** 2  
 			enum_y = (i2) ** 2  
 			enum = -enum_x-enum_y
 			denom = 2 * (sigma ** 2)
 			frac = (1/(2*math.pi*(sigma**2)))
-			edgemap[i2][i1] = frac*math.exp(enum/float(denom))
+			edgemap[ii1][ii2] = frac*math.exp(enum/float(denom))
 	#edgemap,env = invert_dimensions(edgemap,env,**kwargs)
-	out = sig.convolve2d(img,edgemap,"same")
+	out = sig.fftconvolve(img,edgemap,"same")
 	print out.shape
 	return (out,env)
+
+def gaussian_blur_matrix_conv(img,env,**kwargs):
+	return (sig.fftconvolve(img,GAUSS,"same"),env)
 
 def rigmor_sobel(img,env,**kwargs):
 	"""TODO: Maybe og fucking garanteret different name"""
@@ -126,8 +131,8 @@ def rigmor_sobel(img,env,**kwargs):
 	vert = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 	hor  = numpy.array([[-1,-2,-1],[0,0,0],[1,2,1]])
 	dim_x,dim_y = vert.shape
-	G_x = sig.convolve2d(img,vert)
-	G_y = sig.convolve2d(img,hor)
+	G_x = sig.fftconvolve(img,vert)
+	G_y = sig.fftconvolve(img,hor)
 	G = numpy.sqrt(G_x**2 + G_y ** 2)
 	for i1,a in enumerate(G):
 		for i2,b in enumerate(a):
@@ -151,12 +156,12 @@ def low_pass(img,env,**kwargs):
 	return (img,env)
 
 def gaussderiv(img,env,**kwargs):
-	img = sig.convolve2d(img,MEXHAT_LARGE,"same")	
+	img = sig.fftconvolve(img,MEXHAT_LARGE,"same")	
 	return (img,env)
 
 def edge_improved(img,env,**kwargs):
 	orig_img = img
-	deriv = sig.convolve2d(orig_img, MEXHAT_SMALL,"same")
+	deriv = sig.fftconvolve(orig_img, MEXHAT_SMALL,"same")
 	sobel = env['sobel']
 	w,h = orig_img.shape
 	for i,a in enumerate(deriv):
@@ -273,31 +278,24 @@ def gaussian_derived_conv(img,env,**kwargs):
 	start = time.time()
 ## Math from : http://en.wikipedia.org/wiki/Gaussian_filter
 	sigma = kwargs['sigma']
-	Gx = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
-	Gy = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	Gx = numpy.arange(25,dtype='f').reshape(5,5)*0
+	Gy = numpy.arange(25,dtype='f').reshape(5,5)*0
 
-	max_i = 0
-	for i1,a in enumerate(img):
-		for i2,b in enumerate(a):
+	for i1 in range(-2,3):
+		for i2 in range(-2,3):
+			ii1 = i1+2
+			ii2 = i2+2
 			Gx[i1][i2] = (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
 			Gy[i1][i2] = (-1*i1*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
-	#		if (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4) != 0:
-	#			max_i = i1
 	
-	Gi_x = sig.convolve2d(img,Gx,"same")
-	print "DONE WITH THE FIRST Gi, it took " + str(int(time.time()-start))+" secs"
-
-	Gi_y = sig.convolve2d(img,Gy,"same")
-
+	Gi_x = sig.fftconvolve(img,Gx,"same")
+	Gi_y = sig.fftconvolve(img,Gy,"same")
 	Gi = numpy.sqrt(Gi_x**2+Gi_y**2)
-	print "DONE! It took: "+str(int((time.time()-start)/60))+" mins and "+str(int((time.time()-start)%60))+" secs."
-	print img.shape,Gx.shape, Gy.shape, Gi_x.shape, Gi_y.shape, Gi.shape
-
 	return (Gi,env)
 
 def hat_convolve(img,env,**kwargs):
-	#outimg = sig.convolve2d(img,PIXEL_HAT,"full")
-	outimg = sig.convolve2d(img,CELL_HAT2,"full")
+	#outimg = sig.fftconvolve(img,PIXEL_HAT,"full")
+	outimg = sig.fftconvolve(img,CELL_HAT2,"full")
 	return (outimg,env)
 
 
@@ -332,8 +330,6 @@ def image_convolve_threshold(img,env,**kwargs):
 	for x,a in enumerate(img):
 		for y,b in enumerate(a):
 			if img[x][y] >= thres:
-				print img[x][y]
-			if img[x][y] >= thres:
 				newimg[x][y] = 255
 			else:
 				newimg[x][y] = 0
@@ -346,7 +342,6 @@ def image_convolve_draw_circles(img,env,**kwargs):
 	org_img = env['org_img']
 	thres_img = env['img_conv_thres']
 	for x, a in enumerate(thres_img):
-		print str(x*100/org_img.shape[1])+"%"
 		for y,b in enumerate(a):
 			if thres_img[x][y] == 255:
 				angle = 0
@@ -359,6 +354,7 @@ def image_convolve_draw_circles(img,env,**kwargs):
 	return (org_img,env)
 
 def image_convolve(img,env,**kwargs):
+	start = time.time()
 	image = kwargs['image']
 
 	testimage = pylab.imread(image)	
@@ -369,6 +365,6 @@ def image_convolve(img,env,**kwargs):
 	testimage,PLACEHOLDER = invert_color(testimage,env,**kwargs)
 	testimage,PLACEHOLDER = invert_dimensions(testimage,env,**kwargs)		
 	testimage_sum = sum(sum(testimage**2))
-	outimg = sig.convolve2d(img,testimage/float(testimage_sum),"same")
-
+	outimg = sig.fftconvolve(img,testimage/float(testimage_sum),"same")
+	print "IT TOOK: ",time.time()-start
 	return (outimg,env)

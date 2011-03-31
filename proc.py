@@ -100,28 +100,32 @@ manual_gauss_test = (
 	(display,{})],
 	)
 ghost = ( 
-	'img/cirkel.png',
+	'../img/celle1.png',
 	[
 	(fft2,{}),
 	(fftshift,{}),
-	(gaussian_blur,{'sigma':15,}),
+	#(gaussian_blur,{'sigma':10,}),
+	(gaussian_derived,{'sigma':10,}),
 	(ifft2,{}),
 	(abs_func,{}),
 	(display,{})],
 	)
-ghost1 = ('img/cirkel.png',
+ghost1 = ('../img/celle1.png',
 	[	
-	(gaussian_blur_conv,{'sigma':15,}),
+	#(gaussian_blur_matrix_conv,{}),
+	#(gaussian_blur_conv,{'sigma':15,}),
+	(gaussian_derived_conv,{'sigma':15}),
+
 	(abs_func,{}),
 	(display,{})],
 	)
 
-ghost2 = ('img/circ2.png', #circ2
+ghost2 = ('img/gausscirkel.png', #circ2
 	[
 	(invert_color,{}),
-	(image_convolve,{'image':"img/circ.png"}), # circ
-	(image_convolve_threshold,{'threshold':0.95,}), # circ = circ3 = 0.95
-	(image_convolve_draw_circles,{'circle_radius':58,}), # 58 = circ, 12 = circ3
+	(image_convolve,{'image':"img/foldecirkel.png"}), # circ
+	(image_convolve_threshold,{'threshold':0.999,}), # circ = circ3 = 0.95
+	(image_convolve_draw_circles,{'circle_radius':171,}), # 58 = circ, 12 = circ3
 	#(invert_dimensions,{}),	
 	(display,{})],
 	)

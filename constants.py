@@ -69,6 +69,16 @@ PIXEL_HAT = numpy.array([
 [0.0,0.5,0.0]
 ])
 
+GAUSS = numpy.array([
+[1,4,7,4,1],
+[4,16,26,16,4],
+[7,26,41,26,7],
+[4,16,26,16,4],
+[1,4,7,4,1]
+])
+
+GAUSS = GAUSS * (1/float(273))
+
 PI_4 = math.pi/4
 PI_2 = math.pi/2
 PI   = math.pi
