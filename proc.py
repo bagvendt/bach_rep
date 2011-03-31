@@ -2,7 +2,7 @@ from functions import *
 from leg import *
 
 smooth_test = ( 
-	'img/dots.png',
+	'img/cykel.jpg',
 	[(fft2,{}),
 	(fftshift,{}),
 	(gaussian_blur,{'sigma':15,
@@ -100,42 +100,29 @@ manual_gauss_test = (
 	(display,{})],
 	)
 ghost = ( 
-	'../img/celle1.png',
-	[
-	#(fft2,{}),
-	#(fftshift,{}),
-	#(gaussian_derived_conv,{'sigma':3,}),
-	#(ifft2,{}),
-	#(abs_func,{}),
-	(rigmor_sobel,{}),
-	#(hough_run,{}),
-	(display,{})],
-	)
-ghost1 = ( 
-	'../img/celle1.png',
+	'img/cirkel.png',
 	[
 	(fft2,{}),
-	(gaussian_blur,{'sigma':10,}),
-	#(gaussian_blur_conv,{'sigma':2,}),
+	(fftshift,{}),
+	(gaussian_blur,{'sigma':15,}),
 	(ifft2,{}),
 	(abs_func,{}),
 	(display,{})],
 	)
+ghost1 = ('img/cirkel.png',
+	[	
+	(gaussian_blur_conv,{'sigma':15,}),
+	(abs_func,{}),
+	(display,{})],
+	)
 
-ghost2 = ('../img/celle1.png', #circ2
+ghost2 = ('img/circ2.png', #circ2
 	[
 	(invert_color,{}),
-	#(rigmor_sobel,{}),	
-	(hat_convolve,{}),
-	#(invert_color,{}),	
-	#(invert_color,{}),	
-	(image_convolve,{'images':["img/single_cell_convolved.png"]}), # circ
-	(image_convolve_threshold,{'threshold':90,}), # circ = circ3 = 0.95
-	#(image_convolve_draw_circles,{'circle_radius':7,}), # 58 = circ, 12 = circ3
-		
-	
+	(image_convolve,{'image':"img/circ.png"}), # circ
+	(image_convolve_threshold,{'threshold':0.95,}), # circ = circ3 = 0.95
+	(image_convolve_draw_circles,{'circle_radius':58,}), # 58 = circ, 12 = circ3
 	#(invert_dimensions,{}),	
-	
 	(display,{})],
 	)
 

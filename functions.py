@@ -104,8 +104,9 @@ def gaussian_blur(img,env,**kwargs):
 def gaussian_blur_conv(img,env,**kwargs):
 ## Math from : http://en.wikipedia.org/wiki/Gaussian_blur
 	sigma = kwargs['sigma']
-	x_0, y_0 = img.shape
-	edgemap = numpy.arange(x_0*y_0,dtype='f').reshape(x_0,y_0)*0
+	y_0, x_0 = img.shape
+	edgemap = numpy.arange(x_0*y_0,dtype='f').reshape(y_0,x_0)*0
+	print img.shape,edgemap.shape
 	for i1,a in enumerate(img):
 		for i2,b in enumerate(a):
 			enum_x = (i1) ** 2  
@@ -113,8 +114,11 @@ def gaussian_blur_conv(img,env,**kwargs):
 			enum = -enum_x-enum_y
 			denom = 2 * (sigma ** 2)
 			frac = (1/(2*math.pi*(sigma**2)))
-			edgemap[i1][i2] = frac*math.exp(enum/float(denom))
-	return (sig.convolve2d(img,edgemap,"same"),env)
+			edgemap[i2][i1] = frac*math.exp(enum/float(denom))
+	#edgemap,env = invert_dimensions(edgemap,env,**kwargs)
+	out = sig.convolve2d(img,edgemap,"same")
+	print out.shape
+	return (out,env)
 
 def rigmor_sobel(img,env,**kwargs):
 	"""TODO: Maybe og fucking garanteret different name"""
@@ -179,7 +183,7 @@ def threshold_and_edgemap(img,env,**kwargs):
 				edgemap[i1][i2] = 255
 				dirmap[i1][i2] = math.atan2(-G_y[i1][i2],G_x[i1][i2]) #Har aendret til -y,x for at faa vinkelret linje.
 				if dirmap[i1][i2] > PI_2:
-					dirmap[i1][i2] -= PI_2;
+					dirmap[i1][i2] -= PI_2
 				if dirmap[i1][i2] < -PI_2:
 					dirmap[i1][i2] += PI_2
 	env['edgemap'] = edgemap
@@ -291,28 +295,6 @@ def gaussian_derived_conv(img,env,**kwargs):
 
 	return (Gi,env)
 
-def image_convolve(img,env,**kwargs):
-	images = kwargs['images'];
-	for image in images:
-
-		testimage = pylab.imread(image)	
-		testimage = toimage(testimage)
-		testimage = testimage.convert("L")
-		testimage = fromimage(testimage)
-
-		testimage,PLACEHOLDER = invert_color(testimage,env,**kwargs)
-		testimage,PLACEHOLDER = invert_dimensions(testimage,env,**kwargs)		
-		testimage_sum = sum(sum(testimage**2))
-		outimg = sig.convolve2d(img,testimage/float(testimage_sum),"same")
-		"""
-	print outimg
-	for i1,a in enumerate(outimg):
-		for i2,b in enumerate(a):
-			if outimg[i1][i2] > 1000:
-				outimg[i1][i2] = 255"""
-
-	return (outimg,env)
-
 def hat_convolve(img,env,**kwargs):
 	#outimg = sig.convolve2d(img,PIXEL_HAT,"full")
 	outimg = sig.convolve2d(img,CELL_HAT2,"full")
@@ -376,3 +358,17 @@ def image_convolve_draw_circles(img,env,**kwargs):
 					angle += 1
 	return (org_img,env)
 
+def image_convolve(img,env,**kwargs):
+	image = kwargs['image']
+
+	testimage = pylab.imread(image)	
+	testimage = toimage(testimage)
+	testimage = testimage.convert("L")
+	testimage = fromimage(testimage)
+
+	testimage,PLACEHOLDER = invert_color(testimage,env,**kwargs)
+	testimage,PLACEHOLDER = invert_dimensions(testimage,env,**kwargs)		
+	testimage_sum = sum(sum(testimage**2))
+	outimg = sig.convolve2d(img,testimage/float(testimage_sum),"same")
+
+	return (outimg,env)
