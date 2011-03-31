@@ -368,3 +368,113 @@ def image_convolve(img,env,**kwargs):
 	outimg = sig.fftconvolve(img,testimage/float(testimage_sum),"same")
 	print "IT TOOK: ",time.time()-start
 	return (outimg,env)
+
+def difference_of_gaussians(img,env,**kwargs):
+	K = kwargs['K']**2
+	sigma = kwargs['sigma']
+	#Gauss = numpy.arange(25,dtype='f').reshape(5,5)*0
+	#for i1 in range(-2,3):
+	#	for i2 in range(-2,3):
+	#		ii1 = i1 + 2
+	#		ii2 = i2 + 2
+	Gauss = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	for i1 in range(-img.shape[0]/2,img.shape[0]/2+1):
+		for i2 in range(-img.shape[1]/2,img.shape[1]/2+1):
+			ii1 = i1 + img.shape[0]/2
+			ii2 = i2 + img.shape[1]/2
+			enum_x = (i1) ** 2  
+			enum_y = (i2) ** 2  
+			enum = -enum_x-enum_y
+			denom1 = 2 * (sigma ** 2)
+			frac1 = (1/(2*math.pi*(sigma**2)))
+			
+
+			denom2 = 2*K*(sigma**2)
+			frac2 = (1/(2*K*math.pi*(sigma**2)))
+			G1 = frac1*math.exp(enum/float(denom1))
+			G2 = frac2*math.exp(enum/float(denom2))
+			Gauss[ii1][ii2] = G1 - G2
+	
+	
+	img1 = sig.fftconvolve(img,Gauss,"same")
+
+	return (img1,env)
+
+def sum_of_gaussians(img,env,**kwargs):
+	K = kwargs['K']**2
+	sigma = kwargs['sigma']
+	#Gauss = numpy.arange(25,dtype='f').reshape(5,5)*0
+	#for i1 in range(-2,3):
+	#	for i2 in range(-2,3):
+	#		ii1 = i1 + 2
+	#		ii2 = i2 + 2
+	Gauss = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	for i1 in range(-img.shape[0]/2,img.shape[0]/2+1):
+		for i2 in range(-img.shape[1]/2,img.shape[1]/2+1):
+			ii1 = i1 + img.shape[0]/2
+			ii2 = i2 + img.shape[1]/2
+			enum_x = (i1) ** 2  
+			enum_y = (i2) ** 2  
+			enum = -enum_x-enum_y
+			denom1 = 2 * (sigma ** 2)
+			frac1 = (1/(2*math.pi*(sigma**2)))
+			
+
+			denom2 = 2*K*(sigma**2)
+			frac2 = (1/(2*K*math.pi*(sigma**2)))
+			G1 = frac1*math.exp(enum/float(denom1))
+			G2 = frac2*math.exp(enum/float(denom2))
+			Gauss[ii1][ii2] = G1 + G2
+	
+	
+	img1 = sig.fftconvolve(img,Gauss,"same")
+
+	return (img1,env)
+
+def difference_of_derived_gaussians(img,env,**kwargs):
+	sigma1 = kwargs['sigma1']
+	sigma2 = kwargs['sigma2']
+	#Gx = numpy.arange(25,dtype='f').reshape(5,5)*0
+	#Gy = numpy.arange(25,dtype='f').reshape(5,5)*0
+	#for i1 in range(-2,3):
+	#	for i2 in range(-2,3):
+	#		ii1 = i1 + 2
+	#		ii2 = i2 + 2
+	Gx = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	Gy = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	for i1 in range(-img.shape[0]/2,img.shape[0]/2+1):
+		for i2 in range(-img.shape[1]/2,img.shape[1]/2+1):
+			ii1 = i1 + img.shape[0]/2
+			ii2 = i2 + img.shape[1]/2
+			Gx[ii1][ii2] = (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma1**2)))/float(2*PI*sigma1**4)
+			Gy[ii1][ii2] = (-1*i1*math.exp((-(i2**2)-(i1**2))/float(2*sigma2**2)))/float(2*PI*sigma2**4)
+	
+	Gi_x = sig.fftconvolve(img,Gx,"same")
+	Gi_y = sig.fftconvolve(img,Gy,"same")
+	Gi = numpy.sqrt(Gi_x**2-Gi_y**2)
+
+	return (Gi,env)
+
+def sum_of_derived_gaussians(img,env,**kwargs):
+	sigma1 = kwargs['sigma1']
+	sigma2 = kwargs['sigma2']
+	#Gx = numpy.arange(25,dtype='f').reshape(5,5)*0
+	#Gy = numpy.arange(25,dtype='f').reshape(5,5)*0
+	#for i1 in range(-2,3):
+	#	for i2 in range(-2,3):
+	#		ii1 = i1 + 2
+	#		ii2 = i2 + 2
+	Gx = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	Gy = numpy.arange(img.shape[0]*img.shape[1],dtype='f').reshape(img.shape[0],img.shape[1])*0
+	for i1 in range(-img.shape[0]/2,img.shape[0]/2+1):
+		for i2 in range(-img.shape[1]/2,img.shape[1]/2+1):
+			ii1 = i1 + img.shape[0]/2
+			ii2 = i2 + img.shape[1]/2
+			Gx[ii1][ii2] = (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma1**2)))/float(2*PI*sigma1**4)
+			Gy[ii1][ii2] = (-1*i1*math.exp((-(i2**2)-(i1**2))/float(2*sigma2**2)))/float(2*PI*sigma2**4)
+	
+	Gi_x = sig.fftconvolve(img,Gx,"same")
+	Gi_y = sig.fftconvolve(img,Gy,"same")
+	Gi = numpy.sqrt(Gi_x**2+Gi_y**2)
+
+	return (Gi,env)

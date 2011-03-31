@@ -114,8 +114,12 @@ ghost1 = ('../img/celle1.png',
 	[	
 	#(gaussian_blur_matrix_conv,{}),
 	#(gaussian_blur_conv,{'sigma':15,}),
-	(gaussian_derived_conv,{'sigma':15}),
-
+	#(gaussian_derived_conv,{'sigma':1}),
+	#(difference_of_gaussians,{'sigma':1,'K':2}),
+	#(sum_of_gaussians,{'sigma':1,'K':2}),
+	#(difference_of_derived_gaussians,{'sigma1':1,'sigma2':2}),
+	(sum_of_derived_gaussians,{'sigma1':1,'sigma2':2}),
+	#(invert_color,{}),
 	(abs_func,{}),
 	(display,{})],
 	)
