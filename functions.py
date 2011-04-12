@@ -285,9 +285,10 @@ def gaussian_derived_conv(img,env,**kwargs):
 		for i2 in range(-2,3):
 			ii1 = i1+2
 			ii2 = i2+2
-			Gx[i1][i2] = (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
-			Gy[i1][i2] = (-1*i1*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
-	
+			Gx[ii1][ii2] = (-1*i2*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
+			Gy[ii1][ii2] = (-1*i1*math.exp((-(i2**2)-(i1**2))/float(2*sigma**2)))/float(2*PI*sigma**4)
+	print Gx
+	print Gy
 	Gi_x = sig.fftconvolve(img,Gx,"same")
 	Gi_y = sig.fftconvolve(img,Gy,"same")
 	Gi = numpy.sqrt(Gi_x**2+Gi_y**2)
@@ -354,7 +355,6 @@ def image_convolve_draw_circles(img,env,**kwargs):
 	return (org_img,env)
 
 def image_convolve(img,env,**kwargs):
-	start = time.time()
 	image = kwargs['image']
 
 	testimage = pylab.imread(image)	
@@ -366,7 +366,25 @@ def image_convolve(img,env,**kwargs):
 	testimage,PLACEHOLDER = invert_dimensions(testimage,env,**kwargs)		
 	testimage_sum = sum(sum(testimage**2))
 	outimg = sig.fftconvolve(img,testimage/float(testimage_sum),"same")
-	print "IT TOOK: ",time.time()-start
+	return (outimg,env)
+
+def image_convolve_v2(img,env,**kwargs):
+	image = kwargs['image']
+
+	testimage = pylab.imread(image)	
+	testimage = toimage(testimage)
+	testimage = testimage.convert("L")
+	testimage = fromimage(testimage)
+
+	testimage,PLACEHOLDER = invert_color(testimage,env,**kwargs)
+	testimage,PLACEHOLDER = invert_dimensions(testimage,env,**kwargs)		
+	testimage_sum = sum(sum(testimage**2))
+	
+	img1 = sig.fftconvolve(testimage,testimage/float(testimage_sum),"same")
+	img2 = sig.fftconvolve(img,img/float(testimage_sum),"same")
+	img3 = sig.fftconvolve(img,testimage/float(testimage_sum),"same")
+	print img1.shape,img2.shape,img3.shape
+	outimg = img1+img2-img3
 	return (outimg,env)
 
 def difference_of_gaussians(img,env,**kwargs):
