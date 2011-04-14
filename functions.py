@@ -496,3 +496,25 @@ def sum_of_derived_gaussians(img,env,**kwargs):
 	Gi = numpy.sqrt(Gi_x**2+Gi_y**2)
 
 	return (Gi,env)
+
+def convolve_test(img,env, **kwargs):
+	image = kwargs['template']
+	template = pylab.imread(image)	
+	template = toimage(template)
+	template = template.convert("L")
+	template = fromimage(template)
+	w,h = img.shape
+	tw,th = template.shape
+	canvas = numpy.arange(w*h,dtype='f').reshape(w,h)*0
+	temp_sum = sum(sum(template))
+	print temp_sum
+	for wi in range(w):
+		for hi in range(h):
+			if (wi+tw-1 > w or hi+th-1 > h):
+				continue
+			cut = img[wi:wi+tw-1]
+			cut = map(lambda x: x[hi:hi+th-1] ,cut)
+			val = numpy.sqrt((sum(sum(cut)) - temp_sum) **2)
+			canvas[wi+(tw/2)][hi+(th/2)] = val
+	
+	return (canvas,env)

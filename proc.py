@@ -134,6 +134,12 @@ ghost2 = ('img/circ2.png', #circ2
 	#(invert_dimensions,{}),	
 	(display,{})],
 	)
+conv = ('../img/celle1.png',
+	[
+	(convolve_test,{'template':'img/single_cell_1.png'}),
+	(display,{})],
+	)
+	
 
 #Remember to add new procedures to this list
-func_list = [ghost,ghost1,ghost2, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
+func_list = [conv,ghost,ghost1,ghost2, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
