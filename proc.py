@@ -134,9 +134,13 @@ ghost2 = ('img/circ2.png', #circ2
 	#(invert_dimensions,{}),	
 	(display,{})],
 	)
-conv = ('../img/celle1.png',
+conv = ('img/circ2.png',
 	[
-	(convolve_test,{'template':'img/single_cell_1.png'}),
+	(image_convolve_scen1,{'template':'img/circ.png'}),
+
+	#(convolve_test,{'template':'img/single_cell_2.png'}),
+	#(invert_color,{}),
+	#(image_convolve_threshold,{'threshold':0.50,}), # circ = circ3 = 0.95
 	(display,{})],
 	)
 	

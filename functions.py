@@ -318,6 +318,7 @@ def invert_dimensions(img,env,**kwargs):
 	return (newimg,env)
 
 def invert_color(img,env,**kwargs):
+	return (img*(-1),env)
 	for x,a in enumerate(img):
 		for y,b in enumerate(a):
 			img[x][y] = numpy.abs(img[x][y]-255)
@@ -503,18 +504,57 @@ def convolve_test(img,env, **kwargs):
 	template = toimage(template)
 	template = template.convert("L")
 	template = fromimage(template)
+	
+	#img = numpy.arange(10*10).reshape(10,10)*0
+	#img[2][2] = img[2][3] = img[1][3] = 1
+	temp = numpy.arange(4).reshape(2,2)*0
+	temp[1][0] = temp[1][1] = temp[0][1] = 1
+	temp,env = invert_dimensions(temp,env)
+	#template = temp
+
 	w,h = img.shape
 	tw,th = template.shape
-	canvas = numpy.arange(w*h,dtype='f').reshape(w,h)*0
+	canvas = numpy.arange(w*h,dtype='f').reshape(w,h)*00
 	temp_sum = sum(sum(template))
-	print temp_sum
 	for wi in range(w):
 		for hi in range(h):
-			if (wi+tw-1 > w or hi+th-1 > h):
+			if (wi+tw-1 >= w or hi+th-1 >= h):
 				continue
-			cut = img[wi:wi+tw-1]
-			cut = map(lambda x: x[hi:hi+th-1] ,cut)
+			#if (hi is not 0):
+			#	continue
+			#print wi,hi
+			cut = img[wi:wi+tw]
+			#print cut
+			cut = map(lambda x: x[hi:hi+th] ,cut)
+			#print cut
 			val = numpy.sqrt((sum(sum(cut)) - temp_sum) **2)
+			#canvas[hi+(th/2)][wi+(tw/2)] = val
 			canvas[wi+(tw/2)][hi+(th/2)] = val
-	
+			#canvas[wi+(tw/2)][hi+(th/2)] = 1
+	print canvas
 	return (canvas,env)
+
+def image_convolve_scen1(img,env,**kwargs):
+	image = kwargs['template']
+	template = pylab.imread(image)	
+	template = toimage(template)
+	template = template.convert("L")
+	template = fromimage(template )
+	w,h = img.shape
+	tw,th = template.shape
+	canvas = numpy.arange(w*h,dtype='f').reshape(w,h)*00
+	template_trans = numpy.transpose(template)
+	template_ost = numpy.dot(template_trans, template)
+	for wi in range(w):
+		for hi in range(h):
+			if (wi+tw-1 >= w or hi+th-1 >= h):
+				continue
+			cut = img[wi:wi+tw]
+			cut = map(lambda x: x[hi:hi+th] ,cut)
+			val = numpy.dot(numpy.transpose(cut),cut) + template_ost - 2*numpy.dot(numpy.transpose(cut), template)
+			canvas[wi+(tw/2)][hi+(th/2)] = sum(sum(val))
+	print canvas
+	return (canvas,env)
+
+	template,PLACEHOLDER = invert_color(template,env,**kwargs)
+	template,PLACEHOLDER = invert_dimensions(template,env,**kwargs)		
