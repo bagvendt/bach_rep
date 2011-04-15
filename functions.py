@@ -546,6 +546,7 @@ def image_convolve_scen1(img,env,**kwargs):
 	template_trans = numpy.transpose(template)
 	template_ost = numpy.dot(template_trans, template)
 	for wi in range(w):
+		print str(wi)+" of "+str(w)
 		for hi in range(h):
 			if (wi+tw-1 >= w or hi+th-1 >= h):
 				continue
@@ -556,5 +557,11 @@ def image_convolve_scen1(img,env,**kwargs):
 	print canvas
 	return (canvas,env)
 
-	template,PLACEHOLDER = invert_color(template,env,**kwargs)
-	template,PLACEHOLDER = invert_dimensions(template,env,**kwargs)		
+def image_convolve_scen2(img,env,**kwargs):
+	w,h = img.shape
+	canvas = numpy.arange(w*h,dtype='f').reshape(w,h)*0
+	for wi in range(w):
+		for hi in range(h):
+			if(img[wi][hi] == 0):
+				canvas[wi-1][hi-1]=canvas[wi-1][hi]=canvas[wi][hi-1]=canvas[wi][hi]=canvas[wi+1][hi]=canvas[wi][hi+1]=canvas[wi+1][hi+1]= 255
+	return (canvas,env)
