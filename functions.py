@@ -142,7 +142,6 @@ def rigmor_sobel(img,env,**kwargs):
 	env['G_x'] = G_x
 	env['G_y'] = G_y
 	env['maxval'] = maxval
-	print G[55][50]
 	return (G,env)
 
 def low_pass(img,env,**kwargs):
@@ -563,5 +562,96 @@ def image_convolve_scen2(img,env,**kwargs):
 	for wi in range(w):
 		for hi in range(h):
 			if(img[wi][hi] == 0):
-				canvas[wi-1][hi-1]=canvas[wi-1][hi]=canvas[wi][hi-1]=canvas[wi][hi]=canvas[wi+1][hi]=canvas[wi][hi+1]=canvas[wi+1][hi+1]= 255
+				canvas[wi-1][hi-1]=canvas[wi-1][hi]=canvas[wi][hi-1]=canvas[wi][hi]=255
 	return (canvas,env)
+
+def list_to_vector(l):
+    h = len(l)
+    w = len(l[0])
+    a=[]
+    for i in range(h):
+        for j in range(w):
+            a.append(l[i][j])
+    return a
+
+
+def image_vec_conv(img,env,**kwargs):
+    T = kwargs['cut']
+    T = pylab.imread(T)	
+    T = toimage(T)
+    T = T.convert("L")
+    T = fromimage(T)
+    tw,th = T.shape
+    w,h = img.shape
+    T_v = (T.reshape(1,tw*th))[0]
+    TtT = numpy.dot(T_v,T_v).astype(float)
+    canvas = numpy.arange(w*h,dtype='f').reshape(w,h)*00
+    canvas.fill(255.0)
+    for wi in range(w):
+        for hi in range(h):
+            if (wi+tw-1 >= w or hi+th-1 >= h):
+                continue
+            I = img[wi:(wi+tw),hi:(hi+th)]
+            I_v = I.reshape(1,tw*th)[0]
+            
+            ItI = numpy.dot(I_v,I_v).astype(float)
+            ItT = numpy.dot(I_v,T_v).astype(float)          
+            value = ItI + TtT - 2*ItT
+            value = numpy.sqrt(value**2)
+            """
+            if value >= 1:
+                value = 255
+            """
+            canvas[wi+(tw/2)][hi+(th/2)] = value
+    return (canvas,env)
+
+def image_eukl(img,env,**kwargs):
+    T = kwargs['cut']
+    T = pylab.imread(T)	
+    T = toimage(T)
+    T = T.convert("L")
+    T = fromimage(T)
+    tw,th = T.shape
+    w,h = img.shape
+    canvas = numpy.arange(w*h,dtype='f').reshape(w,h)*00
+    canvas.fill(255.0)
+    for wi in range(w):
+        for hi in range(h):
+            if (wi+tw-1 >= w or hi+th-1 >= h):
+                continue
+            I = img[wi:(wi+tw),hi:(hi+th)]
+            value = numpy.sqrt((sum(sum(I))-sum(sum(T)))**2)
+            if value > 1:
+               value = 100
+            canvas[wi+(tw/2)][hi+(th/2)] = value
+    return (canvas,env)
+
+def image_avg(img,env,**kwargs):
+    #img1,placeholder = rigmor_sobel(img,env,**kwargs)
+    img2,placeholder = low_pass(img,env,**kwargs)
+    #kwargs['sigma1'] = 1.2
+    #kwargs['sigma2'] = 1.3
+    #img3,placeholder = sum_of_derived_gaussians(img,env,**kwargs)
+    kwargs['cut'] = 'img/circ.png'
+    img4,placeholder = image_vec_conv(img,env,**kwargs)
+    #img5,placeholder = hat_convolve(img,env,**kwargs)
+    imgres = img2+img4
+    T = kwargs['cut']
+    T = pylab.imread(T)	
+    T = toimage(T)
+    T = T.convert("L")
+    T = fromimage(T)
+    tw,th = T.shape
+    w,h = img.shape
+    T_2 = 
+    T_4
+    T_val_2 = 
+    for wi in range(w):
+        for hi in range(h):
+            if (wi+tw-1 >= w or hi+th-1 >= h):
+                continue
+            I = imgres[wi:(wi+tw),hi:(hi+th)]
+            
+    return (img,env)
+
+			
