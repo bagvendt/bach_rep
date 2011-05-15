@@ -10,7 +10,8 @@ fntsz=18;
 %height = 28; %<-- /
 %width = 70;
 %height = 63;
-I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_58.jpg');
+load('minmis')
+I = imread('/home/marcus/Dropbox/Bachelor/Billeder/csgb/test20_58.jpg');
 %I = double(I(465+[0:height-1],1100+[0:width-1]));
 I = double(I(400+[0:69],1100+[0:69]));
 
@@ -23,37 +24,39 @@ set(gca,'fontsize',fntsz);
 title('Subset image');
 
 [h,w] = size(I);
+[i1,i2,c,i3] = size(mat)
 
 % For each height pixel except the last 7 (size of cut)
 for i = 1:(h-7)
     strcat(num2str(round((i/(h-7))*100)),'%')
     % For each width pixel except the last 7
     for j = 1:(w-7)
-        cut = double(I(i+[0:7],j+[0:7]));
+        cut = double(I(i+[0:6],j+[0:6]));
+        cut = reshape(cut,1,i3);
         shortest_dist = 10^10;
-        shortest_name = '';
         % Run through each cut with x
-        for x = 0:3
+        for x = 1:i1
             % Run through each cut with y
-            for y=0:4
-                name1 = ['orig_',num2str(x),'_',num2str(y),'.txt'];
-                patch = load(name1);
+            for y=1:i2
+                
+                patch = mat(x,y,1,:);
                 dist = 0;
-                for a=1:7
-                    for b=1:7
-                        dist = dist + (patch(a,b)-cut(a,b))^2;
-                    end
+                for a=1:i3
+                   dist = dist + (patch(a)-cut(a))^2;
                 end
                 dist = sqrt(dist);
                 if (dist < shortest_dist)
                     shortest_dist = dist;
-                    shortest_name = ['new_',num2str(x),'_',num2str(y),'.txt'];
+                    shortx = x;
+                    shorty = y;
                 end
             end
         end
         % We have found shortest cut with name 'shortest_name' and dist
         % 'shortest_dist'. We then add each pixel value.
-        newPatch = load(shortest_name);
+        newPatch = mat(shortx,shorty,2,:);
+        newPatch = reshape(newPatch,1,i3);
+        newPatch = reshape(newPatch,7,7);
         NewI(i:(i+6),j:(j+6)) = NewI(i:(i+6),j:(j+6))+newPatch;
     end
 end
@@ -78,4 +81,4 @@ end
 figure(n); n=n+1;
 imagesc(blackNWhiteImg); axis image; colormap(gray); colorbar
 set(gca,'fontsize',fntsz);
-title('Black and white image');
+title('Black and white image');  

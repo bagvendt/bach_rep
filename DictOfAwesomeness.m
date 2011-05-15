@@ -72,6 +72,7 @@ function [ ] = DictOfAwesomeness( )
         end
     end
     save('minmis');
+    close all;
 
 end
 
