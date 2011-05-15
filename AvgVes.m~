@@ -1,0 +1,44 @@
+close all;
+clear all;
+n=1;
+
+listOfVessikels = [
+    '/Users/claesladefoged/Documents/bach_rep/images/vessikels/ves5.png',
+    '/Users/claesladefoged/Documents/bach_rep/images/vessikels/ves6.png',
+    '/Users/claesladefoged/Documents/bach_rep/images/vessikels/ves1.jpg',
+    '/Users/claesladefoged/Documents/bach_rep/images/vessikels/ves2.jpg',
+    '/Users/claesladefoged/Documents/bach_rep/images/vessikels/ves3.jpg'];
+AvgCell = zeros(size(imread(listOfVessikels(1,:))));
+RotCell = zeros(size(imread(listOfVessikels(1,:))));
+
+for i = 1:(size(listOfVessikels,1))
+    J = double(imread(listOfVessikels(i,:)));
+    AvgCell = AvgCell+
+    for j = 1:4
+        J = rot90(J,j);
+        figure(n); n=n+1;
+        imagesc(J); axis image; colormap(gray); colorbar
+        set(gca,'fontsize',fntsz);
+        title(strcat('Template image w/ celle ',listOfVessikels(i,62)));
+        fun = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J(:)-mean(J(:)))/std(J(:))).^2);
+        K=nlfilter(I,size(J),fun);
+        figure(n); n=n+1;
+        imagesc(K); colormap(gray); axis image; colorbar
+        set(gca,'fontsize',fntsz);
+        title('Distance map');
+        figure(n); n=n+1;
+        blackNWhiteImg = (K-min(K(:)))<percentage*(max(K(:))-min(K(:)));
+        sum(sum(blackNWhiteImg))
+        if sum(sum(blackNWhiteImg)) > 300
+            continue;
+        end
+        imagesc(blackNWhiteImg); axis image; colormap(gray); colorbar
+        set(gca,'fontsize',fntsz);
+        title(sprintf('Smallest %d%% in distance map',round(percentage*100)));
+        combinedBlackNWhite = combinedBlackNWhite+blackNWhiteImg;
+    end
+end
+figure(n); n=n+1;
+imagesc(combinedBlackNWhite); axis image; colormap(gray); colorbar
+set(gca,'fontsize',fntsz);
+title('Combined black and white image');
