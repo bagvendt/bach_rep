@@ -8,10 +8,11 @@ fntsz=18;
 
 %width = 35;  %<-- ---ORIGIN
 %height = 28; %<-- /
-width = 70;
-height = 63;
+%width = 70;
+%height = 63;
 I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_58.jpg');
-I = double(I(465+[0:height-1],1100+[0:width-1]));
+%I = double(I(465+[0:height-1],1100+[0:width-1]));
+I = double(I(400+[0:69],1100+[0:69]));
 
 NewI = I.*0;
 
