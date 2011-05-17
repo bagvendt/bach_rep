@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.3.15)  17 MAY 2011 11:13
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.3.15)  17 MAY 2011 11:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**000-Rapport.tex
-(./000-Rapport.tex
+**Rapport.tex
+(./Rapport.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, arabic, armenian
@@ -16,7 +16,8 @@ telugu, indonesian, interlingua, irish, italian, kurmanji, lao, latin, latvian,
  lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, polish, portuguese, roma
 nian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, turkish,
  turkmen, ukrainian, uppersorbian, welsh, loaded.
-(./header.tex (/usr/local/texlive/2010/texmf-dist/tex/latex/base/article.cls
+(./files/header.tex
+(/usr/local/texlive/2010/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/local/texlive/2010/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -526,8 +527,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip46
 )
-(./000-Rapport.aux)
-\openout1 = `000-Rapport.aux'.
+No file Rapport.aux.
+\openout1 = `Rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
@@ -543,7 +544,6 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
-
 (/usr/local/texlive/2010/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count117
@@ -589,40 +589,45 @@ Package: gettitlestring 2009/12/18 v1.3 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 19.
 LaTeX Info: Redefining \pageref on input line 19.
 LaTeX Info: Redefining \nameref on input line 19.
-
-(./000-Rapport.out) (./000-Rapport.out)
 \@outlinefile=\write3
-\openout3 = `000-Rapport.out'.
+\openout3 = `Rapport.out'.
 
- (./000-Rapport.toc)
 \tf@toc=\write4
-\openout4 = `000-Rapport.toc'.
+\openout4 = `Rapport.toc'.
 
- [1
+
+[1
 
 {/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3.
- [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3.
- (./000-Rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3.
-Package rerunfilecheck Info: File `000-Rapport.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 6.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 6.
+
+(./Rapport.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 6.
+
+
+Package rerunfilecheck Warning: File `Rapport.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Rapport.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 7135 strings out of 493747
- 102410 string characters out of 3143546
- 174998 words of memory out of 3000000
+ 7127 strings out of 493747
+ 102266 string characters out of 3143546
+ 174906 words of memory out of 3000000
  10308 multiletter control sequences out of 15000+200000
  4544 words of font info for 17 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 33i,5n,32p,248b,315s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 33i,5n,32p,250b,315s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on 000-Rapport.pdf (2 pages, 18630 bytes).
+Output written on Rapport.pdf (1 page, 17572 bytes).
 PDF statistics:
- 26 PDF objects out of 1000 (max. 8388607)
- 19 compressed objects within 1 object stream
- 4 named destinations out of 1000 (max. 500000)
+ 22 PDF objects out of 1000 (max. 8388607)
+ 16 compressed objects within 1 object stream
+ 3 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
