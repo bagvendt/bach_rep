@@ -1,0 +1,1 @@
+g++ -o test pis.cpp -I/usr/include/opencv -lml -lcvaux -lhighgui -lcv -lcxcore
