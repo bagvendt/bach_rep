@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.3.15)  17 MAY 2011 11:52
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.3.15)  17 MAY 2011 12:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -527,7 +527,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip46
 )
-No file Rapport.aux.
+(./Rapport.aux)
 \openout1 = `Rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
@@ -544,6 +544,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
+
 (/usr/local/texlive/2010/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count117
@@ -589,21 +590,31 @@ Package: gettitlestring 2009/12/18 v1.3 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 19.
 LaTeX Info: Redefining \pageref on input line 19.
 LaTeX Info: Redefining \nameref on input line 19.
+
+(./Rapport.out) (./Rapport.out)
 \@outlinefile=\write3
 \openout3 = `Rapport.out'.
 
+ (./Rapport.toc)
 \tf@toc=\write4
 \openout4 = `Rapport.toc'.
 
+ [1
 
-[1
+{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]) (./fil
+es/intro/intro.tex)
+(./files/bildbeh/bildbeh.tex) (./files/sprog/sprog.tex)
+(./files/premethod/premethod.tex) (./files/postmethod/postmethod.tex)
+(./files/konkl/konkl.tex)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 17.
+ [2]
+Overfull \vbox (81.04341pt too high) has occurred while \output is active []
 
-{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 6.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 6.
 
-(./Rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 6.
+[3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 17.
+ (./Rapport.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 17.
 
 
 Package rerunfilecheck Warning: File `Rapport.out' has changed.
@@ -611,23 +622,23 @@ Package rerunfilecheck Warning: File `Rapport.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `Rapport.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  AF6DBB3F5A41B98D0A1BECFE4CCB94A9;1577.
  ) 
 Here is how much of TeX's memory you used:
- 7127 strings out of 493747
- 102266 string characters out of 3143546
- 174906 words of memory out of 3000000
- 10308 multiletter control sequences out of 15000+200000
- 4544 words of font info for 17 fonts, out of 3000000 for 9000
+ 7190 strings out of 493747
+ 103207 string characters out of 3143546
+ 181010 words of memory out of 3000000
+ 10312 multiletter control sequences out of 15000+200000
+ 5456 words of font info for 20 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  33i,5n,32p,250b,315s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on Rapport.pdf (1 page, 17572 bytes).
+Output written on Rapport.pdf (3 pages, 27004 bytes).
 PDF statistics:
- 22 PDF objects out of 1000 (max. 8388607)
- 16 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
+ 60 PDF objects out of 1000 (max. 8388607)
+ 52 compressed objects within 1 object stream
+ 30 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
