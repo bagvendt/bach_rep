@@ -66,7 +66,7 @@ I figur \ref{fig:premethod_gauss} ses et eksempel hvor et billede er blevet udgl
 %VORES BILLEDE OG KOMMENTAR
 
 
-\subsubsection{Sobel filter}
+\subsubsection{Sobel filter og kantdetektion}
 % Behandlet fordi? res?
 I billedbehandling benyttes Sobel operatoren især i kant detektion. Operatoren udregner gradienten for hvert punkt i billedet. Gradienten i et billede er en retningsændring i intensitet eller farve i et billede. Det resulterende billede indeholder så retningen i den størst mulige ændring fra lys til mørk. Jo lysere en pixel er, jo større sandsynlighed er der for at den er en del af en kant. Et eksempel på et billede der er blevet behandlet med et sobelfilter ses i figur \ref{fig:premethod_sobelres}
 
@@ -108,17 +108,53 @@ Det resulterende sobel billedes fås ved formlen
 På ethvert tidspunkt kan vi så finde retningen som kanten har i enhver pixel ved 
 \begin{align}
 	\Theta = \arctan\left(\frac{G_y}{G_x}\right)
+	\label{ali:premethod_sobelTheta}
 \end{align}
 hvor $\Theta$ er 0 for en vertikal kant med mørkt på den venstre side. Vi skal bruge disse formler senere når vi ser på Hough cirkel detektionen der benytter sig af sobelfilteret når det skal finde kanter. 
 
 %RESULTERENDE SOBEL PÅ VESIKLEN OG SNAK OM RESULTATET...
 
-\subsubsection{Edge detektion}
-% Res af dette
+Ved en udvalgt tærskelværdi vil det resulterende sobel billede kun fremstå med værdi større end 0 i de pixels man med stor tiltro mener er en kant. 
+
 
 \subsubsection{Hough detektion}\label{premethod_hough}
+I de tidligere afsnit har vi vist hvordan vi har udglattet billedet, fundet kanter og retninger i hver af disse kanter. Disse resultater vil vi nu benytte til at finde cirklernes centrum. I (\ref{ali:premethod_sobelG}) har vi fundet $G_x$ og $G_y$ som jo var gradienterne i horisontal og vertikal retning. Vi fandt også $\theta$ i (\ref{ali:premethod_sobelTheta}), der er vinklen på en kant i den givne pixel. Vi har i vores observationer af vesiklerne også fundet ud af at de kan variere i størrelse fra 15x15 pixel, og op omkring 30x30 pixels.
 
-% forklar ligesom pdf og videre med de ovenstående som er implementeret
+Ideen er så at tage hver pixel der har en værdi større end 0 i kantbilledet efter tærskelværdien, altså hver pixel der menes at ligge på en kant, og tegne en linje ud fra denne. Linjen tegnet i en nyt canvas på samme størrelse som det originale billede, og hver pixel linjen går igennem, ligges en farveværdi oveni. Hvis hver linje så har en farveværdi på 10, og der så er 20 linjer der alle går igennem samme punkt, vil dette punkt få en farveværdi på 200. Man kan så tage en tærskelværdi på dette billede, og tilbage vil være de punkter der gerne skulle være centrum i en cirkel. 
+
+Da vi ved at en vesikel har radius på min og maks hhv. 7.5 og 15, og vi kender $\theta$ kan vi nemt udregne ligningen for linjen der står vinkelret på punktet [i,j] (der menes at være et punkt på en kant) og har minimumsradius på 7.5 og maksimumsradius på 15. En af disse linjer ses i figur \ref{fig:premethod_houghLines}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{files/premethod/img/hough_lines.png}
+	\caption{Linje tegnet ud fra pixel [i,j] der menes at ligge på en kant.\label{fig:premethod_houghLines}}
+\end{figure}
+
+I figur \ref{fig:premethod_houghres} ses 4 billeder. Den første er bare en normal cirkel vi ønskes at detektere. I det andet billede er så tegnet nogle af de linjer der går igennem et punkt på kanten af cirklen samt centrum af cirklen. Her har vi ikke bekymret os om minimumsradius, ligesom vi kun har tegnet 6 af linjerne. I det tredje billede ses de samme linjer bare tegnet i det nye canvas. I det fjerde og sidste billede er der så taget en tærskelværdi på det resulterende canvas, og centrum der dermed fundet.
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=1.5]{files/premethod/img/dirmap1.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=1.5]{files/premethod/img/dirmap2.png}
+	\end{minipage}\\\\
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=1.5]{files/premethod/img/dirmap3.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=1.5]{files/premethod/img/dirmap4.png}
+	\end{minipage}
+	\caption{\textbf{Øverst venstre:} Originale billede. \textbf{Øverst højre:} Cirkel med nogen af linjerne tegnet. \textbf{Nederst venstre:} Det resulterende billede med nogen af linjerne tegner. \textbf{Nedest højre:} Resultat efter tærskelværdi.\label{fig:premethod_houghres}}
+\end{figure}
+
+% VORES BILLEDER
 
 \subsubsection{Afledet Gauss-filter}
 % fordi?
@@ -127,7 +163,7 @@ hvor $\Theta$ er 0 for en vertikal kant med mørkt på den venstre side. Vi skal
 % Tankegangen med at lave denne
 
 \subsubsection{Foldning med vesikeludsnit}
-% tankegang
+
 
 \subsubsection{Foldning med kantkonkur efter vesikelbillede}
 % Ide
