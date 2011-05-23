@@ -21,8 +21,31 @@ At vesiklerne har fællestræk men alligevel er så forskellige, antyder at en e
 
 Det faktum at nogen af vesiklerne er relativt cirkulære, giver os ideen at detektere cirkler i billedet. Til dette benytter vi os af Hough cirkeldetektion. Metoden er forklaret nærmere i afsnit \ref{premethod_hough}, men for at metoden kan fungere, skal billedet behandles først. Her benytter vi et Gauss filter der udglatter billedet før et sobel filter finder retninger i billedet som en kantdetektor bruger til at finde hvor der er kanter i billedet. Hver af disse funktioner er forklaret nærmere nedenfor, og vi vil til slut evaluere på resultatet.
 
+Vi vil benytte celleudsnittet i figur \ref{fig:premethod_celle} til at finde vesikler i. Billedet er godt da det både indeholder støj, vesikler og kant på cellen hele vejen rundt.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=2.5]{files/premethod/img/celle1.png}
+	\caption{Celleudsnit fra originalbilledet.\label{fig:premethod_celle}}
+\end{figure}
+
 \subsubsection{Gaussisk blur}
-Et gaussisk blur, eller gaussisk udglatning, er i virkeligheden et lavpasfilter da funktionen i virkeligheden reducerer billedets højfrekvens værdier. Filteret bliver typisk brugt til at reducere billedstøj og udglatte områder. Dette er hvad vi er interesseret i, for at fjerne noget af støjen omkring vesiklerne, samtidig med at glatte kanten lidt ud så den blive glattere. I to dimmensioner er ligningen for en gaussisk funktion givet ved ligningen
+Et gaussisk blur, eller gaussisk udglatning, er i virkeligheden et lavpasfilter da funktionen i virkeligheden reducerer billedets højfrekvens værdier. Filteret bliver typisk brugt til at reducere billedstøj og udglatte områder. 
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=1.5]{files/premethod/img/gauss_pre.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=1.5]{files/premethod/img/gauss_post.png}
+	\end{minipage}
+	\caption{Billede før og efter en Gauss udglatning.\label{fig:premethod_gauss}}
+\end{figure}
+
+I figur \ref{fig:premethod_gauss} ses to billeder hvor det første er originalbilledet og det andet er billedet der er blevet behandlet med gaussfilter. Resultatet er tydeligt, billedet er glattere og med mindre støj. Dette er hvad vi er interesseret i, for at fjerne noget af støjen omkring vesiklerne, samtidig med at glatte kanten lidt ud. I to dimmensioner er ligningen for en gaussisk funktion givet ved ligningen
 \begin{align}
 	G(x,y) = \frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}\label{ali:premethod_gaussG}
 \end{align}
@@ -48,26 +71,16 @@ hvor x er distancen fra origo på den horisontale akse, y er distancen fra origo
 	\caption{Tabel over gaussisk fordeling i pixel 30,30 efter forskellige $\sigma$ værdier.\label{fig:premethod_gauss_table}}
 \end{figure}
 
-I figur \ref{fig:premethod_gauss} ses et eksempel hvor et billede er blevet udglattet med et gauss filter. 
+I figur \ref{fig:premethod_GaussCelle} ses vores cellebillede fra figur \ref{fig:premethod_celle} der er blevet behandlet med et gaussfilter. Det er tydeligt at billedet er blevet udglattet, men det er samtidig også blevet sværere at se overgangen mellem vesiklerne. Dette er ikke et positivt resultat og vi forkaster funktionen.
 
 \begin{figure}[H]
-	\begin{minipage}[b]{0.5\linewidth}
-		\centering
-		\includegraphics[scale=1.5]{files/premethod/img/gauss_pre.png}
-	\end{minipage}
-	\hspace{0.5cm}
-	\begin{minipage}[b]{0.5\linewidth}
-		\centering
-		\includegraphics[scale=1.5]{files/premethod/img/gauss_post.png}
-	\end{minipage}
-	\caption{Billede før og efter en Gauss udglatning.\label{fig:premethod_gauss}}
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/gausscell.png}
+	\caption{Celleudsnit behandlet med et gaussfilter og $\sigma$ værdi på 15.\label{fig:premethod_GaussCelle}}
 \end{figure}
-
-%VORES BILLEDE OG KOMMENTAR
 
 
 \subsubsection{Sobel filter og kantdetektion}
-% Behandlet fordi? res?
 I billedbehandling benyttes Sobel operatoren især i kant detektion. Operatoren udregner gradienten for hvert punkt i billedet. Gradienten i et billede er en retningsændring i intensitet eller farve i et billede. Det resulterende billede indeholder så retningen i den størst mulige ændring fra lys til mørk. Jo lysere en pixel er, jo større sandsynlighed er der for at den er en del af en kant. Et eksempel på et billede der er blevet behandlet med et sobelfilter ses i figur \ref{fig:premethod_sobelres}
 
 \begin{figure}[H]
@@ -112,10 +125,23 @@ På ethvert tidspunkt kan vi så finde retningen som kanten har i enhver pixel v
 \end{align}
 hvor $\Theta$ er 0 for en vertikal kant med mørkt på den venstre side. Vi skal bruge disse formler senere når vi ser på Hough cirkel detektionen der benytter sig af sobelfilteret når det skal finde kanter. 
 
-%RESULTERENDE SOBEL PÅ VESIKLEN OG SNAK OM RESULTATET...
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/sobel.png}
+	\caption{Originalbilledet foldet med et sobelfilter.\label{fig:premethod_sobel}}
+\end{figure}
 
-Ved en udvalgt tærskelværdi vil det resulterende sobel billede kun fremstå med værdi større end 0 i de pixels man med stor tiltro mener er en kant. 
+Det resulterende sobel billede vil kun fremstå med værdi større end 0 i de pixels man med stor tiltro mener er en kant. Originalbilledet fra figur \ref{fig:premethod_celle} foldet med sobelfilteret ses i figur \ref{fig:premethod_sobel}. 
 
+Dette er ikke noget særlig godt billede da kanterne omkring vesiklerne ikke fremstår tydeligere end støjen. Vi havde håbet på en kant der fremstod klart lysere end resten så vi med en tærskelværdi kunne isolere disse kanter. Vi har alligevel påført en tærskelværdi på 40 på billedet, og resultatet ses i figur \ref{fig:premethod_sobel}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/edgemap.png}
+	\caption{Sobelfilteret fra figur \ref{fig:premethod_sobel} med en tærskelværdi på 40.\label{fig:premethod_edgemap}}
+\end{figure}
+
+Her er det stadig tydeligt at der er meget andet støj end de vesikler der skal detekteres. Hvis vi ændrer tærskelværdien vil noget af støjen forsvinde, men det samme vil vesiklerne selv, så dette er ikke en mulighed.
 
 \subsubsection{Hough detektion}\label{premethod_hough}
 I de tidligere afsnit har vi vist hvordan vi har udglattet billedet, fundet kanter og retninger i hver af disse kanter. Disse resultater vil vi nu benytte til at finde cirklernes centrum. I (\ref{ali:premethod_sobelG}) har vi fundet $G_x$ og $G_y$ som jo var gradienterne i horisontal og vertikal retning. Vi fandt også $\theta$ i (\ref{ali:premethod_sobelTheta}), der er vinklen på en kant i den givne pixel. Vi har i vores observationer af vesiklerne også fundet ud af at de kan variere i størrelse fra 15x15 pixel, og op omkring 30x30 pixels.
@@ -154,23 +180,152 @@ I figur \ref{fig:premethod_houghres} ses 4 billeder. Den første er bare en norm
 	\caption{\textbf{Øverst venstre:} Originale billede. \textbf{Øverst højre:} Cirkel med nogen af linjerne tegnet. \textbf{Nederst venstre:} Det resulterende billede med nogen af linjerne tegner. \textbf{Nedest højre:} Resultat efter tærskelværdi.\label{fig:premethod_houghres}}
 \end{figure}
 
-% VORES BILLEDER
+Vi forsøger os så med vores sobel behandlede billede fra figur \ref{fig:premethod_edgemap}. Vi tegner linjer ud fra hver af disse punkter med minimumsradius på 7.5 og maksimumsradius på 15, og det resulterende billede ses i figur \ref{fig:premethod_houghCellLines}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/houghCell.png}
+	\caption{Houghlinjer tegnet ud fra sobelbilledets kanter.\label{fig:premethod_houghCellLines}}
+\end{figure}
+
+Der er mange linjer der er blevet tegnet og det er ret uoverskueligt. Dette var da hvad vi kunne forvente ud fra at der er så mange kanter på billedet vi benytter os af. Vi forsøger med en thresholdværdi der kun tegner de pixels der har en farveværdi på over 200. Resultatet ses i figur \ref{fig:premethod_houghCellLinesThreshold}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/houghthreshold.png}
+	\caption{Tærskelværdier på houghlinjerne tegnet ud fra sobelbilledets kanter.\label{fig:premethod_houghCellLinesThreshold}}
+\end{figure}
+
+Da det er meget svært at evaluere resultatet af dette har vi markeret de tegnede områder på originalbilledet i figur \ref{fig:premethod_houghCellLinesThresholdOnOrig}. Her ses det tydeligt at kun meget få af de røde områder ligger i centrum af en vesikel, mens de fleste ligger langt fra. Som beskrevet i afsnittet om foldning så kan man ikke regne med de yderste pixels i rammen omkring et billede der er blevet foldet. Men selvom man ser bort fra disse virker de røde områder tilfældigt sat i forhold til vesiklerne.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/houghres.png}
+	\caption{De resulterende områder fundet ved hjælp af Hough cirkel detektion plottet på det originale billede.\label{fig:premethod_houghCellLinesThresholdOnOrig}}
+\end{figure}
+
 
 \subsubsection{Afledet Gauss-filter}
+Vores resultat af Hough detektionen blev ikke særlig godt. Dette skyldes at billedet som kant detektionen leverer videre indeholder for meget støj, så kanterne ikke fremgår tydelige. En mulig optimering er at benytte et gaussfilter. Et gaussfilter kan benyttes til andet end bare at udglatte billeder. Ved at tage det afledte gaussfilter i hver retning, kan vi lave et nyt filter. Dette filter fremhæver højderygge i billedet, såsom kanterne på en vesikel. Et simpelt eksempel er vist i figur \ref{fig:premethod_gaussCirc} hvor billedet til venstre er originalbilledet af to figurer. I billedet til højre ses så resultatet efter at folde med det nye filter, en flot markeret hvid linje hvor kanten går på begge figurerne.
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=1.3]{files/premethod/img/gauss_derived_circ1.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.5]{files/premethod/img/gauss_derived_circ2.png}
+	\end{minipage}
+	\caption{Originalbillede samt det resulterende billede efter foldning med det afledete gaussfilter.\label{fig:premethod_gaussCirc}}
+\end{figure}
+
+Dette er et resultat vi meget gerne vil opnå med vores vesikler, da det ønskescenariet vil være at få et bedre af kanterne, der kan benyttes af Hough cirkel detektionen.
+
+Vi har at et gaussfilter i to dimmensioner er lig
+\begin{align}
+	G(x,y) = \frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}
+\end{align}
+og vi har altså at de afledte af gaussfilteret er lig
+\begin{align}
+	G_x(x,y) = \frac{\partial}{\partial x}G(x,y)=-\frac{x}{2\pi\sigma^4}e^{-\frac{x^2+y^2}{2\sigma^2}} \\
+	G_y(x,y) = \frac{\partial}{\partial y}G(x,y)=-\frac{y}{2\pi\sigma^4}e^{-\frac{x^2+y^2}{2\sigma^2}}
+\end{align}
+
+Vi finder så vores nye billede ved at folde det originale billede med gaussfilteret afledt i x-retningen, det samme for gassfilteret afledt i y-retningen og så tage kvadratroden af summen af de kvadrerede resultater.
+\begin{align}
+	I_x = I * G_x && I_y = I * G_y && I_{ny} = \sqrt{I_x^2+I_y^2}
+\end{align} 
+hvor $I$ er det originale billede, og $G_x$ hhv. $G_y$ er gaussfilteret afledt i x- hhv. y-retningen.
+
+Vi observerer så at som x og y stiger, vil brøken i exponenten gå mod minus uendelig, og exponenten vil altså gå mod 0. Allerede ved $x=y=5$, og en $\sigma$-værdi på 1, vil brøken være lig -25 og $\exp(-25)\sim0$. Denne observation leder os altså til at bygge vores gaussfilter som en 5x5 matrice, da større dimmensioner bare vil have 0 i felterne. Vi flytter så centrum op til (0,0) ved at finde gauss-værdier fra -2 til 2.
+
+Dette giver nedenstående matricer for $G_x$:
+\begin{align*}
+ &0.00583005  &&0.01306423  &&&0. 			&&&&-0.01306423 &&&&&-0.00583005\\
+ &0.02612847  &&0.05854983  &&&0. 			&&&&-0.05854983 &&&&&-0.02612847\\
+ &0.04307856  &&0.09653235  &&&0. 			&&&&-0.09653235 &&&&&-0.04307856\\
+ &0.02612847  &&0.05854983  &&&0. 			&&&&-0.05854983 &&&&&-0.02612847\\
+ &0.00583005  &&0.01306423  &&&0. 			&&&&-0.01306423 &&&&&-0.00583005
+\end{align*}
+samt $G_y$:
+\begin{align*}
+	&0.00583005  &&0.02612847  &&&0.04307856  	&&&&0.02612847  &&&&&0.00583005\\
+	&0.01306423  &&0.05854983  &&&0.09653235  	&&&&0.05854983  &&&&&0.01306423\\
+	&0.          &&0.          &&&0.          	&&&&0.          &&&&&0.        \\
+	&-0.01306423 &&-0.05854983 &&&-0.09653235 	&&&&-0.05854983 &&&&&-0.01306423\\
+	&-0.00583005 &&-0.02612847 &&&-0.04307856 	&&&&-0.02612847 &&&&&-0.00583005
+\end{align*}
+og foldet med vores testcellebillede giver det resultatet i figur \ref{fig:premethod_gaussCell}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/gauss_derived_cell2.png}
+	\caption{Originalbillede af en celle foldet med det afledete gaussfilter.\label{fig:premethod_gaussCell}}
+\end{figure}
+
+Resultatet af dette er ikke hvad vi havde forventet. Der er stadig alt for meget støj omkring vesiklerne og det er ikke blevet nemmere at se hvor de præcis er. Det er samtidig svært at se en synlig forskel i forhold til resultatet med sobelfilteret. Den eneste forskel er at vi her kan styre størrelsen på gausskernen, som f.eks. benyttes i Difference of Gaussians (DoG). Dette giver os ideen til Sum of Derived Gaussians beskrevet i næste afsnit.
 
 \subsubsection{Sum of Derived Gaussians}
-% Tankegangen med at lave denne
+Når man folder et billede med et gaussfilter får man et resulterende udglattet billede. Man kan så styre størrelsen på kernen som filteret benytter, hvilket påvirker hvor udglattet billedet bliver. Princippet i Difference of Gaussians (DoG) er at tage to ens gaussfunktioner, kun adskilt af deres kernestørrelse, og trække dem fra hinanden så det giver et nyt filter. Hvis man havde taget det originale billede og foldet med gaussfilteret med en kerne $\sigma_1$ og trukket fra en kopi af det originale billede foldet med gaussfilteret med en kerne $\sigma_2$ så giver det samme resultat som det billedet foldet med DoG filteret. Funktionen viser altså forskellen mellem et billede foldet med gaussfilter med to forskellige kerner. 
 
-\subsubsection{Foldning med vesikeludsnit}
-% I de tidligere afsnit har vi forsøgt at bearbejde vesikler sådan at de bliver mere cirkulere og dermed nemmere at detektere for Hough algoritmen. Idet resultaterne var uden den store succes vil vi i stedet prøve med en anden fremgangsmetode. I stedet for at lede efter cirkler for at finde vesikler ønsker vi nu at detektere vesiklerne selv, ved at tage en liste af vesikel udsnit og folde dem med billedet. 
-% 
-% Når man folder en vesikel med vores billede vil det resultrende billeder have værdier op imod 1 de steder hvor vesiklen matcher et område i billede og værdier mod 0 ellers. 
+Idet vores cellebillede foldet med det afledte gaussfilter, vist i figur \ref{fig:premethod_gaussCell} ovenfor, er lys omkring de steder hvor der er en kant, ved vi at de pixels har værdier større end 0. Vores ide går så ud på at tage forskellige kerner og folde billedet med det afledte gaussfilter. De resulterende billeder skal så i stedet ligges sammen og på dem måde fremhæve de steder der er kanter. Ved at vælge gausskerner der kun fremhæver dele af vesiklerne og ligge sammen med de kerner der viser et tydeligere billede af vesiklerne, er vores håb at vi vil få et bedre kantbillede.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/sum_der_gauss.png}
+	\caption{Originalbillede af en celle foldet med filtret Sum Of Derived Gaussians.\label{fig:premethod_sumOfDiff}}
+\end{figure}
+
+I figur \ref{fig:premethod_sumOfDiff} ses det resulterende billede. Det er dog ikke de store ændringer vi kan se i forhold til resultatet før, og vi gør os derfor ikke større forhåbninger for at Hough cirkel detektionen skal finde bedre resultater.
 
 \subsubsection{Foldning med kantkonkur efter vesikelbillede}
-% Ide
+Da vi ikke har haft held til at finde vesikelkanter udelukkende ved brug af filtre, vil vi nu i stedet prøve at finde det ved hjælp af en form for matchene billeder. Vores første metode er at tage en generel vesikel og opregne dennes kant. Dette har vi gjort i figur \ref{fig:premethod_vesedge}. 
 
-\subsubsection{Interverede farver og convolve med billedudsnit} 
-% Kant er sort, gøres hvid pga hvid = 255 og nemmere at finde ?
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{files/premethod/img/vesikel_edge.png}
+	\caption{Vesikel med kantken markeret.\label{fig:premethod_vesedge}}
+\end{figure}
+
+I en ny matrice vil vi så indsætte en lav værdi de steder der svarer til kanten på vesiklen, og 0 i resten, som det er vist nedenfor.
+
+\begin{verbatim}
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,  0,-10,-10,-10,-10,-10,-10,  0,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,-10,-10,  0,  0,  0,  0,  0,-10,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,-10,-10,  0,  0,  0,  0,  0,-10,-10,  0,  0,  0,  0
+	0,  0,  0,  0,-10,-10,  0,  0,  0,  0,  0,-10,-10,  0,  0,  0,  0 
+	0,  0,  0,  0,-10,-10,  0,  0,  0,  0,  0,  0,  0,-10,  0,  0,  0 
+	0,  0,  0,  0,-10,-10,  0,  0,  0,  0,  0,  0,  0,  0,-10,  0,  0 
+	0,  0,  0,  0,  0,-10,-10,  0,  0,  0,  0,  0,  0,  0,-10,  0,  0 
+	0,  0,  0,  0,  0,  0,-10,  0,  0,  0,  0,  0,  0,-10,  0,  0,  0 
+	0,  0,  0,  0,  0,  0,  0,-10,-10,-10,-10,-10,-10,  0,  0,  0,  0 
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
+\end{verbatim}
+
+Ved at folde denne matrice med vores cellebillede ønsker vi at kanten vil fremstå tydeligt. Vi har prøvet at folde vores cellebillede to gange. Første gang med matricen vist ovenfor, og anden gang med samme matrice, men hvor indgangende inden for hvad der svarer til cellekanten er 10 i stedet for 0. Dette giver billederne i figur \ref{fig:premethod_vesEdgeConv}.
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.4]{files/premethod/img/convolve_edge1.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.4]{files/premethod/img/convolve_edge2.png}
+	\end{minipage}
+	\caption{Billeder foldet med matricer. Venstre billede med matrice med 0 i indre. Højre billede med matrice med 10 i indre.\label{fig:premethod_vesEdgeConv}}
+\end{figure}
+
+Billederne er meget forskellige, så det er tydeligt at det har en stor betydning med hvilke tal der vælges til hver indgang. I det venstre billede er der svært at se en eneste vesikel, hvorimod den højre er væsentlig tydeligere. Dette resultat er et skridt i den rigtige retning da vi nu begynder at kunne se flere af vesiklerne. Der er dog stadig problemer i venstre side af cellen hvor overgangen mellem vesiklerne er svær at se.
 
 \subsection{Reflektion}
 Vi omtalte kort at vesiklerne i figur \ref{fig:premethod_ves1} har forskellige farvet indre. Dette vil vi nu kigge nærmere på. Figur \ref{fig:premethod_vescolors} har indtegnet 3 pile til hver vesikel. Den ene pil peger på vesiklens indre, og de to andre peger på to steder på kanten af vesiklen. 
@@ -185,7 +340,9 @@ Tager vi så vesiklen til højre, ser vi at der er en farveforskel på 25 fra de
 	\caption{Vesikler med 3 farveværdier hver.\label{fig:premethod_vescolors}}
 \end{figure}
 
-% hvilket er grunden til at vi ikke kan detektere klare kanter ...
+At der er så stor farveforskel på kanterne er dog ikke den eneste udfordring. Kanterne består ikke af rene linjer uden huller imellem. Zoomer man ind på et billede af en vesikel ses det tydeligt at der er store huller mellem de farvede pixels der udgør kanten. Ligges disse ting sammen med at vesiklerne ligger tæt op ad andre vesikler, samt andet støj, er det klart at almindelige filtre samt kant detektorer ikke kan benyttes til vores problem. 
+
+Det bedste billede vi har fået, er ved at detektere kanten i en vesikel ved hjælp af en matrice bestående af informationer om en generel vesikel. Dette resultat inspirerer os til at lave en funktion der detekterer selve vesiklen, ved hjælp af billeder af den selv, hvilket vi præsenterer i næste afsnit. % REF GOES HERE.
 
 %% Kildeangivelser:
 % http://en.wikipedia.org/w/index.php?title=Image_gradient&oldid=421160257
@@ -194,3 +351,4 @@ Tager vi så vesiklen til højre, ser vi at der er en farveforskel på 25 fra de
 % http://en.wikipedia.org/w/index.php?title=Hough_transform&oldid=422150042
 % http://en.wikipedia.org/w/index.php?title=Canny_edge_detector&oldid=421218460
 % http://en.wikipedia.org/w/index.php?title=Edge_detection&oldid=425584110
+% http://en.wikipedia.org/w/index.php?title=Difference_of_Gaussians&oldid=418426534
