@@ -157,13 +157,14 @@ I figur \ref{fig:premethod_houghres} ses 4 billeder. Den første er bare en norm
 % VORES BILLEDER
 
 \subsubsection{Afledet Gauss-filter}
-% fordi?
 
 \subsubsection{Sum of Derived Gaussians}
 % Tankegangen med at lave denne
 
 \subsubsection{Foldning med vesikeludsnit}
-
+% I de tidligere afsnit har vi forsøgt at bearbejde vesikler sådan at de bliver mere cirkulere og dermed nemmere at detektere for Hough algoritmen. Idet resultaterne var uden den store succes vil vi i stedet prøve med en anden fremgangsmetode. I stedet for at lede efter cirkler for at finde vesikler ønsker vi nu at detektere vesiklerne selv, ved at tage en liste af vesikel udsnit og folde dem med billedet. 
+% 
+% Når man folder en vesikel med vores billede vil det resultrende billeder have værdier op imod 1 de steder hvor vesiklen matcher et område i billede og værdier mod 0 ellers. 
 
 \subsubsection{Foldning med kantkonkur efter vesikelbillede}
 % Ide
@@ -190,3 +191,6 @@ Tager vi så vesiklen til højre, ser vi at der er en farveforskel på 25 fra de
 % http://en.wikipedia.org/w/index.php?title=Image_gradient&oldid=421160257
 % http://en.wikipedia.org/w/index.php?title=Gaussian_blur&oldid=422700764
 % http://en.wikipedia.org/w/index.php?title=Sobel_operator&oldid=422155717
+% http://en.wikipedia.org/w/index.php?title=Hough_transform&oldid=422150042
+% http://en.wikipedia.org/w/index.php?title=Canny_edge_detector&oldid=421218460
+% http://en.wikipedia.org/w/index.php?title=Edge_detection&oldid=425584110

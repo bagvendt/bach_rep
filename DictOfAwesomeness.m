@@ -8,6 +8,7 @@ function [ ] = DictOfAwesomeness( )
     n=1;
     fntsz=18;
     
+    
     I = double(imread(strcat(base,'test20_58.jpg')));
     
     figure(n); n=n+1;
@@ -53,7 +54,7 @@ function [ ] = DictOfAwesomeness( )
         restx = mod(width,7);
         resty = mod(height,7);
         
-        Ves = I(y1:(y2-resty),x1:(x2-restx));
+        Ves = I(y1:(y2+resty),x1:(x2+restx));
 
         figure(n); n=n+1;
         imagesc(Ves); axis image; colormap(gray); colorbar

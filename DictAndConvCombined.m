@@ -28,17 +28,28 @@ imagesc(double(I)); axis image; colormap(gray); colorbar
 set(gca,'fontsize',fntsz);
 title('Cuttet image');
 
-J = double(imread(strcat(base2,'ves6.png')));
-fun = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J(:)-mean(J(:)))/std(J(:))).^2);
-K=nlfilter(I,size(J),fun);
-
-convImg = (K-min(K(:)))<percentage*(max(K(:))-min(K(:)));
-figure(n); n=n+1;
-imagesc(convImg); axis image; colormap(gray); colorbar
-set(gca,'fontsize',fntsz);
-title('convImg');
-
-% DO USE OF DICT HERE
+% convImg = zeros(size(I));
+% 
+% for i = 0:12
+%     name = strcat(strcat(base2,'ves'),strcat(num2str(i),'.png'));
+%     J = double(imread(name));
+%     fun = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J(:)-mean(J(:)))/std(J(:))).^2);
+%     K=nlfilter(I,size(J),fun);
+% 
+%     K2 = (K-min(K(:)))<percentage*(max(K(:))-min(K(:)));
+%     %figure(n); n=n+1;
+%     %imagesc(convImg); axis image; colormap(gray); colorbar
+%     %set(gca,'fontsize',fntsz);
+%     %title('convImg');
+%     if sum(sum(K2)) < 400
+%         convImg = convImg + K2;
+%     end
+% end
+% 
+% figure(n); n=n+1;
+% imagesc(convImg); axis image; colormap(gray); colorbar
+% set(gca,'fontsize',fntsz);
+% title('convImg');
 
 load('minmis');
 
@@ -86,15 +97,8 @@ title('New image from dict');
 
 % DO CROSS REFERENCE HERE
 crossImg = zeros(size(NewI));
-% for i = 1:h
-%     for j = 1:w
-%         if(convImg(i,j) > 0 && NewI(i,j) > 17)
-%             crossImg(i,j) = 1;
-%         end
-%     end
-% end
+%crossImg = convImg;
 
-crossImg = convImg;
 for i= 1:h
     for j = 1:w
         if(NewI(i,j) > 20)
