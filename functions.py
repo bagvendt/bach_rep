@@ -625,7 +625,7 @@ def image_eukl(img,env,**kwargs):
                value = 100
             canvas[wi+(tw/2)][hi+(th/2)] = value
     return (canvas,env)
-
+"""
 def image_avg(img,env,**kwargs):
     #img1,placeholder = rigmor_sobel(img,env,**kwargs)
     img2,placeholder = low_pass(img,env,**kwargs)
@@ -653,5 +653,5 @@ def image_avg(img,env,**kwargs):
             I = imgres[wi:(wi+tw),hi:(hi+th)]
             
     return (img,env)
-
+"""
 			
