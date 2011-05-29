@@ -38,7 +38,7 @@ function [ NewI ] = SLD( I, atomSize, thres_dist )
                 newPatch = mat(short,2,:);
                 newPatch = reshape(newPatch,1,i3);
                 newPatch = reshape(newPatch,atomSize,atomSize);
-                newPatch = round(newPatch*thres_dist/shortest_dist);
+                %newPatch = round(newPatch*thres_dist/shortest_dist);
                 NewI(i:(i+atomSize-1),j:(j+atomSize-1)) = NewI(i:(i+atomSize-1),j:(j+atomSize-1))+newPatch;
             %end
         end
