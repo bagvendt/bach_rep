@@ -1,5 +1,5 @@
 \section{Billedbehandling}
-I digital billedbehandling kan data blive repræsenteret på mange forskellige måder, alt efter hvilket domæne signalet optræder i. To af områderne er f.eks. frekvensdomænet og tid og sted domænet. Man vælger så hvilket domæne der repræsenterer de ønskede karistika i signalet bedst, ved at lave et gæt, eller ved at forsøge sig frem. Har man f.eks. observeret en række målte data, arbejder man typisk med disse i tid og sted domænet, hvor en diskret Fourier tranformation producerer information der kan aflæses i frekvensdomænet. 
+I digital billedbehandling kan data blive repræsenteret på mange forskellige måder, alt efter hvilket domæne signalet optræder i. To af områderne er f.eks. \emph{frekvensdomænet} og \emph{tid og sted domænet}. Man vælger så hvilket domæne der repræsenterer de ønskede karistika i signalet bedst, ved at lave et gæt, eller ved at forsøge sig frem. Har man f.eks. observeret en række målte data, arbejder man typisk med disse i tid og sted domænet, hvor en diskret Fourier tranformation producerer information der kan aflæses i frekvensdomænet. 
 
 Når vi ser med menneskeøjne på et billede af en celle, er de som regel uden klart defineret semantik. Da billedet bliver taget som et tværsnit kan vinklen på cellerne være lidt på kanten af en celle der gør at det er svært at se klare overgange mellem cellerne, og kanterne vil i stedet have noget støj der kan gå ud over billedet, hvilket også blev diskuteret i tidligere afsnit.
 
@@ -12,7 +12,7 @@ Da man ved filtrering ønsker flere ting, deriblandt både reduktion og ekstrakt
 \subsection{Foldning og filtrering}
 % Skriv om dette (kantfejl ved foldning)
 %http://www.echoview.com/files/WebHelp/Reference/Algorithms/Operators/Convolution_algorithms.htm
-Filtreringen foretages ofte ved en foldning af billedet med de valgte filterfunktionener. I matematik, og specielt i funktionanalyse, er foldning en matematisk operation på to funktioner, $f$ og $g$, der producerer en tredje funktion der er en modificeret funktion af en af de to funktioner. Foldning opnås ved
+Filtreringen foretages ofte ved en foldning af billedet med de valgte filterfunktionener. I matematik, og specielt i funktionsanalyse, er foldning en matematisk operation på to funktioner, $f$ og $g$, der producerer en tredje funktion der er en modificeret funktion af en af de to funktioner. Foldning opnås ved
 \begin{align}
 	f(t)*g(t)=\int_{-\infty}^{\infty}f(\tau)g(t-\tau)d\tau
 \end{align}
@@ -23,6 +23,14 @@ Man opnår samme resultat ved at folde f og g i tid og sted domænet som man gø
 	f(t)*g(t) = \mathbb{F}^{-1}(\mathbb{F}(f)\cdot\mathbb{F}(g))
 \end{align}
 hvor $\mathbb{F}$ betyder at der er foretaget en fouriertransformation af funktionen og $\mathbb{F}^{-1}$ er en invers fouriertransformation.
+
+Når man folder et billede med et filter, besøger man hver pixel og går størrelsen på filteret ud med centrum i denne. I hvert af disse områder beregnes så en værdi som så gemmes i den valgte pixel. På den måde udregner filteret en værdi for hver pixel ved hjælp af de omkringliggende pixels og ikke alle pixels i billedet. Problemet med dette er dog at i kanten af billedet vil filteret på den ene side ikke kunne finde nogle nabopixels. Dette er illustreret grafisk i figur \ref{fig:bildbeh_conv_edge_error}. Her findes så forskellige metoder hvor der kan tages højde for dette. Man kan enten undgå helt at udregne værdier for de pixels der skaber dette problem, eller man kan angive hvilke værdier der skal være i disse pixels. Enten kan man spejle billedet på dets 4 kanter, fortsætte med kantens værdi eller tage den modstående kants værdi. Alle disse metoder er lige korrekte, da ingen af dem bruger sande værdier. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{files/bildbeh/img/conv_edge_error.png}
+	\caption{Kantfejl ved foldning.\label{fig:bildbeh_conv_edge_error}}
+\end{figure}
 
 Som beskrevet ovenfor er formålet ved en filtrering tit at fremhæve eller dæmpe visse frekvenser som f.eks ved at dæmpe de høje frekvenser og lade de lave passere, eller omvendt, eller at dæmpe nogle udvalgte frekvenser. 
 
@@ -42,9 +50,8 @@ Hvor lav-pas filtrering altså dæmpede de høje frekvenser og dermed kontraster
 Ved en bånd-pas filtrering tillades kun et bestemt frekvensbånd at passere. Passagen kan ske uhindret som i et ideal bånd-pas filter eller dæmpes glat ved overgangen mellem de frekvenser, der passerer, og de, der undertrykkes. Hvis der forekommer meget regelmæssig støj i et billede, vil denne støj optræde som punkter med numerisk stor værdi i styrkespektret for billedet. Det er ofte muligt at se sådanne punkter i et logaritmisk plot af styrkespektret.
 
 \subsection{Tid og sted domænet}
-Filtrering i tid og sted domænet foretages med fordel, når støtten for filtret er lille. Fordelen ved filtrering i tid og sted domænet bliver særlig stor hvis filtret er separabelt. 
+Filtrering i tid og sted domænet foretages med fordel når støtten for filtret er lille, altså når størrelsen på filteret der foldes med er lille. Fordelen ved filtrering i tid og sted domænet bliver særlig stor hvis filtret er separabelt. 
 
-% Hvad er støtten????
 Hvis filtreringens formål er at fjerne støjen, og støtten for filtret er stor, vil filtrets egenskab mht. undertrykkelse af støj som regel være god. Generelt er det nødvendigt at øge støtten jo ringere signal-støjforholdet i et billede er. Signal-støjforholdet er defineret ved forholdet mellem energien i signalet og energien i støjen. Hvis filtreringens formål er at producere et billede til efterfølgende menneskelig inspektion, vil det imidlertid ofte ære en fordel at holde støtten lille.
 
 To meget benyttede filtre er Box filtret og Gauss filtret. En egenskab ved Gauss filtret er at dette filter vil fremkomme ved gentagende filtrering af et vilkårligt filter med sig selv.\footnote{Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006, side 46}
