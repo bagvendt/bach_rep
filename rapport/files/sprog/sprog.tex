@@ -28,19 +28,14 @@ Vi har været glade for at have haft dette framework som
 %læringsværktøj
 læringssandkasse men det har vist sig at det til vores projekt er MATLAB underlegent af flere grunde:
 \begin{itemize}
-	\item Numpy/Scipy er ikke specielt tolerant overfor programmeringsfejl. De stacktraces der udskrives ved fejl bringer blot information om hvilke interne numpy-funktioner og peger ikke brugeren i retningen af en mulig løsning. Dette er tilfældet i selv nogle af de simpleste tilfælde, f.eks. ved matrixmultiplikation af to matricer af inkombatible dimensioner i %i numpy 1.5.1
+	\item Numpy/Scipy er ikke specielt tolerant overfor programmeringsfejl. De stacktraces der udskrives ved fejl bringer blot information om hvilke interne Numpy-funktioner og hælper ikke brugeren i retningen af en mulig løsning. Dette er tilfældet i selv nogle af de simpleste tilfælde, f.eks. ved matrixmultiplikation af to matricer af inkombatible dimensioner i %i numpy 1.5.1
 	.
 	\item Vi er flere gange i udviklingsforløbet stødt ind i at navngivningen af metoder i Scipy/Numpy er inkonsistent og ret forvirrende. 
-	\item I numpy/scipy findes der ofte 2 udgaver af den samme metode, forskellen på disse er blot at den ene modtager 1-dimensionelle arrays (vektorer) som input, og den anden modtager et 2-dimmensionelt array (matricer) som input. Man har således både \texttt{scipy.signal.convolve()} og \texttt{scipy.signal.convolve2d()}. Matlabs ekvivalente metode er \texttt{conv()} der modtager både vektorer og matricer.
+	\item I Numpy/Scipy findes der ofte 2 udgaver af den samme metode, forskellen på disse er blot at den ene modtager 1-dimensionelle arrays (vektorer) som input, og den anden modtager et 2-dimmensionelt array (matricer) som input. Man har således både \texttt{scipy.signal.convolve()} og \texttt{scipy.signal.convolve2d()}. MATLABs ekvivalente metode er \texttt{conv()} der modtager både vektorer og matricer.
 	\item Dokumentationen til Numpy/Scipy er til tider magelfuld og sjældne gange ikke eksisterende. 
 \end{itemize}
 
 Både MATLAB og Python har en interaktiv shell hvor man kan udforske forskellige af de indbyggede metoder på kørselstidspunktet. Begge miljøer understøtter kaldet \texttt{help()} der fremkalder dokumentationen af en funktion på kørselstidspunktet, problemet ved scipy/numpy er som sagt blot at den vedlagte dokumentation til tider er ret sparsom.
 
-Vi har ligeledes fundet at MATLAB har væsentligt flere funktioner der har været meget bekvemme i vores tilfælde. Af disse kan nævnes \texttt{nlfilter} der blabla. Det er således rart at man ikke skal bekymre sig om at implementere nlfilteret men kan koncentrere sig om hvad det skal gøre. 
-Derudover har vi også fundet det belejligt at der findes en funktion der kan rotere matricer 
-%Spørg Claes
-
-Vi har derfor valgt at implementere vores endelige værktøj i MATLAB da vi har fundet at vi simpelthen har kunnet opnå bedre resultater hurtigere med Matlab end med scipy/numpy. %\bf{MERE} 
-%\subsection{Python}		% Marcus
-%\subsection{Matlab}		% Marcus
+Vi har ligeledes fundet at MATLAB har væsentligt flere funktioner der har været meget bekvemme i vores tilfælde. Af disse kan nævnes \texttt{nlfilter} der flytter, en af inputargumentet bestemt "kasse" pixel for pixel, og udfører en brugerbestemt funktion på hvert udsnit. Det er således rart at man ikke skal bekymre sig om at implementere nlfilteret men kan koncentrere sig om hvad det skal gøre. 
+Vi har derfor valgt at implementere vores endelige værktøj i MATLAB da vi har fundet at vi har kunnet producere fungerende kode hurtigere med Matlab end med scipy/numpy. %\bf{MERE} 

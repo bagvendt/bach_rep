@@ -1,6 +1,17 @@
-\section{Introduktion} % Claes
-\subsection{Vesikler og meningen med detektionen - Cryo-EM} % Claes
-En celle i nervesystemet kaldes for en neuron eller en nervecelle. En neuron er den vigtigste del i nervesystemet, der bl.a. indeholder hjernen og rygsøjlen. Nerveceller har bl.a. til opgave at modtage og sende information ved hjælp af elektriske og kemiske signaler. I en nervecelle er der så en række synaptiske vesikler, der indeholder neurotransmitters. Når en nervecelle skal sende et impulssignal til en anden nervecelle, bevæger den synaptiske vesikel sig til kanten af nervecellen og udsender neurotransmitters. Nervecellerne genskaber så de synaptiske vesikler så der igen kan sendes nye signaler. To nerveceller hvor der er markeret en synaptisk vesikel i den øverste ses i figur \ref{fig:intro_syntrans}. I den menneskelige hjerne har en synaptisk vesikel en gennemsnitlig diameter på 39.5 nanometer med en standard afvigelse på 5.1 nanometer. En af klasserne af neurotransmitters er aminosyre.  
+\section{Introduktion}
+\subsection{Vesikler og meningen med detektionen}
+En celle i nervesystemet kaldes for en neuron eller en nervecelle.
+En neuron er den vigtigste del i nervesystemet der bl.a. indeholder hjernen og rygsøjlen.
+Nerveceller har bl.a. til opgave at modtage og sende information ved hjælp af elektriske og kemiske signaler.
+I en nervecelle er der så en række synaptiske vesikler, der indeholder neurotransmittere.
+Når en nervecelle skal sende et impulssignal til en anden nervecelle bevæger den synaptiske vesikel sig til kanten af nervecellen og udsender neurotransmitters.
+Nervecellerne genskaber så de synaptiske vesikler så der igen kan sendes nye signaler.
+Figur \ref{fig:intro_syntrans} viser to nerveceller hvor der er markeret en synaptisk vesikel i den øverste nervecelle.
+%OLD 
+%To nerveceller hvor der er markeret en synaptisk vesikel i den øverste ses i figur \ref{fig:intro_syntrans}. 
+%Mere eller mindre af nedenstående
+I den menneskelige hjerne har en synaptisk vesikel en gennemsnitlig diameter på 39.5 nm med en standard afvigelse på 5.1 nm.
+En af klasserne af neurotransmitters er aminosyre.  
 
 \begin{figure}[H]
 	\centering
@@ -10,9 +21,16 @@ En celle i nervesystemet kaldes for en neuron eller en nervecelle. En neuron er 
 \end{figure} 
 
 % OBS - Clear følgende med Jon / Biologen.
-Ved at se på vesiklers placering i forhold til hinanden i celler, kan man afgøre om personen er deprimeret eller ej. Igangværende forskning går i øjeblikket ud på at finde ud af hvorvidt depression er arvelig fra mor til barn, hvis moderen er deprimeret under graviditeten. Vores problem går ud på at lave et system der kan hjælpe forskerne med at detektere disse vesikler i en celle. Det videre arbejde med projektet er så at bruge denne detektion af vesikler til at analysere deres placering i forhold til hinanden, og altså automatisere hele proceduren. Vores problem går bare ud på at detektere vesiklerne.
+%Nedenstående mangler
+[\textbf{?Forskning?}] viser at man ved at observere vesiklers placering i forhold til hinanden i menneskeceller, kan sige noget om en persons sandsynlighed for at blive deprimeret.
+Igangværende forskning går ud på at undersøge hvorvidt depression er arvelig fra mor til barn hvis moderen er deprimeret under graviditeten.
+Vores problem går ud på at undersøge i hvilket omfang det kan lade sig gøre at dedektere vesiklerne i cellerne.
+%og lave et system der kan hjælpe forskere med at detektere disse vesikler i en celle.
+Herefter vil andre efterfølgende kunne bruge denne detektion af vesikler til at analysere deres placering i forhold til hinanden, og automatisere hele proceduren.
+%Vores problem går bare ud på at detektere vesiklerne.
 
-Til at tage billeder af vesikler benyttes et Cryo-elektron mikroskop, der tager et udsnit af en hjerne og forstørrer cellerne op så de er synlige i et billede. Et cryo-elektron mikroskop tager billeder i meget lave temperaturer, hvilket er godt da cellerne er meget følsomme over for stråling, der gør at der er høj støj i billederne, hvilket også fremgår af billedet i figur \ref{fig:intro_celler}.
+Til at fremstille billederne af vesiklerne benyttes et elektronmikroskop der tager et mikroskopi af en hjerne der er frosset ned til -150$^\circ$ C og -238$^\circ$ C .
+Da elektronmikroskopet tager billeder af mikroskopier ved meget lave temperaturer undgår man at skade cellerne unødigt, da cellerne er meget følsomme over for stråling, der foresager meget støj i billederne. Der forekommer stadig en del støj hvilket også fremgår af billedet i figur \ref{fig:intro_celler}.
 
 \begin{figure}[H]
 	\centering
@@ -20,7 +38,7 @@ Til at tage billeder af vesikler benyttes et Cryo-elektron mikroskop, der tager 
 	\caption{Billede af nerveceller taget med et cryo-elektron mikroskop.\label{fig:intro_celler}}
 \end{figure}
 
-\subsection{Ground truth}									% Claes
+\subsection{Ground truth}				
 Vi er ude efter at detektere synaptiske vesikler i celler, og er derfor kun interesseret i billeder der indeholder en enkelt celle. Billedet i figur \ref{fig:intro_celle} viser et sådan udsnit. Grundet den høje støj omkring vesiklerne, er det svært at se hvor der er en vesikel, og hvor der bare er støj fra de omkringliggende vesikler som tilsammen ligner en ny vesikel. Derfor har vi i samarbejde med en biolog markeret ground truth i de billeder vi arbejder med. Et af disse ses i figur \ref{fig:intro_celle_groundtruth} hvor ground truth er markeret med en blå prikker i hver vesikel.
 
 \begin{figure}[H]
@@ -38,8 +56,8 @@ Vi er ude efter at detektere synaptiske vesikler i celler, og er derfor kun inte
 \end{figure}
   
 
-\subsection{Hvad ønsker vi at finde- Målsætning}			% Claes
-Hvis man med sine egne øjne ikke kan skældne en støj fra en kant, kan man forestille sig at det også er svært at detektere alle vesikler korrekt ved hjælp af computeren. Man kan både komme til at vælge nogle områder der ligner en vesikel meget, men ikke er det, og omvændt kan man undlade at vælge en vesikel, da området omkring den har så meget støj at det er svært at skældne hvor kanten stopper og støjen starter. 
+\subsection{Hvad ønsker vi at finde}
+Hvis man med sine egne øjne ikke kan skælne vilkårlgt støj fra en kant, vil det naturligvis også være svært at detektere alle vesikler korrekt ved hjælp af computeren. Man kan både komme til at vælge nogle områder der ligner en vesikel meget, men ikke er det, og omvændt kan man undlade at vælge en vesikel, da området omkring den har så meget støj at det er svært at skælne hvor kanten stopper og støjen starter. 
 
 \begin{figure}[H]
 	\centering
@@ -47,7 +65,7 @@ Hvis man med sine egne øjne ikke kan skældne en støj fra en kant, kan man for
 	\caption{Er der en vesikel for enden af pilen?\label{fig:intro_celle_question}}
 \end{figure}
 
-Et eksempel på et område hvor det er svært at se hvorvidt der er en vesikel eller ej, ses i figur \ref{fig:intro_celle_question}. Øverst i billedet ses to områder med paralelle linjer. Området mod venstre er kanten på cellen hvori vi ønsker at detektere vesikler. Den anden er kanten fra en anden celle der går lidt indover vores celle. Pilen peger så mod en område hvor de to kanter mødes, og der er meget støj. Det er svært at se med det utrænede øje hvorvidt dette er en vesikel eller bare støj. Yderligere er billederne taget ud fra meget tynde udsnit af hjernen, og det kan forekomme at man kan se skyggen af en vesikel eller celle der ligger over det snit man kigger på.  
+Et eksempel på et område hvor det er svært at se hvorvidt der er en vesikel eller ej, ses i figur \ref{fig:intro_celle_question}. Øverst i billedet ses to områder med paralelle linjer. Området mod venstre er kanten på cellen hvori vi ønsker at detektere vesikler. Den anden er kanten fra en anden celle der går lidt indover vores celle. Pilen peger så mod en område hvor de to kanter mødes, og der er meget støj. Det er svært at se med det utrænede øje hvorvidt dette er en vesikel eller bare støj. Yderligere er billederne taget ud fra meget tynde udsnit af hjernen, og det kan forekomme at man kan se skyggen af en vesikel eller celle der hører til et andet snit end det aktuelle.  
 
 Vores målsætning er derfor ikke at finde ground truth i alle billeder, uden at detektere en eneste falsk positiv vesikel. Succeskriteriet er blot at finde størstedelen af vesiklerne, og holde antallet af falske positive nede.   
 
