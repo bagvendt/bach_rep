@@ -142,32 +142,29 @@ Omvendt har vi i figur \ref{fig:postmethod_conv_lines_2} plottet området omkrin
 	\caption{Udregnede værdier i området fra 1 til 60 på x-aksen, og 200 til 255 på y-aksen. \label{fig:postmethod_conv_lines_2}}
 \end{figure}
 
-Da vores algoritme folder med en liste af vesikler er vi dog mere interesserede i at den finder færre vesikler, mod at den holder antallet af falske positive nede. Vores mål er da at tage de fundne vesikler efter hver foldning, og kombinere til et endeligt resultat. I nedenstående tabel ses vores resultater efter forsøg med forskellige tærskelværdier og forskellige  vesikler.
-
-% Fold med 2 vesikler mere der ikke detekteres i ovenstående figur.
-
+Da vores algoritme folder med en liste af vesikler er vi dog mere interesserede i at den finder færre vesikler, mod at den holder antallet af falske positive nede. Vores mål er da at tage de fundne vesikler efter hver foldning, og kombinere til et endeligt resultat. I nedenstående tabel ses vores resultater efter forsøg med forskellige tærskelværdier og forskellige  vesikler. Alle vesiklerne er fra billedet som der efterfølgende foldes med. Vi viser kun de resultater der har fundet andre vesikler end den der foldes med. I SPR og FR søjlerne har vi markeret hhv. de højeste og laveste værdier for hver vesikel.
+\begin{figure}
+	\centering
 \begin{tabular}{l|l|l|l|l|l|l|l}
 	$\#$ & Vesikel & Tærskelværdi i $\%$ & SP & FP & FN & SPR & FR \\\hline
-	1	&	A	&	0.30	& x		& x		&x &0 &0\\\hline
-	2	&	A	&	0.32	& x		& x		&x &0 &0\\\hline
-	3	&	A	&	0.34	& x		& x		&x &0 &0\\\hline
-	4	&	A	&	0.36	& x		& x		&x &0 &0\\\hline
-	5	&	A	&	0.38	& x		& x		&x &0 &0\\\hline
-	6	&	A	&	0.40	& x		& x		&x &0 &0\\\hline
-	7	&	B	&	0.30	& x		& x		&x &0 &0\\\hline
-	8	&	B	&	0.32	& x		& x		&x &0 &0\\\hline
-	9	&	B	&	0.34	& x		& x		&x &0 &0\\\hline
-	10	&	B	&	0.36	& x		& x		&x &0 &0\\\hline
-	11	&	B	&	0.38	& x		& x		&x &0 &0\\\hline
-	12	&	B	&	0.40	& x		& x		&x &0 &0\\\hline
-	13	&	C	&	0.30	& x		& x		&x &0 &0\\\hline
-	14	&	C	&	0.32	& x		& x		&x &0 &0\\\hline
-	15	&	C	&	0.34	& x		& x		&x &0 &0\\\hline
-	16	&	C	&	0.36	& x		& x		&x &0 &0\\\hline
-	17	&	C	&	0.38	& x		& x		&x &0 &0\\\hline
-	18	&	C	&	0.40	& x		& x		&x &0 &0\\
+	1	&	A	&	0.30	& 2		& 0		&10 &0.1667 &\textbf{0}\\\hline
+	2	&	A	&	0.31	& 2		& 1		&10 &0.1667 &0.333\\\hline
+	3	&	A	&	0.32	& 4		& 1		&8  &0.333 	&0.2\\\hline
+	4	&	A	&	0.33	& 4		& 1		&8  &0.333 	&0.2\\\hline
+	5	&	A	&	0.34	& 6		& 6		&6  &\textbf{0.5} 	&0.5\\\hline
+	6	&	A	&	0.35	& 6		& 8		&6  &0.5 	&0.571\\\hline
+	7	&	A	&	0.36	& 6		& 13	&6  &0.5	&0.684\\\hline
+	8	&	B	&	0.38	& 2		& 7		&10 &\textbf{0.1667} &\textbf{0.778}\\\hline
+	9	&	B	&	0.39	& 2		& 9		&10 &0.1667 &0.818\\\hline
+	10	&	B	&	0.40	& 2		& 12	&10 &0.1667 &0.857\\\hline
+	11	&	C	&	0.30	& 2		& 2		&10 &0.1667	&\textbf{0.5}\\\hline
+	12	&	C	&	0.31	& 2		& 4		&10 &0.1667	&0.667\\\hline
+	13	&	C	&	0.32	& 2		& 5		&10 &0.1667	&0.714\\\hline
+	14	&	C	&	0.33	& 4		& 11	&8 	&0.333 	&0.733\\\hline
+	15	&	C	&	0.34	& 6		& 13	&6 	&\textbf{0.5} 	&0.684\\\hline
+	16	&	C	&	0.35	& 6		& 18	&6 	&0.5 	&0.75
 \end{tabular} 
-
+\end{figure}
 
 % Indsæt her tabel hvor der reguleres med tærskelværdien. 
 
