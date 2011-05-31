@@ -142,8 +142,9 @@ Omvendt har vi i figur \ref{fig:postmethod_conv_lines_2} plottet området omkrin
 	\caption{Udregnede værdier i området fra 1 til 60 på x-aksen, og 200 til 255 på y-aksen. \label{fig:postmethod_conv_lines_2}}
 \end{figure}
 
-Da vores algoritme folder med en liste af vesikler er vi dog mere interesserede i at den finder færre vesikler, mod at den holder antallet af falske positive nede. Vores mål er da at tage de fundne vesikler efter hver foldning, og kombinere til et endeligt resultat. I nedenstående tabel ses vores resultater efter forsøg med forskellige tærskelværdier og forskellige  vesikler. Alle vesiklerne er fra billedet som der efterfølgende foldes med. Vi viser kun de resultater der har fundet andre vesikler end den der foldes med. I SPR og FR søjlerne har vi markeret hhv. de højeste og laveste værdier for hver vesikel.
-\begin{figure}
+Da vores algoritme folder med en liste af vesikler er vi dog mere interesserede i at den finder færre vesikler, mod at den holder antallet af falske positive nede. Vores mål er da at tage de fundne vesikler efter hver foldning, og kombinere til et endeligt resultat. I nedenstående tabel ses vores resultater efter forsøg med forskellige tærskelværdier og forskellige  vesikler. Alle vesiklerne er fra billedet som der efterfølgende foldes med. Vi viser kun de resultater der har fundet andre vesikler end den der foldes med. I SPR og FR søjlerne har vi markeret de bedste værdier for hver vesikel.
+
+\begin{figure}[H]
 	\centering
 \begin{tabular}{l|l|l|l|l|l|l|l}
 	$\#$ & Vesikel & Tærskelværdi i $\%$ & SP & FP & FN & SPR & FR \\\hline
@@ -165,6 +166,8 @@ Da vores algoritme folder med en liste af vesikler er vi dog mere interesserede 
 	16	&	C	&	0.35	& 6		& 18	&6 	&0.5 	&0.75
 \end{tabular} 
 \end{figure}
+
+Ud fra ovenstående kan vi altså aflæse at vesikel A er bedst med tærskelværdi på 30\% og 34\%. Vesikel B er bedst ved 38\% og til slut er vesikel C bedst ved 30\% og 34\%. Vi prøver derfor at sammensætte det kombinerede billede detektion med alle tre vesikler, først med tærskelværdi på 30\% og dernæst på 34\%. 
 
 % Indsæt her tabel hvor der reguleres med tærskelværdien. 
 
