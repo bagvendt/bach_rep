@@ -24,6 +24,14 @@ Man opnår samme resultat ved at folde f og g i tid og sted domænet som man gø
 \end{align}
 hvor $\mathbb{F}$ betyder at der er foretaget en fouriertransformation af funktionen og $\mathbb{F}^{-1}$ er en invers fouriertransformation.
 
+Når man folder et billede med et filter, besøger man hver pixel og går størrelsen på filteret ud med centrum i denne. I hvert af disse områder beregnes så en værdi som så gemmes i den valgte pixel. På den måde udregner filteret en værdi for hver pixel ved hjælp af de omkringliggende pixels og ikke alle pixels i billedet. Problemet med dette er dog at i kanten af billedet vil filteret på den ene side ikke kunne finde nogle nabopixels. Dette er illustreret grafisk i figur \ref{fig:bildbeh_conv_edge_error}. Her findes så forskellige metoder hvor der kan tages højde for dette. Man kan enten undgå helt at udregne værdier for de pixels der skaber dette problem, eller man kan angive hvilke værdier der skal være i disse pixels. Enten kan man spejle billedet på dets 4 kanter, fortsætte med kantens værdi eller tage den modstående kants værdi. Alle disse metoder er lige korrekte, da ingen af dem bruger sande værdier. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{files/bildbeh/img/conv_edge_error.png}
+	\caption{Kantfejl ved foldning.\label{fig:bildbeh_conv_edge_error}}
+\end{figure}
+
 Som beskrevet ovenfor er formålet ved en filtrering tit at fremhæve eller dæmpe visse frekvenser som f.eks ved at dæmpe de høje frekvenser og lade de lave passere, eller omvendt, eller at dæmpe nogle udvalgte frekvenser. 
 
 De mest benyttede filtre er de lineære positionsinvariante.\footnote{Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006, side 39} Et filter er lineært hvis det kan skrives som et lineært udtryk $O=\mathbf{F}I$ hvor $I$ hhv. $O$ er input hhv. output billeder organiseret som søjlevektorer og $\mathbf{F}$ er en kvadratisk matrix af filterværdier. 
@@ -42,9 +50,8 @@ Hvor lav-pas filtrering altså dæmpede de høje frekvenser og dermed kontraster
 Ved en bånd-pas filtrering tillades kun et bestemt frekvensbånd at passere. Passagen kan ske uhindret som i et ideal bånd-pas filter eller dæmpes glat ved overgangen mellem de frekvenser, der passerer, og de, der undertrykkes. Hvis der forekommer meget regelmæssig støj i et billede, vil denne støj optræde som punkter med numerisk stor værdi i styrkespektret for billedet. Det er ofte muligt at se sådanne punkter i et logaritmisk plot af styrkespektret.
 
 \subsection{Tid og sted domænet}
-Filtrering i tid og sted domænet foretages med fordel, når støtten for filtret er lille. Fordelen ved filtrering i tid og sted domænet bliver særlig stor hvis filtret er separabelt. 
+Filtrering i tid og sted domænet foretages med fordel når støtten for filtret er lille, altså når størrelsen på filteret der foldes med er lille. Fordelen ved filtrering i tid og sted domænet bliver særlig stor hvis filtret er separabelt. 
 
-% Hvad er støtten????
 Hvis filtreringens formål er at fjerne støjen, og støtten for filtret er stor, vil filtrets egenskab mht. undertrykkelse af støj som regel være god. Generelt er det nødvendigt at øge støtten jo ringere signal-støjforholdet i et billede er. Signal-støjforholdet er defineret ved forholdet mellem energien i signalet og energien i støjen. Hvis filtreringens formål er at producere et billede til efterfølgende menneskelig inspektion, vil det imidlertid ofte ære en fordel at holde støtten lille.
 
 To meget benyttede filtre er box filtret og Gauss filtret. En egenskab ved Gauss filtret er at dette filter vil fremkomme ved gentagende filtrering af et vilkårligt filter med sig selv.\footnote{Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006, side 46}
