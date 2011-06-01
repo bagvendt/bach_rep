@@ -1,7 +1,31 @@
 \section{Endelige metode}
 \subsection{Metoderne}
 \subsubsection{Foldning med eksempelbilleder}
-Som vi har nævnt i tidligere afsnit, har vi opnået de bedste resultater efter at lede efter vesiklerne selv, i stedet for at lede efter egenskaber som kanter og andet. Vi forsøger derfor så at detektere vesiklerne ved at folde med billeder af disse. Vi laver derfor en liste af vesikler der hver repræsenterer en type vesikel. Da der er forskel på vesiklernes farve, form og størrelse er det nødvendigt men denne liste af vesikler, i stedet for bare at nøjes med en enkelt. Vi tager så hver enkelt vesikel og folder med billedet. Et eksempel på et område vi ønsker at finde vesikler i, og en vesikel vi folder med, ses i figur \ref{fig:postmethod_conv_pre}.
+Som vi har nævnt i tidligere afsnit, har vi opnået de bedste resultater efter at lede efter vesiklerne selv, i stedet for at lede efter egenskaber som kanter og andet. Vi forsøger derfor så at detektere vesiklerne ved at folde med billeder af disse. Vi laver derfor en liste af vesikler der hver repræsenterer en type vesikel. Da der er forskel på vesiklernes farve, form og størrelse er det nødvendigt men denne liste af vesikler, i stedet for bare at nøjes med en enkelt. Vi tager så hver enkelt vesikel og folder med billedet. For hver pixel i billedet vælger vi et udsnit på størrelse med vesiklen der har centrum i den pixel vi er gået ud fra. Vi benytter os af en funktion i matlab kaldet \texttt{nlfilter} til at flytte udsnittet rundt på billedet. Funktionen tilføjer 0'er i de pixels i udsnittet der går udover kanten af billedet.
+
+Ideen er at der for hvert udsnit udregnes en værdi der svarer til den Euklidiske afstand til vesiklen der foldes med,
+\begin{align}
+	\sum_m\sum_n\left(I_{ij}(m,n)-J(m,n)\right)^2\label{ali:postmethod_conv_pre1}
+\end{align}
+hvor $I_{ij}$ er udsnittet af billedet med centrum i $(i,j)$ og $J$ er det vesikelbillede vi folder med. 
+
+Vi kalder dette en foldning fordi hvis vi ser på $I_{ij}$ og $J$ som vektorer i stedet for matricer, kan vi omskrive (\ref{ali:postmethod_conv_pre1}) til
+\begin{align}
+	||\vec{I}-\vec{J}||^2 = (\vec{I}-\vec{J})^T(\vec{I}-\vec{J}) = \vec{I}^T\vec{I} + \vec{J}^T\vec{J}-2\vec{I}^T\vec{J}
+\end{align}
+Ser vi så på det sidste led, $2\vec{I}^T\vec{J}$, er dette jo netop lig $\sum_m\sum_nI_{ij}(m,n)J(m,n)$, som kan omskrives til foldningen $I*J(i,j)$. Dette betyder vores formel rent faktisk er en foldning med en lokal normering. For at lette læsningen vil vi blot henvise til dette som en foldning. Vi vælger at benytte den Euklidiske afstand i stedet for udelukkende at folde med vesiklen for at slippe for problemer i mørke områder. Hvis $I_{ij}$ er et udsnit med 0'er i alle indgange, vil $I*J(i,j)=\sum_m\sum_nI_{ij}(m,n)J(m,n)=0$. Da værdier gående imod 0 er hvad vi er ude efter, er dette ikke godt, og altså grunden til at vi benytter Euklidisk afstand i stedet.
+
+For at normalisere skalaerne trækker vi middelværdien fra hver indgang i udsnittene, og dividerer med standardafvigelsen, som vi så gemmer i centerpixlen. Udregningen af værdierne i hver pixel gøres med ligningen
+
+\begin{align}
+	\sum_m\sum_n \left(\frac{I_{ij}-mean(I_{ij})}{std(I_{ij})}-\frac{J-mean(J)}{std(J)}\right)^2 \label{ali:postmethod_conv}
+\end{align}
+
+Funktionen tager altså et område på samme størrelse som den eftersøgte vesikel, normerer hver indgang i dem begge for at de er på samme skala, trækker dem fra hinanden og kvadrerer resultatet. Summen af dette er så den Euklidiske afstand mellem de to områder.
+
+Det resulterende billede indeholder så fra 0 og opefter. Hvis et udsnit ligner den vesikel der søges efter, vil $I_{ij}$ og $J$ i (\ref{ali:postmethod_conv}) jo være næsten ens, sumfunktionen vil altså gå imod 0 alt efter hvor godt området ligner. Omvendt vil sumfunktionen give høje værdier hvis området ikke ligner den eftersøgte vesikel. Da høje værdier er lig med hvid, og værdier mod 0 er lig med sort, vil det resulterende billede altså have mørke områder hvor der er fundet vesikler. 
+
+Et eksempel på et område vi ønsker at finde vesikler i, og en vesikel vi folder med, ses i figur \ref{fig:postmethod_conv_pre}.
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
@@ -16,24 +40,15 @@ Som vi har nævnt i tidligere afsnit, har vi opnået de bedste resultater efter 
 	\caption{Til venstre ses en celle hvor vi ønsker at detektere vesikler. Til højre ses den vesikel der ledes efter.\label{fig:postmethod_conv_pre}}
 \end{figure}
 
-Vi har i det samme billede også markeret ground truth, som vi i det følgende måler vores resultater ud fra.
+Vi har i det samme billede også markeret ground truth, som vi i det følgende måler vores resultater ud fra. Der er i billedet markeret 9 områder hvor der er en vesikel. I virkeligheden er der 10, men da det sidste område ligger tæt på kanten har vi valgt ikke at tælle dette med, ligesom vi så heller ikke tæller andre områder som algoritmen finder nær kanten med. Dette er naturligvis fordi vi ikke kan stole på de resultater vi får nær kanten, da \texttt{nlfilteret} som vi benytter bare udfylder manglende pixels med 0'er. Ground truth billedet ses i figur \ref{fig:postmethod_conv_gt}. 
 
 \begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.7]{files/postmethod/img/ground_truth.png}
-	\caption{...\label{fig:postmethod_conv_gt}}
+		\includegraphics[scale=0.65]{files/postmethod/img/ground_truth.png}
+	\caption{Ground truth markeret.\label{fig:postmethod_conv_gt}}
 \end{figure}
 
-Udregningen af værdierne i hver pixel gøres med ligningen
-
-\begin{align}
-	\sum \left(\frac{I_{udsnit}-mean(I_{udsnit})}{std(I_{udsnit})}-\frac{J-mean(J)}{std(J)}\right)^2 \label{ali:postmethod_conv}
-\end{align}
-hvor $I_{udsnit}$ er et udsnit af det originale billede I på størrelse med $J$, hvor $J$ er vesiklen. Funktionen tager altså et område på samme størrelse som den eftersøgte vesikel, normerer hver indgang i dem begge for at de er på samme skala, trækker dem fra hinanden og kvadrerer resultatet. Summen af dette er så den Euklidiske afstand mellem de to områder.
-
-Rent teknisk fungerer dette ligesom SLD metoden tidligere beskrevet. Vi tager et udsnit, her et billede af en vesikel, og placerer i pixel (0,0). Summen ovenfor udregnes så for området og gemmes i centerpixlen, altså her i (0,0). Hvis udsnittene vi vælger går ud over kanten af billedet indsættes 0'er i de manglende felter. Vi flytter så området en enkelt pixel og gør det samme igen. Modsat SLD udregner vi altså her kun en værdi for hver pixel. 
-
-Det resulterende billede indeholder så fra 0 og opefter. Hvis et udsnit ligner den vesikel der søges efter, vil $I_{udsnit}$ og $J$ i (\ref{ali:postmethod_conv}) jo være næsten ens, sumfunktionen vil altså gå imod 0 alt efter hvor godt området ligner. Omvendt vil sumfunktionen give høje værdier hvis området ikke ligner den eftersøgte vesikel. Da høje værdier er lig med hvid, og værdier mod 0 er lig med sort, vil det resulterende billede altså have mørke områder hvor der er fundet vesikler. Et eksempel på et sådant billede ses til venstre i figur \ref{fig:postmethod_conv_post}. Til højre i samme figur ses det samme billede, hvor de mørkeste pixelværdier er markeret med hvidt i det sorte canvas.
+Som beskrevet bygger vores algoritme så et nyt billede på samme størrelse med det originale. Dette nye billede kalder vi et \texttt{Distance map} da hver indgang består af afstanden til den vesikel der er blevet foldet med. Et eksempel på et sådant billede ses til venstre i figur \ref{fig:postmethod_conv_post}. Til højre ses det samme billede, hvor en tærskelværdi på 35\% har markeret de mørkeste pixelværdier med hvidt i det sorte canvas.
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
@@ -50,23 +65,22 @@ Det resulterende billede indeholder så fra 0 og opefter. Hvis et udsnit ligner 
 
 For lettere at se markeringen af vesiklerne har vi plottet de fundne områder med farver i det originale billede på figur \ref{fig:postmethod_conv_photoshop}. De grønne områder er de vesikler som funktionen korrekt har markeret, altså sande positive. De blå områder er hvor funktionen ikke har markeret nogen vesikler selvom de i virkeligheden er der, altså falske negative. Til sidst er der områderne markeret med rødt. Dette er områder som funktionen har markeret som vesikler selvom der ikke er nogen, altså falske positive. Dette betyder altså at ground truth i billedet er de grønne samt i blå.
 
-I eksemplet her er der altså fundet 7 sande positive, 6 falske negative og 8 falske positive. Dette giver en sensitivity (sand-positiv-ratio) på
-% NEDENSTÅENDE SKAL REGULERES EFTER KORREKT TAL!
+I eksemplet her er der altså fundet 5 sande positive, 6 falske negative og 6 falske positive. Dette giver en sensitivity (sand-positiv-ratio) på
 \begin{align}
-	SPR = \frac{SP}{SP+FN} = \frac{7}{11} = 0.636
+	SPR = \frac{SP}{SP+FN} = \frac{5}{11} = 0.455
 \end{align}
 og antallet af fejldetekterede vesikler (fejl-ratio) er
 \begin{align}
-	FR = \frac{FP}{FP+SP} = \frac{8}{15} = 0.533
+	FR = \frac{FP}{FP+SP} = \frac{6}{11} = 0.545
 \end{align}
-% DER SKAL LAVES NYT BILLEDE
+
 \begin{figure}[H]
 		\centering
-		\includegraphics[scale=1]{files/postmethod/img/conv_5.png}
+		\includegraphics[scale=0.65]{files/postmethod/img/conv_5.png}
 	\caption{Oprindelige billede med markerede områder. Grønne er korrekt detekterede vesikler. Røde er forkerte detekterede vesikler. Blå er vesikler det ikke blev detekteret.\label{fig:postmethod_conv_photoshop}}
 \end{figure}
 
-Som det ses på billedet er der både flere falske positive og falske negative. Resultatet er dog efter en foldning med en enkelt vesikel. Vi kan derfor vælge at regulere tærskelværdien for hvor tæt de fundne områder skal være på 0. At hæve tærskelværdien kan medføre at vi finder flere vesikler, men også flere falske positive, hvorimod at sænke tærskelværdien kan reducere antallet af falske positive, men kan dog også fjerne et antal af de sande positive. I forhold til vores igangværende eksempel kan vi prøve at se på hvordan tærskelværdien ligger. Ser vi f.eks. på området omkring den korrekt fundne vesikel i nedre højre hjørne, kan vi plotte værdierne omkring denne. Dette har vi gjort i figur \ref{fig:postmethod_conv_lines_1}, hvor vi også har tegnet en linje ud fra 700 på y-aksen, da dette er vores nuværende tærskelværdi. Vi ved fra ground truth at der i dette område ikke er flere vesikler, hvorfor at vi kan se at vi ikke skal hæve tærskelværdien til mere end ca. 780 før at der vælges flere falske positive. 
+Som det ses på billedet er der både flere falske positive og falske negative. Resultatet er dog efter en foldning med en enkelt vesikel. Vi kan derfor vælge at regulere tærskelværdien for hvor tæt de fundne områder skal være på 0. At hæve tærskelværdien kan medføre at vi finder flere vesikler, men også flere falske positive, hvorimod at sænke tærskelværdien kan reducere antallet af falske positive, men kan dog også fjerne et antal af de sande positive. I forhold til vores igangværende eksempel kan vi prøve at se på hvordan tærskelværdien ligger. Ser vi f.eks. på området omkring den korrekt fundne vesikel i nedre højre hjørne, kan vi plotte værdierne omkring denne. Dette har vi gjort i figur \ref{fig:postmethod_conv_lines_1}, hvor vi også har tegnet en linje ud fra 700 på y-aksen, der ca. svarer til 35\%, da dette er vores nuværende tærskelværdi. Vi ved fra ground truth at der i dette område ikke er flere vesikler, hvorfor at vi kan se at vi ikke skal hæve tærskelværdien til mere end ca. 780 før at der vælges flere falske positive. 
 
 \begin{figure}[H]
 		\centering
@@ -83,70 +97,63 @@ Omvendt har vi i figur \ref{fig:postmethod_conv_lines_2} plottet området omkrin
 \end{figure}
 
 Da vores algoritme folder med en liste af vesikler er vi dog mere interesserede i at den finder færre vesikler, mod at den holder antallet af falske positive nede. Vores mål er da at tage de fundne vesikler efter hver foldning, og kombinere til et endeligt resultat. I nedenstående tabel ses vores resultater efter forsøg med forskellige tærskelværdier og forskellige  vesikler. Alle vesiklerne er fra billedet som der efterfølgende foldes med. Vi viser kun de resultater der har fundet andre vesikler end den der foldes med. I SPR og FR søjlerne har vi markeret de bedste værdier for hver vesikel.
-% NEDENSTÅENDE TAL ER UD FRA AT DER ER 12 VESIKLER, DER ER KUN 11 !!
 \begin{figure}[H]
 	\centering
 \begin{tabular}{l|l|l|l|l|l|l|l}
 	$\#$ & Vesikel & Tærskelværdi i $\%$ & SP & FP & FN & SPR & FR \\\hline
-	1	&	A	&	0.30	& 2		& 0		&10 &0.1667 &\textbf{0}\\\hline
-	2	&	A	&	0.31	& 2		& 1		&10 &0.1667 &0.333\\\hline
-	3	&	A	&	0.32	& 4		& 1		&8  &0.333 	&0.2\\\hline
-	4	&	A	&	0.33	& 4		& 1		&8  &0.333 	&0.2\\\hline
-	5	&	A	&	0.34	& 6		& 6		&6  &\textbf{0.5} 	&0.5\\\hline
-	6	&	A	&	0.35	& 6		& 8		&6  &0.5 	&0.571\\\hline
-	7	&	A	&	0.36	& 6		& 13	&6  &0.5	&0.684\\\hline
-	8	&	B	&	0.38	& 2		& 7		&10 &\textbf{0.1667} &\textbf{0.778}\\\hline
-	9	&	B	&	0.39	& 2		& 9		&10 &0.1667 &0.818\\\hline
-	10	&	B	&	0.40	& 2		& 12	&10 &0.1667 &0.857\\\hline
-	11	&	C	&	0.30	& 2		& 2		&10 &0.1667	&\textbf{0.5}\\\hline
-	12	&	C	&	0.31	& 2		& 4		&10 &0.1667	&0.667\\\hline
-	13	&	C	&	0.32	& 2		& 5		&10 &0.1667	&0.714\\\hline
-	14	&	C	&	0.33	& 4		& 11	&8 	&0.333 	&0.733\\\hline
-	15	&	C	&	0.34	& 6		& 13	&6 	&\textbf{0.5} 	&0.684\\\hline
-	16	&	C	&	0.35	& 6		& 18	&6 	&0.5 	&0.75
+	1	&	A	&	0.30	& 2		& 0		&9 	&0.182 			&\textbf{0}\\\hline
+	2	&	A	&	0.31	& 2		& 1		&9 	&0.182 			&0.333\\\hline
+	3	&	A	&	0.32	& 4		& 1		&7  &0.364 			&0.2\\\hline
+	4	&	A	&	0.33	& 4		& 1		&7  &0.364 			&0.2\\\hline
+	5	&	A	&	0.34	& 5		& 3		&6  &\textbf{0.455}	&0.375\\\hline
+	6	&	A	&	0.35	& 5		& 6		&6  &0.455 			&0.545\\\hline
+	7	&	A	&	0.36	& 5		& 8		&6  &0.455			&0.615\\\hline	
+	8	&	B	&	0.38	& 2		& 7		&9 	&\textbf{0.182}	&\textbf{0.778}\\\hline
+	9	&	B	&	0.39	& 2		& 9		&9 	&0.182 			&0.818\\\hline
+	10	&	B	&	0.40	& 2		& 12	&9 	&0.182 			&0.857\\\hline	
+	11	&	C	&	0.33	& 3		& 7		&8 	&0.273 			&0.7\\\hline
+	12	&	C	&	0.34	& 5		& 8		&6 	&\textbf{0.455}	&\textbf{0.615}\\\hline
+	13	&	C	&	0.35	& 5		& 12	&6 	&0.455 			&0.706
 \end{tabular} 
 \end{figure}
 
-Ud fra ovenstående kan vi altså aflæse at vesikel A er bedst med tærskelværdi på 30\% og 34\%. Vesikel B er bedst ved 38\% og til slut er vesikel C bedst ved 30\% og 34\%. Vi prøver derfor at sammensætte det kombinerede billede detektion med vesikel A og C, først med tærskelværdi på 30\% og dernæst på 34\%. 
+Ud fra ovenstående kan vi altså aflæse at vesikel A er bedst med tærskelværdi på 30\% hvis vi går efter at minimere antallet af falske positive, og 34\% hvis vi går efter at maksimere vores sand-positv-ratio. Vesikel B er bedst ved 38\% og til slut er vesikel C bedst ved 34\%. Vi prøver derfor at sammensætte det kombinerede billede detektion med vesikel A og C, først med tærskelværdi på 30\% og dernæst på 34\%. 
 
-Vores første resultat ses i figur \ref{fig:postmethod_conv_ves_1}. Dette er det kombinerede billede med vesikel A og C og tærskelværdi på 30, hvor vi har markeret korrekt detekterede vesikler med grøn, forkert detekterede med rød og falske negative med blå. Vi måler så vores SPR og FR igen.
+Vores første resultat ses til venstre i figur \ref{fig:postmethod_conv_ves_1}. Dette er det kombinerede billede med vesikel A og C og tærskelværdi på 30, hvor vi igen har markeret korrekt detekterede vesikler med grøn, forkert detekterede med rød og falske negative med blå. Vi udregner så vores sand-positiv-ratio og fejl-ratio igen.
 
 \begin{align}
 	SPR &= \frac{SP}{SP+FN} = \frac{3}{11} = 0.273\\
 	FR &= \frac{FP}{FP+SP} = \frac{2}{5} = 0.4
 \end{align}
-% Omskriv.
-Her kan vi aflæse at ... i forhold til ovenstående tabel..
+Her kan vi aflæse at vi ved at ligge resultatet fra foldningen med vesikel C oveni vesikel A's resultat, har vi hævet vores sand-positiv-ratio fra 0.182 til 0.273. Vi har samtidig hævet vores fejl-ratio fra 0 til 0.4, da der findes 2 falske positive mod 0 før.  
 
-\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.9]{files/postmethod/img/ves1+2_th-30_res.png}
-	\caption{...\label{fig:postmethod_conv_ves_1}}
-\end{figure}
-
-Vores andet resultat hvor vi har benyttet tærskelværdi på 34\% ses i figur \ref{fig:postmethod_conv_ves_2}. 
+Vores andet resultat hvor vi har benyttet tærskelværdi på 34\% ses til højre i figur \ref{fig:postmethod_conv_ves_1}. Her udregner vi også vores ratioer igen.
 
 \begin{align}
-	SPR = \frac{SP}{SP+FN} = \frac{8}{11} = 0.727
+	SPR &= \frac{SP}{SP+FN} = \frac{8}{11} = 0.727\\
+	FR &= \frac{FP}{FP+SP} = \frac{12}{20} = 0.6
 \end{align}
-og antallet af fejldetekterede vesikler (fejl-ratio) er
-\begin{align}
-	FR = \frac{FP}{FP+SP} = \frac{12}{20} = 0.6
-\end{align}
+Her kan vi så aflæse at vi ved at sammensætte C med A's resultater har hævet vores sand-positiv-ratio fra 0.455 til 0.727 ved at finde 3 ekstra vesikler. Dette vil altså sige at 3 af de 5 vesikler som vesikel C finder ved foldning, er unikke i forhold til de 5 som vesikel A fandt selv. Vores fejl-ratio er nu på 0.6, hvilket selvfølgelig er en stigning i forhold til vesikel A's resultat på 0.375, men er en reducering i forhold til vesikel C's 0.615. 
 
 \begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.9]{files/postmethod/img/ves1+2_th-34_res.png}
-	\caption{...\label{fig:postmethod_conv_ves_2}}
+	\begin{minipage}[b]{0.5\linewidth}
+		\includegraphics[scale=0.65]{files/postmethod/img/ves1+2_th-30_res2.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\includegraphics[scale=0.65]{files/postmethod/img/ves1+2_th-34_res2.png}
+	\end{minipage}
+	\caption{Til venstre ses resultatet efter foldning med vesikel A og C og tærskelværdi på 30\%. Til højre ses samme foldning bare med tærskelværdi på 34\%.\label{fig:postmethod_conv_ves_1}}
 \end{figure}
+
+%% FORSØG PÅ ANDET OMRÅDE MED SAMME 2 VESIKLER.
+%% FORSØG MED FLERE VESIKLER FØRST FRA ANDET BILLEDE, SÅ FRA SAMME BILLEDE
+%% SAMMENLIGN MED TIDLIGERE RESULTATER
+%% UNDERSØG HVAD DER GØR AT DET ER FORKERTE VESIKLER DER VÆLGES!
+%% BRUG RESULTATET TIL AT BEGRUNDE HVORFOR VI SKAL BENYTTE FLERE METODER
 
 \subsubsection{Sparse Label Dictionaries}	% Marcus
 %\textbf{Disclaimer der måske skal med: SLD er en metode udviklet af Anders noget fra DTU, vi har set metoden til et foredrag men har ikke set noget litteratur der beskriver metoden udførligt. Dette er derfor vores udlægning af SLD-metoden}\\
-%\\
-%SLD er en metode til at klassificere forskellige elementer i et givent billede. I SLD vælger man et passende udsnit af kandidatbilledet hvorefter 
-
-
-%Sparse Label Dictionaries-metoden (SLD) vælger man et passende udsnit af kandidatbilledet således at udsnittet kommer til at indeholde de forskellige klasser af elementer man ønsker at dedektere samt
 
 Sparse Label Dictionaries metoden (SLD) har til formål at segmentere billeder. SLD opretholder to matricer med information om image patches, den ene indeholder intensiteten og den anden den assosierede label information.
 
