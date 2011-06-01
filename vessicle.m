@@ -7,32 +7,45 @@ figure(n); n=n+1;
 imagesc(I); axis image; colormap(gray); colorbar
 set(gca,'fontsize',fntsz);
 title('Subset image');
-%J = I(75:100,120:145); % Vesikel 1 God-finder mange
-%J = I(140:165,160:185); % Vesikel 2 Finder sig selv og 3 FP ligner det.
-%J = I(179:204,62:87); % Vesikel 3 Finder kun sig selv
-%J = I(213:233,163:183); % Vesikel 4 Finder meget. Test med threshold.
-%J = I(30:50,70:100); % Vesikel 5 Finder MEGET, mest snavs?
-%J = I(30:55,75:100); % Vesikel 6, 5 pix lavere end vesikel 5- Finder kun sig selv
-J = I(110:145,50:85); % Vesikel 7
-figure(n); n=n+1;
-imagesc(J); axis image; colormap(gray); colorbar
-set(gca,'fontsize',fntsz);
-title('Template image');
-fun = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J(:)-mean(J(:)))/std(J(:))).^2);
-K=nlfilter(I,size(J),fun);
-figure(n); n=n+1;
-imagesc(K); axis image; colormap(gray); colorbar
-set(gca,'fontsize',fntsz);
-title('Distance map');
+J1 = I(75:100,120:145); % Vesikel 1 God-finder mange
+%J2 = I(140:165,160:185); % Vesikel 2 Finder sig selv og 3 FP ligner det.
+J3 = I(213:233,163:183); % Vesikel 4 Finder meget. Test med threshold.
 
-for threshold = 25:40
+% figure(n); n=n+1;
+% imagesc(J); axis image; colormap(gray); colorbar
+% set(gca,'fontsize',fntsz);
+% title('Template image');
+
+fun1 = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J1(:)-mean(J1(:)))/std(J1(:))).^2);
+%fun2 = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J2(:)-mean(J2(:)))/std(J2(:))).^2);
+fun3 = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J3(:)-mean(J3(:)))/std(J3(:))).^2);
+
+K1=nlfilter(I,size(J1),fun1);
+%K2=nlfilter(I,size(J2),fun2);
+K3=nlfilter(I,size(J3),fun3);
+
+for threshold = 30
     percentage = threshold/100;
 
-    BNW = (K-min(K(:)))<percentage*(max(K(:))-min(K(:)));
-    %figure(n); n=n+1;
-    %imagesc(BNW); axis image; colormap(gray); colorbar
-    %set(gca,'fontsize',fntsz);
-    %title(sprintf('Smallest %d%% in distance map',round(percentage*100)));
+    BNW1 = (K1-min(K1(:)))<percentage*(max(K1(:))-min(K1(:)));
+    %BNW2 = (K2-min(K2(:)))<percentage*(max(K2(:))-min(K2(:)));
+    BNW3 = (K3-min(K3(:)))<percentage*(max(K3(:))-min(K3(:)));
+    
+    figure(n); n=n+1;
+    imagesc(BNW1); axis image; colormap(gray); colorbar
+    set(gca,'fontsize',fntsz);
+    title('BNW1');
+   
+    figure(n); n=n+1;
+    imagesc(BNW3); axis image; colormap(gray); colorbar
+    set(gca,'fontsize',fntsz);
+    title('BNW3');
+    
+    BNW = BNW1+BNW3;
+    figure(n); n=n+1;
+    imagesc(BNW); axis image; colormap(gray); colorbar
+    set(gca,'fontsize',fntsz);
+    title(sprintf('Smallest %d%% in distance map',round(percentage*100)));
 
     Test = I;
     [h w] = size(I);
