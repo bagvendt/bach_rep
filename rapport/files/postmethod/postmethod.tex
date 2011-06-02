@@ -24,7 +24,13 @@ Funktionen tager altså et område på samme størrelse som den eftersøgte vesi
 
 Det resulterende billede indeholder så fra 0 og opefter. Hvis et udsnit ligner den vesikel der søges efter, vil $I_{ij}$ og $J$ i (\ref{ali:postmethod_conv}) jo være næsten ens, sumfunktionen vil altså gå imod 0 alt efter hvor godt området ligner. Omvendt vil sumfunktionen give høje værdier hvis området ikke ligner den eftersøgte vesikel. Da høje værdier er lig med hvid, og værdier mod 0 er lig med sort, vil det resulterende billede altså have mørke områder hvor der er fundet vesikler. 
 
-Et eksempel på et område vi ønsker at finde vesikler i, og en vesikel vi folder med, ses i figur \ref{fig:postmethod_conv_pre}.
+Et eksempel på et område vi ønsker at finde vesikler i, og en vesikel vi folder med, ses i figur \ref{fig:postmethod_conv_pre}. I figur \ref{fig:postmethod_conv_area1} ses det område hvor cellen er.
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{files/postmethod/img/area_1.png}
+	\caption{Billede med cellen vi vil undersøge markeret.\label{fig:postmethod_conv_area1}}
+\end{figure}
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
@@ -59,7 +65,7 @@ Som beskrevet bygger vores algoritme så et nyt billede på samme størrelse med
 		\centering
 		\includegraphics[scale=0.5]{files/postmethod/img/conv_4.png}
 	\end{minipage}
-	\caption{Til venstre ses en celle hvor vi ønsker at detektere vesikler. Til højre ses den vesikel der ledes efter.\label{fig:postmethod_conv_post}}
+	\caption{Til venstre ses det genererede distance map. Til højre ses samme billede efter en tærskelværdi på nederste 35\% af farveværdierne.\label{fig:postmethod_conv_post}}
 \end{figure}
 
 For lettere at se markeringen af vesiklerne har vi plottet de fundne områder med farver i det originale billede på figur \ref{fig:postmethod_conv_photoshop}. De grønne områder er de vesikler som funktionen korrekt har markeret, altså sande positive. De blå områder er hvor funktionen ikke har markeret nogen vesikler selvom de i virkeligheden er der, altså falske negative. Til sidst er der områderne markeret med rødt. Dette er områder som funktionen har markeret som vesikler selvom der ikke er nogen, altså falske positive. Dette betyder altså at ground truth i billedet er de grønne samt i blå.
@@ -145,11 +151,65 @@ Her kan vi så aflæse at vi ved at sammensætte C med A's resultater har hævet
 	\caption{Til venstre ses resultatet efter foldning med vesikel A og C og tærskelværdi på 30\%. Til højre ses samme foldning bare med tærskelværdi på 34\%.\label{fig:postmethod_conv_ves_1}}
 \end{figure}
 
-%% FORSØG PÅ ANDET OMRÅDE MED SAMME 2 VESIKLER.
-%% FORSØG MED FLERE VESIKLER FØRST FRA ANDET BILLEDE, SÅ FRA SAMME BILLEDE
-%% SAMMENLIGN MED TIDLIGERE RESULTATER
-%% UNDERSØG HVAD DER GØR AT DET ER FORKERTE VESIKLER DER VÆLGES!
-%% BRUG RESULTATET TIL AT BEGRUNDE HVORFOR VI SKAL BENYTTE FLERE METODER
+Dette virker som et ret fint resultat, da vi ved hjælp af 2 vesikler rent faktisk kan finde 8 i alt. For at undersøge hvorvidt dette resultat også er gældende for andre celler, vil vi undersøge resultatet ved at vælge en anden celle fra samme oprindelige billede, hvor indstillingerne på cameraet altså er ens som hvor vi har cellerne fra, og dernæst vælge en celle fra et helt andet billede. Målet med dette er altså at se hvor gode vores vesikler er til at finde andre vesikler i nye områder.
+
+Først vælger jeg et område der ligger en anelse længere nede end det område hvor vesikel A og C er taget fra. Formålet med dette er at se om de kan benyttes til at finde flere vesikler i samme billede. I figur \ref{fig:postmethod_conv_area3} ses området som vi har valgt, og i figur \ref{fig:postmethod_conv_gt3} har vi markeret ground truth i billedet.
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{files/postmethod/img/area_3.png}
+	\caption{Området i det originale billede som vi er interesseret i.\label{fig:postmethod_conv_area3}}
+\end{figure}
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.65]{files/postmethod/img/ground_truth3.png}
+	\caption{Ground truth markeret.\label{fig:postmethod_conv_gt3}}
+\end{figure}
+
+Da vi i de ovenstående forsøg fik de bedste resultater med en tærskelværdi på 34\%, vil vi også prøve at danne det nye billede med denne tærskelværdi. Resultatet ses i figur \ref{fig:postmethod_conv_post_img3_th34}, hvor det tydeligt fremgår at der findes alt for meget. Vi forsøger os i stedet med alle tærskelværdier fra 1\% til 34\%, og finder det bedste resultat ved 6\%. Dette ses i figur \ref{fig:postmethod_conv_post_img3_th6}. Her ser vi at vesikel A og C tilsammen har fundet begge de ønskede vesikler, og har så fundet 5 falske positive. Dette giver en sand-positiv-ratio på $1$ og en fejl ratio på $0.714$.
+
+\begin{figure}[H]
+		\centering		\includegraphics[scale=0.65]{files/postmethod/img/ves1+2_img3_th-34.png}
+	\caption{Ground truth markeret.\label{fig:postmethod_conv_post_img3_th34}}
+\end{figure}
+
+\begin{figure}[H]
+		\centering
+	\includegraphics[scale=0.65]{files/postmethod/img/ves1+2_img3_th-6.png}
+	\caption{Ground truth markeret.\label{fig:postmethod_conv_post_img3_th6}}
+\end{figure}
+
+Vi har til det næste udsnit valgt et helt andet billede. Som det fremgår virker billedet lysere end det første, hvorfor det bliver interessant at se påvirkningen ved at folde med vores vesikler i dette område. I figur \ref{fig:postmethod_conv_area2} har vi markeret hvor på billedet udsnittet er taget, og i figur \ref{fig:postmethod_conv_gt2} har vi markeret ground truth i cellen. Her skal vi altså finde 6 vesikler.
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{files/postmethod/img/area_2.png}
+	\caption{Området i det originale billede som vi er interesseret i.\label{fig:postmethod_conv_area2}}
+\end{figure}
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.65]{files/postmethod/img/ground_truth2.png}
+	\caption{Ground truth markeret.\label{fig:postmethod_conv_gt2}}
+\end{figure}
+
+Nedenstående billede i figur \ref{fig:postmethod_conv_post_img2_th34} er resultatet efter en tærskelværdi på 34\%. Igen er tydeligvis ikke godt, og vi forsøger os i stedet med langt lavere tærskelværdier. De bedste resultater fås ved en tærskelværdi på 5\%. Det resulterende billede hvor resultaterne er påtegnet ses i figur \ref{fig:postmethod_conv_post_img2_th5}. Her ser vi at der er detekteret 2 korrekte vesikler, 6 vesikler er detekteret forkert og der mangler at detekteres 4 vesikler. Dette giver en sand-positiv-ratio på $0.333$ og en fejl-ratio på $0.75$. Til at danne dette billede har vi igen kombineret resultaterne fra vesikel A og vesikel C's foldning med billedet. Vesikel C står dog kun for en enkelt falsk positiv, hvor resten af de detekterede områder er fra foldningen med vesikel A.
+
+\begin{figure}[H]
+		\centering		\includegraphics[scale=0.65]{files/postmethod/img/ves1+2_img2_th-34.png}
+	\caption{Ground truth markeret.\label{fig:postmethod_conv_post_img2_th34}}
+\end{figure}
+
+\begin{figure}[H]
+		\centering
+	\includegraphics[scale=0.65]{files/postmethod/img/ves1+2_img2_th-5.png}
+	\caption{Ground truth markeret.\label{fig:postmethod_conv_post_img2_th5}}
+\end{figure}
+
+Fra disse undersøgelser kan vi altså konkludere at vesikel A og C finder 72.7\% af vesiklerne i billedet hvor de er taget fra, 100\% af et andet område fra samme billede, og 33\% af vesiklerne i et nyt billede. Dette er selvfølgelig ikke automatisk gældende for alle områder vi ser på, men allerede nu kan vi se en tendens til at vesiklerne bedst finder andre vesikler i områder der ligner det område hvor de er taget fra.
+
+Vi har derfor brug for en udvidelse af vores algoritme der gør at vi kan vægte vores fundne områder. Vi skal derfor have endnu en metode der kan finde vesikler, og så sammenholde de to resultater. Hvis vi i et billede har fundet 9 mulige vesikler efter foldning med en eksempelvesikel, og en ny algoritme så fortæller os at den har fundet 6 mulige vesikler, vil vi kunne sammenholde disse resultater, og de steder de begge finder vesikler vil der være større sandsynlighed for at der rent faktisk er en vesikel. Algoritmen der skal hjælpe os med dette hedder \texttt{Sparse Label Dictionaries}. 
 
 \subsection{Sparse Label Dictionaries}	% Marcus
 %\textbf{Disclaimer der måske skal med: SLD er en metode udviklet af Anders noget fra DTU, vi har set metoden til et foredrag men har ikke set noget litteratur der beskriver metoden udførligt. Dette er derfor vores udlægning af SLD-metoden}\\
@@ -214,6 +274,37 @@ Skaberne af SLD beskriver metoden som værende en forbedring i forhold til andre
 \end{figure}
 
 \subsection{Vores implementation af SLD}
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imTrain.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imGT.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_train1}}
+\end{figure}
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.8]{files/postmethod/img/sld_preres1.png}
+	\caption{...\label{fig:postmethod_sld_label1}}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imTest.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.67]{files/postmethod/img/sld_res1.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_res1}}
+\end{figure}
 
 \subsection{Kombinationen} % Marcus
 \subsection{Evaluering}
