@@ -1,6 +1,5 @@
 \section{Endelige metode}
-\subsection{Metoderne}
-\subsubsection{Foldning med eksempelbilleder}
+\subsection{Foldning med eksempelbilleder}
 Som vi har nævnt i tidligere afsnit, har vi opnået de bedste resultater efter at lede efter vesiklerne selv, i stedet for at lede efter egenskaber som kanter og andet. Vi forsøger derfor så at detektere vesiklerne ved at folde med billeder af disse. Vi laver derfor en liste af vesikler der hver repræsenterer en type vesikel. Da der er forskel på vesiklernes farve, form og størrelse er det nødvendigt men denne liste af vesikler, i stedet for bare at nøjes med en enkelt. Vi tager så hver enkelt vesikel og folder med billedet. For hver pixel i billedet vælger vi et udsnit på størrelse med vesiklen der har centrum i den pixel vi er gået ud fra. Vi benytter os af en funktion i matlab kaldet \texttt{nlfilter} til at flytte udsnittet rundt på billedet. Funktionen tilføjer 0'er i de pixels i udsnittet der går udover kanten af billedet.
 
 Ideen er at der for hvert udsnit udregnes en værdi der svarer til den Euklidiske afstand til vesiklen der foldes med,
@@ -152,7 +151,7 @@ Her kan vi så aflæse at vi ved at sammensætte C med A's resultater har hævet
 %% UNDERSØG HVAD DER GØR AT DET ER FORKERTE VESIKLER DER VÆLGES!
 %% BRUG RESULTATET TIL AT BEGRUNDE HVORFOR VI SKAL BENYTTE FLERE METODER
 
-\subsubsection{Sparse Label Dictionaries}	% Marcus
+\subsection{Sparse Label Dictionaries}	% Marcus
 %\textbf{Disclaimer der måske skal med: SLD er en metode udviklet af Anders noget fra DTU, vi har set metoden til et foredrag men har ikke set noget litteratur der beskriver metoden udførligt. Dette er derfor vores udlægning af SLD-metoden}\\
 
 Sparse Label Dictionaries metoden (SLD) har til formål at segmentere billeder. SLD opretholder to matricer med information om image patches, den ene indeholder intensiteten og den anden den assosierede label information.
@@ -214,9 +213,9 @@ Skaberne af SLD beskriver metoden som værende en forbedring i forhold til andre
 	\caption{Testbilleder øverst, ground truth i midten og resultatet af segmenteringen nederst.\label{fig:postmethod_sld_testing}}
 \end{figure}
 
-\subsubsection{Vores implementation af SLD}
+\subsection{Vores implementation af SLD}
 
-\subsubsection{Kombinationen} % Marcus
+\subsection{Kombinationen} % Marcus
 \subsection{Evaluering}
 \subsubsection{ROC}
 \subsubsection{Forbedringer af endelige metode}
