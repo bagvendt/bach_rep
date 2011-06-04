@@ -274,6 +274,9 @@ Skaberne af SLD beskriver metoden som værende en forbedring i forhold til andre
 \end{figure}
 
 \subsection{Vores implementation af SLD}
+Der er flere ting som SLD understøtter, som vi ikke har brug for til at løse opgaven for os. En af disse ting er at SLD er designet til at segmentere lige så mange klasser som man har brug for, hvor vi kun skal segmentere 2 klasser. Da vi ikke har så mange klasser, har vi naturligvis ikke så mange atomer i vores matricer, og behovet for at optimere ved at fjerne atomer så der kun er unikke atomer er selvfølgelig ikke lige så stort. I vores implementation af SLD har vi altså valgt at holde det helt simpelt. Vi opbygger ligeledes to matricer bestående af atomer fra et træningsbillede og de tilhørende labelatomer fra et ground truth billede. Når vi så vil segmentere et billede løber vi listen af atomer igennem og finder atomet med kortest Euklidisk afstand og adderer den tilsvarende label i det resulterende billede. I figur \ref{fig:postmethod_sld_train1} ser vi et træningsbillede der er et udsnit fra billedet længst til højre i figur \ref{fig:postmethod_sld_testing}, samt det tilhørende ground truth billede. Ground truth billedet har fået efterfølgende markeret en sort kant omkring det for at vise afgrænsningen af den hvide side. I figur \ref{fig:postmethod_sld_label1} ser vi så billedet hvor SLD har fundet træningsbilledet igen. Som vi kan se finder algoritmen området som ønsket. Bemærk igen at kanten ikke er fundet korrekt, da algoritmen ikke er designet til at klare kanten. % Uddyb? 
+Vi har benyttet en atomstørrelse på 7 pixels. % Omskriv / Flyt
+
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
 		\centering
@@ -289,9 +292,13 @@ Skaberne af SLD beskriver metoden som værende en forbedring i forhold til andre
 
 \begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.8]{files/postmethod/img/sld_preres1.png}
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_preres1.png}
 	\caption{...\label{fig:postmethod_sld_label1}}
 \end{figure}
+
+Vi har så lavet et testbillede for at undersøge hvorvidt algoritmen kan finde samme mønstre, bare i en ny figur. Vi har her taget mønsteret til højre i træningsbilledet og dublikeret så det fylder hele billedet. Herefter har vi taget mønsteret til venstre og lagt som en cirkel i centrum af billedet. Resultatet ses til venstre i figur \ref{fig:postmethod_sld_res1}. Til højre i samme billede ses vores SLD algoritmes forsøg på at segmentere figuren. Resultatet er vi tilfredse med, da mønsteret i til venstre i træningsbilledet, som vi fra starten af har sagt skal repræsenteres som sort i labelmatricen, fremgår tydeligt i midten af det nye billede.
+
+% Kommenter at vi går ud fra pixlen og atomXatom opXned i stedet for som centerpixel??
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
@@ -301,9 +308,110 @@ Skaberne af SLD beskriver metoden som værende en forbedring i forhold til andre
 	\hspace{0.8cm}
 	\begin{minipage}[b]{0.5\linewidth}
 		\centering
-		\includegraphics[scale=0.67]{files/postmethod/img/sld_res1.png}
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res1.png}
 	\end{minipage}
 	\caption{...\label{fig:postmethod_sld_res1}}
+\end{figure}
+
+Tilfredse med vores algoritme ser vi nu i stedet på vores cellebilleder. Vi starter igen med at konstruere et træningsbillede samt et ground truth billede ud fra dette træningsbillede. For at formindske udregningstiden har vi valgt et udsnit af dette billede, et $100\times100$ pixel udsnit fra \ref{fig:postmethod_conv_gt} af de 4 vesikler der er samlet på en række. Resultatet af dette ses i figur \ref{fig:postmethod_sld_train2}.
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imTrain2.png}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imGT2.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_train2}}
+\end{figure}
+
+Vi har herefter set på størrelsen af vores atomer. Forfatterne af SLD har bedst erfaringer med $3\times3$ atomer til at fange detaljerne i deres billeder. I vores billede derimod har vi brug for større plads til at vise et stykke vesikel på. I figur \ref{fig:postmethod_ves_grid} har vi markeret et gitter der svarer til $7\times7$ pixel atomstørrelser. Som det fremgår er denne størrelse nødvendig for at få begge sider af en kant med, hvilket er hvad adskiller en vesikel fra almindelig støj, som vi tidligere har været inde på. %ref evt. til afsnittet om pixelfarveværdier?
+At vores algoritme kan segmentere træningsbilledet igen fremgår tydeligt af figur \ref{fig:postmethod_sld_label2}.
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1]{files/postmethod/img/ves_grid.png}
+	\caption{...\label{fig:postmethod_ves_grid}}
+\end{figure}
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_preres2.png}
+	\caption{...\label{fig:postmethod_sld_label2}}
+\end{figure}
+
+I vores test af algoritmen lavede vi nu et nyt billede ved at flytte rundt på mønstrene i træningsbilledet. Dette er dog ikke muligt i cellebilledet. I stedet vælger vi et testbillede der kommer fra samme celle, bare længere oppe. Billedet, vist i figur \ref{fig:postmethod_sld_res2}, indeholder 4 vesikler vi ønsker at segmentere. Nederst ses en vesikel markeret med blåt, det er den øverste vesikel i træningsbilledet, og vi forventer naturligvis at denne kan segmenteres korrekt igen. De tre andre vesikler er nye vesikler som algoritmen skal segmentere.
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imTest2.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/sld_gt3.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_res2}}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res2.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res22.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_res22}}
+\end{figure}
+
+I figur \ref{fig:postmethod_sld_res22} ser vi resultatet. Til venstre i figuren ses det nye billede bygget med vores SLD algoritme, og til højre er de områder vi ønskede at segmentere markeret med cirkler. Som det tydeligt ses er der intet der adskiller disse områder fra resten af billedet. Vi kan derfor ikke bruge resultatet her til at segmentere områder. Vi prøver derfor at ændre på vores billeder.
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imGT3.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.42]{files/postmethod/img/sld_res3.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_gt4}}
+\end{figure}
+
+Første ændring er at vi ændrer i ground truth i forhold til træningsbilledet. Som vi tidligere har været inde på er det kun kanten der definerer en vesikel, da midten 
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imTrain3.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=3]{files/postmethod/img/imTest5.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_res3}}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res5.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res6.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_res5}}
 \end{figure}
 
 \subsection{Kombinationen} % Marcus

@@ -4,14 +4,15 @@ function [ ] = usingTheDictionary( )
     
     fntsz=18;
     
-    atomSize = 3;
+    atomSize = 7;
     
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTest.png'));
-    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/RunningMeFuck/imTest.png'));
-    
+    %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTest5.png'));
+    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTest5.png'));
+
     close all;
     
-    buildingTheDictionary(atomSize);
+    %buildingTheDictionary(atomSize);
     
     figure();
     imagesc(I); axis image; colormap(gray); colorbar
@@ -24,6 +25,15 @@ function [ ] = usingTheDictionary( )
     imagesc(NewI); axis image; colormap(gray); colorbar
     set(gca,'fontsize',fntsz);
     title('New image from dict');
-
     
+    save('NewI','NewI');
+    
+    for i = 60:80
+         percentage = i/100;
+         BNW = (NewI-min(NewI(:)))<percentage*(max(NewI(:))-min(NewI(:))); 
+         figure();
+         imagesc(BNW); axis image; colormap(gray); colorbar
+         set(gca,'fontsize',fntsz);
+         title(sprintf('Smallest %d%% in distance map',round(percentage*100)));
+    end
 end

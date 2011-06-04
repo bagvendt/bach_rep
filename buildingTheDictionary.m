@@ -1,10 +1,11 @@
 function [ ] = buildingTheDictionary( atomSize )
     count = 0;
-%    atomSize= 5;
+    atomSize= 7;
     
     fntsz=18;
     
-    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTrain.png'));
+    %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTrain.png'));
+    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTrain2.png'));
     
     figure();
     imagesc(I); axis image; colormap(gray); colorbar
@@ -13,14 +14,15 @@ function [ ] = buildingTheDictionary( atomSize )
     [height, width] = size(I);
     height = height-mod(height,atomSize);
     width = width-mod(width,atomSize);
-    label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imGT.png'));
-            
+    %label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imGT.png'));
+    label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imGT.png'));
     figure();
     imagesc(label_image); axis image; colormap(gray); colorbar
     set(gca,'fontsize',fntsz);
     title('Label image');
     
     for i = 0:(height-atomSize)
+        (i/height)*100
         for j = 0:(width-atomSize)
             count = count + 1;
             y_from = i+1;
@@ -44,10 +46,10 @@ function [ ] = buildingTheDictionary( atomSize )
     
     'Dictionary has been build!'
 
-    train = SLD( I, atomSize );
-    figure();
-    imagesc(train); axis image; colormap(gray); colorbar
-    set(gca,'fontsize',fntsz);
-    title('Test Image');
+    %train = SLD( I, atomSize );
+    %figure();
+    %imagesc(train); axis image; colormap(gray); colorbar
+    %set(gca,'fontsize',fntsz);
+    %title('Test Image');
     
 end
