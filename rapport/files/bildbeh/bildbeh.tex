@@ -34,27 +34,27 @@ Når man folder et billede med et filter, besøger man hver pixel og går størr
 
 Som beskrevet ovenfor er formålet ved en filtrering tit at fremhæve eller dæmpe visse frekvenser som f.eks ved at dæmpe de høje frekvenser og lade de lave passere, eller omvendt, eller at dæmpe nogle udvalgte frekvenser. 
 
-De mest benyttede filtre er de lineære positionsinvariante.\footnote{Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006, side 39} Et filter er lineært hvis det kan skrives som et lineært udtryk $O=\mathbf{F}I$ hvor $I$ hhv. $O$ er input hhv. output billeder organiseret som søjlevektorer og $\mathbf{F}$ er en kvadratisk matrix af filterværdier. 
+De mest benyttede filtre er de lineære positionsinvariante.\footnote{Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006, side 39} Et filter er lineært hvis det kan skrives som et lineært udtryk $O=\mathbf{F}I$ hvor $I$ hhv. $O$ er input hhv. output billeder. 
 
 Man kan filtrere billederne i både frekvendomænet og tid og sted domænet. Signaler kan konverteres fra tid og sted domænet til frekvensdomænet, og tilbage igen, gennem fouriertransformation.
 
 \subsubsection{Lav-pas filtrering}
-Ved en lav-pas filtrering dæmpes de høje frekvenser og de lave frekvenser får altså lov at passere. Lav-pas filtrering er en effektiv metode til at undertrykke støj, men ulempen er at der sker en reduktion i kontrasten fordi højfrekvent energi fra billedkontraster ikke kan skelnes fra højfrekvent energi fra støj.
+Ved en lav-pas filtrering dæmpes de høje frekvenser og de lave frekvenser får altså lov at passere. Lav-pas filtrering er en effektiv metode til at undertrykke støj, men ulempen er at der sker en reduktion i kontrasten fordi højfrekvent energi fra billedkontraster ikke kan skelnes fra højfrekvent energi fra støj. På figur \ref{fig:low_pass} ses til højre resultatet af en lav-pas filtrering. Filtreringen på figuren ligner en udglatning.
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.5]{files/bildbeh/img/new_york.jpg}
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.5]{files/bildbeh/img/lowpass.jpg}
+	\end{minipage}
+	\caption{Til venstre ses et billede af Manhattan set fra oven. På billedet til højre er der blevet udført en lav-pas filtrering.\label{fig:low_pass}}
+\end{figure}
+
 
 Der findes her en række af filtre såsom idealfiltret, Butterworth filtret, Hanning filtret og Gauss filtret. Forskellen i disse filtre er hvordan de efterlader billedet. Da lav-pasfiltret også dæmper de høje frekvensers energi fra billedkontraster kan man f.eks ved idealfiltret opleve ringningseffekt omkring kraftige kontraster i billedet. Butterworth filtret har kun i meget ringe grad ringningseffekt da filtret tillader en portion af høje frekvenser at passere og derfor er "cut-off"-frekvensen glat. Det mest benyttede filter er Gauss filtret.\footnote{Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006, side 43}
-
-\subsubsection{Høj-pas filtrering}
-Hvor lav-pas filtrering altså dæmpede de høje frekvenser og dermed kontraster og støj, har høj-pas filtrene til formål at fremhæve kontraster ved at dæmpe de lave frekvenser. 
-
-\subsubsection{Bånd-pas filtrering}
-Ved en bånd-pas filtrering tillades kun et bestemt frekvensbånd at passere. Passagen kan ske uhindret som i et ideal bånd-pas filter eller dæmpes glat ved overgangen mellem de frekvenser, der passerer, og de, der undertrykkes. Hvis der forekommer meget regelmæssig støj i et billede, vil denne støj optræde som punkter med numerisk stor værdi i styrkespektret for billedet. Det er ofte muligt at se sådanne punkter i et logaritmisk plot af styrkespektret.
-
-\subsection{Tid og sted domænet}
-Filtrering i tid og sted domænet foretages med fordel når støtten for filtret er lille, altså når størrelsen på filteret der foldes med er lille. Fordelen ved filtrering i tid og sted domænet bliver særlig stor hvis filtret er separabelt. 
-
-Hvis filtreringens formål er at fjerne støjen, og støtten for filtret er stor, vil filtrets egenskab mht. undertrykkelse af støj som regel være god. Generelt er det nødvendigt at øge støtten jo ringere signal-støjforholdet i et billede er. Signal-støjforholdet er defineret ved forholdet mellem energien i signalet og energien i støjen. Hvis filtreringens formål er at producere et billede til efterfølgende menneskelig inspektion, vil det imidlertid ofte ære en fordel at holde støtten lille.
-
-To meget benyttede filtre er box filtret og Gauss filtret. En egenskab ved Gauss filtret er at dette filter vil fremkomme ved gentagende filtrering af et vilkårligt filter med sig selv.\footnote{Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006, side 46}
 
 \subsection{Frekvensområdet}
 Hvor tid og sted domænet f.eks. viser grafer over hvordan signalet ændrer sig over tid, viser grafen i frekvensområdet i stedet hvor meget af signalet der ligger inden for en række frekvenser der danner et bånd. I frekvensområdet arbejder man med fouriertranformationer.
@@ -72,3 +72,6 @@ Navnet Fouriertransformation refererer både til frekvensdomænet af signalet og
 % http://en.wikipedia.org/w/index.php?title=Digital_signal_processing&oldid=426007207
 % http://en.wikipedia.org/w/index.php?title=Frequency_domain&oldid=424506778
 % Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006
+
+  
+ 
