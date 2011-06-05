@@ -8,7 +8,8 @@ Til Jon:
 - Læser du pdfer? og gør censor også? (farver)
 - Hvor mange eksemplarer afleverer man
 - Hvad med læsevejledning
-- 
+- Sigmaværdien
+- Konklution på g_xx g_yy plot
 
 29. Maj
 ===========
