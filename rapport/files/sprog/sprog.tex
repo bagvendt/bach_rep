@@ -16,7 +16,7 @@ PROCEDURE_NAVN = (BILLEDNAVN, [
                  (funktion2,
                    {parametre}),])
 \end{verbatim}
-I nedenstående kodeeksempel giver vi et konkret eksempel på en procedure der indlæser et billede, konstruerer en gausskerne som beskrevet i (\ref{ali:premethod_gaussG}), og folder billedet med denne kerne, og derefter viser resultatet på skærmen.
+I nedenstående kode giver vi et konkret eksempel på en procedure der indlæser et billede, bygger en gausskerne som beskrevet i (\ref{ali:premethod_gaussG}), og folder billedet med denne kerne, for til sidst at vise resultatet på skærmen:
 \begin{figure}[H]
 \begin{verbatim}
 manuel_gauss_test = ( 
@@ -33,24 +33,26 @@ manuel_gauss_test = (
 %\label{mis:sprog_manuel_gauss}
 \end{figure}
 Funktionerne bliver udført som forventet, i den rækkefølge de forekommer i listen.
-Da vi i flere af de metoder vi benytter os af behøver de helt rigtige parametre for at opnå et brugbart resultat, har ovenstående syntaks vist sig at være meget nyttig da parametrene ændres i samme fil.
+Da vi i flere af de metoder vi benytter os af behøver de helt rigtige parametre for at opnå et brugbart resultat, har ovenstående syntaks vist sig at være meget nyttig da alle parametre ændres i samme fil.
 
-Herefter tilføjes proceduren til en liste af procedurer. Denne liste pakkes ud og håndteres i \texttt{main.py}. Vores framework kaldes således: 
+Herefter tilføjes proceduren til en liste af flere andre procedurer. Denne liste pakkes ud og håndteres i \texttt{main.py}. Vores framework kaldes således: 
 \begin{verbatim}
 	python main.py <indeks i procedurelisten>
 \end{verbatim}
+
+Kaldet \texttt{'python main.py 0'} ville således kunne frembringe proceduren\\ \texttt{manuel\_gauss\_test}
 
 Vi har været glade for at have haft dette framework som 
 %læringsværktøj
 læringssandkasse men det har vist sig at det til vores projekt er MATLAB underlegent af flere grunde:
 \begin{itemize}
-	\item Numpy/Scipy er ikke specielt tolerant overfor programmeringsfejl. De stacktraces der udskrives ved fejl bringer blot information om hvilke interne Numpy-funktioner der fejler, og hælper ikke brugeren i retningen af en mulig løsning. Dette er tilfældet i selv nogle af de simpleste tilfælde, f.eks. ved matrixmultiplikation af to matricer af inkombatible dimensioner. %i numpy 1.5.1.
+	\item Numpy/Scipy er ikke specielt tolerant overfor programmeringsfejl. De stacktraces der udskrives ved fejl bringer blot information om hvilke interne Numpy-funktioner der fejler, og hjælper ikke brugeren i retningen af en mulig løsning. Dette er tilfældet i selv nogle af de simpleste tilfælde, f.eks. ved matrixmultiplikation af to matricer af inkombatible dimensioner. %i numpy 1.5.1.
 	\item Vi er flere gange i udviklingsforløbet stødt ind i at navngivningen af metoder i Scipy/Numpy er inkonsistent og ret forvirrende. 
-	\item I Numpy/Scipy findes der ofte 2 udgaver af den samme metode, forskellen på disse er blot at den ene modtager 1-dimensionelle arrays (vektorer) som input, og den anden modtager et 2-dimmensionelt array (matricer) som input. Man har således både \texttt{scipy.signal.convolve()} og \texttt{scipy.signal.convolve2d()}. MATLABs ekvivalente metode er \texttt{conv()} der modtager både vektorer og matricer.
-	\item Dokumentationen til Numpy/Scipy er til tider magelfuld og sjældne gange ikke eksisterende. 
+	\item I Numpy/Scipy findes der ofte 2 udgaver af den samme metode, forskellen på disse er blot at den ene modtager 1-dimensionelle arrays (vektorer) som input, og den anden modtager et 2-dimmensionelt array (matricer) som input. Man har således både \texttt{scipy.signal.convolve()} og \texttt{scipy.signal.convolve2d()}.
+	\item Dokumentationen til Numpy og i særdeleshed Scipy er mangelfuld og i sjældne tilfælde ikke eksisterende. 
 \end{itemize}
 
-Både MATLAB og Python har en interaktiv shell hvor man kan udforske forskellige af de indbyggede metoder på kørselstidspunktet. Begge miljøer understøtter kaldet \texttt{help()} der fremkalder dokumentationen af en funktion på kørselstidspunktet, problemet ved scipy/numpy er som sagt blot at den vedlagte dokumentation til tider er ret sparsom.
+Både MATLAB og Python har en interaktiv shell hvor man kan udforske forskellige af de indbyggede metoder på kørselstidspunktet. Begge miljøer understøtter kaldet \texttt{help()} der fremkalder dokumentationen af en funktion på kørselstidspunktet, problemet ved scipy/numpy er som sagt blot at den vedlagte dokumentation til tider er noget sparsom.
 
-Vi har ligeledes fundet at MATLAB har væsentligt flere funktioner der har været meget bekvemme i vores tilfælde. Af disse kan nævnes \texttt{nlfilter} der flytter, en af inputargumentet bestemt "kasse" pixel for pixel, og udfører en brugerbestemt funktion på hvert udsnit. Det er således rart at man ikke skal bekymre sig om at implementere nlfilteret men kan koncentrere sig om hvad det skal gøre. 
-Vi har derfor valgt at implementere vores endelige værktøj i MATLAB da vi har fundet at vi har kunnet producere fungerende kode hurtigere med Matlab end med Numpy/Scipy. %\bf{MERE} 
+Vi har ligeledes fundet at MATLAB har væsentligt flere funktioner der har været meget bekvemme i vores tilfælde. Af disse kan nævnes \texttt{nlfilter} der flytter, en af inputargumentet bestemt kvadratisk "kasse", pixel for pixel, og udfører en brugerbestemt funktion på hvert udsnit. Det er således rart at man ikke skal bekymre sig om at implementere nlfilteret men kan koncentrere sig om hvad den skal gøre. 
+Vi har derfor valgt at implementere vores endelige værktøj i MATLAB, da vi har fundet at vi har kunnet producere fungerende kode hurtigere med Matlab end med Numpy/Scipy. %\bf{MERE} 
