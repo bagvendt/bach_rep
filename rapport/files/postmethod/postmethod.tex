@@ -1,4 +1,3 @@
-\section{Endelige metode}
 \subsection{Foldning med eksempelbilleder}
 Som vi har nævnt i tidligere afsnit, har vi opnået de bedste resultater efter at lede efter vesiklerne selv, i stedet for at lede efter egenskaber som kanter og andet. Vi forsøger derfor så at detektere vesiklerne ved at folde med billeder af disse. Vi laver derfor en liste af vesikler der hver repræsenterer en type vesikel. Da der er forskel på vesiklernes farve, form og størrelse er det nødvendigt men denne liste af vesikler, i stedet for bare at nøjes med en enkelt. Vi tager så hver enkelt vesikel og folder med billedet. For hver pixel i billedet vælger vi et udsnit på størrelse med vesiklen der har centrum i den pixel vi er gået ud fra. Vi benytter os af en funktion i matlab kaldet \texttt{nlfilter} til at flytte udsnittet rundt på billedet. Funktionen tilføjer 0'er i de pixels i udsnittet der går udover kanten af billedet.
 
@@ -373,6 +372,8 @@ I vores test af algoritmen lavede vi nu et nyt billede ved at flytte rundt på m
 
 I figur \ref{fig:postmethod_sld_res22} ser vi resultatet. Til venstre i figuren ses det nye billede bygget med vores SLD algoritme, og til højre er de områder vi ønskede at segmentere markeret med cirkler. Som det tydeligt ses er der intet der adskiller disse områder fra resten af billedet. Vi kan derfor ikke bruge resultatet her til at segmentere områder. Vi prøver derfor at ændre på vores billeder.
 
+Første ændring er at vi ændrer i ground truth i forhold til træningsbilledet. Som vi tidligere har været inde på er kanten en stor del af det der definerer en vesikel fordi mønsteret i centrum kan minde om den almindelige baggrund i en celle. Vi har derfor klippet hvad der svarer til dette centrum ud af ground truth, i håb om at billedet så bliver mere korrekt. I figur \ref{fig:postmethod_sld_gt4} nedenfor ses til venstre det nye ground truth billede, og til højre det resulterende billede fra segmenteringen af vores testbillede. Igen er resultatet ikke godt da vi heller ikke her kan se tydelige mønstre hvor vesiklerne burde være.
+
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
 		\centering
@@ -386,7 +387,9 @@ I figur \ref{fig:postmethod_sld_res22} ser vi resultatet. Til venstre i figuren 
 	\caption{...\label{fig:postmethod_sld_gt4}}
 \end{figure}
 
-Første ændring er at vi ændrer i ground truth i forhold til træningsbilledet. Som vi tidligere har været inde på er det kun kanten der definerer en vesikel, da midten 
+Næste ændring er så at udglatte billedet. Dette har vi tidligere forsøgt, men det gav intet godt resultat i forhold til de funktioner vi prøvede der. % Henvis til afsnittet!
+Da vi med denne algoritme prøver at finde kanterne, kan det dog være smart at udglatte igen. Til dette har vi brugt et gaussfilter med en kerne på 2. %Tjek! Det er fra photoshop!
+Vi har både udglattet træningsbilledet samt testbilledet, disse ses i figur \ref{fig:postmethod_sld_res3}, og har efterfølgende bygget vores matricer op med atomstørrelser på $7\times7$ pixels.
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
@@ -401,6 +404,8 @@ Første ændring er at vi ændrer i ground truth i forhold til træningsbilledet
 	\caption{...\label{fig:postmethod_sld_res3}}
 \end{figure}
 
+Som det fremgår af billedet til venstre i figur \ref{fig:postmethod_sld_res5} finder vi nu især tre områder foruden den kendte vesikel der fremtræder. I billedet har vi med ringe markeret de steder vi ved der er vesikler. Vi har i billedet til højre i samme figur konstrueret billedet efter en tærskelværdi. Som det ses finder algoritmen fire områder. To af områderne ligger korrekt inden for en vesikel, området i bunden er den allerede kendte vesikel og området i toppen er et fejldetekteret område. 
+
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
 		\centering
@@ -414,8 +419,40 @@ Første ændring er at vi ændrer i ground truth i forhold til træningsbilledet
 	\caption{...\label{fig:postmethod_sld_res5}}
 \end{figure}
 
-\subsection{Kombinationen} % Marcus
+Dette resultat er et rigtig positivt resultat, men for at vi kan sige noget mere om metoden skal den også kunne finde områder der ikke er kendt, altså vesikler i ukendte celler. Vi har derfor igen taget fat i områderne fra \ref{fig:postmethod_conv_gt3} og \ref{fig:postmethod_conv_gt2}, og har udglattet begge disse områder med et gaussfilter ligesom med billedet ovenfor. Billederne i figur \ref{fig:postmethod_sld_res6} er det resulterende billede samt det samme billede efter en tærskelværdi. I begge billeder har vi med ringe markeret hvor vi ved der skulle findes vesikler. Som det tydeligt fremgår af billederne er vesiklerne ikke korrekt segmenteret.
+
+Vi forsøger os da med det næste område, som altså er det udglattede billede af figur \ref{fig:postmethod_conv_gt2}. Igen viser vi i figur \ref{fig:postmethod_sld_res7} det resulterende billede samt billedet efter en tærskelværdi, hvor vi har indsat ringe for at markeret ground truth. Vi kan se at der er segmenteret områder, men kun et af områderne ligger indenfor cirklerne.
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res8.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res9.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_res6}}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res10.png}
+	\end{minipage}
+	\hspace{0.8cm}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[scale=0.54]{files/postmethod/img/sld_res11.png}
+	\end{minipage}
+	\caption{...\label{fig:postmethod_sld_res7}}
+\end{figure}
+
+Vi må altså konstatere at vores SLD algoritme er ganske god til at segmentere vesikler fra samme celle som matricerne med atomer er bygget af, men så snart vi bevæger os udenfor cellen til andre celler og vesikler, har algoritmen problemer. Det faktum at vi rent faktisk fandt 2 ud af 3 ukendte vesikler i samme celle som matricen var bygget efter, fortæller os samtidig af metoden virker, det kræver bare at vi bygger matricen med gode atomer. I vores matricer har vi her haft ca. 9000 atomer, og et udsnit på $100\times100$ pixel tager ca. 20 minutter at segmentere for vores implementation af SLD i \texttt{Matlab}. I SLD har forfatterne forsøgt sig med forskellige matricestørrelser. Deres matricer indeholder f.eks. 50.000 atomer, men pga. deres optimeringsalgoritmer før segmenteringen kan de vælge de atomer der passer bedst til at segmentere et ønsket mønster og dermed bringe antallet af atomer i matricerne ned til ca. 30.000. Denne reduktion af matricerne er en mulig optimering der ville gøre udførselstiden hurtigere. En anden mulig optimering for vores implementation af SLD algoritmen er at indføre en tærskelværdi for hvor langt afstanden må være fra et udsnit og dets valgte atom, da man så kun ville tilføje labels til det resulterende billede, hvis det tilsvarende intensitetsatom lignede udsnittet godt, og ikke bare blev valgt fordi det lignede bedst af dem der nu var.
+
+Vi har dog valgt ikke at arbejde videre med SLD algoritmen da denne kun var til for at skabe mere tillid til resultaterne der findes ved at folde med en vesikel.
+
 \subsection{Evaluering}
 \subsubsection{ROC}
-\subsubsection{Forbedringer af endelige metode}
-\subsubsection{Hvad arbejder andre med} %
+\subsubsection{Herfra..}

@@ -8,7 +8,7 @@ function [ ] = usingTheDictionary( )
     
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTest.png'));
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTest5.png'));
-    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTest5.png'));
+    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTest9.png'));
 
     close all;
     
