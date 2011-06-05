@@ -1,0 +1,62 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces To nerveceller, en afsender af neurotransmitters (A) og en modtager (B). Pilen peger p\IeC {\r a} en synaptisk vesikel.}}{4}{figure.1}
+\contentsline {figure}{\numberline {2}{\ignorespaces Billede af nerveceller taget med et cryo-elektron mikroskop.}}{5}{figure.2}
+\contentsline {figure}{\numberline {3}{\ignorespaces Udsnit af en enkelt nervecelle.}}{6}{figure.3}
+\contentsline {figure}{\numberline {4}{\ignorespaces Udsnit af en enkelt nervecelle med ground truth markeret.}}{6}{figure.4}
+\contentsline {figure}{\numberline {5}{\ignorespaces Er der en vesikel for enden af pilen?}}{6}{figure.5}
+\contentsline {figure}{\numberline {6}{\ignorespaces Kantfejl ved foldning.}}{9}{figure.6}
+\contentsline {figure}{\numberline {7}{\ignorespaces Til venstre ses et billede af en del af New York set fra oven. P\IeC {\r a} billedet til h\IeC {\o }jre er der blevet udf\IeC {\o }rt en lav-pas filtrering.}}{10}{figure.7}
+\contentsline {figure}{\numberline {8}{\ignorespaces Dette er cellen hvorfra vi tager to vesikler.}}{14}{figure.8}
+\contentsline {figure}{\numberline {9}{\ignorespaces To udsnit af en enkelt vesikel. Begge vesikler er relativt cirkul\IeC {\ae }re.}}{14}{figure.9}
+\contentsline {figure}{\numberline {10}{\ignorespaces Celleudsnit fra originalbilledet.}}{15}{figure.10}
+\contentsline {figure}{\numberline {11}{\ignorespaces Billede f\IeC {\o }r og efter en Gauss udglatning.}}{16}{figure.11}
+\contentsline {figure}{\numberline {12}{\ignorespaces Tabel over gaussisk fordeling i pixel 30,30 efter forskellige $\sigma $ v\IeC {\ae }rdier.}}{17}{figure.12}
+\contentsline {figure}{\numberline {13}{\ignorespaces Celleudsnit behandlet med et gaussfilter og $\sigma $ v\IeC {\ae }rdi p\IeC {\r a} 15.}}{17}{figure.13}
+\contentsline {figure}{\numberline {14}{\ignorespaces Originalbilledet til venstre, og behandlet med et sobel filter til h\IeC {\o }jre.}}{18}{figure.14}
+\contentsline {figure}{\numberline {15}{\ignorespaces Originalbilledet foldet med et sobelfilter.}}{19}{figure.15}
+\contentsline {figure}{\numberline {16}{\ignorespaces Sobelfilteret fra figur \ref {fig:premethod_sobel} med en t\IeC {\ae }rskelv\IeC {\ae }rdi p\IeC {\r a} 40.}}{20}{figure.16}
+\contentsline {figure}{\numberline {17}{\ignorespaces To vesikler med tre intensiteter givet.}}{21}{figure.17}
+\contentsline {figure}{\numberline {18}{\ignorespaces Linje tegnet ud fra pixel [i,j] der menes at ligge p\IeC {\r a} en kant.}}{22}{figure.18}
+\contentsline {figure}{\numberline {19}{\ignorespaces \textbf {\IeC {\O }verst venstre:} Originale billede. \textbf {\IeC {\O }verst h\IeC {\o }jre:} Cirkel med nogen af linjerne tegnet. \textbf {Nederst venstre:} Det resulterende billede med nogen af linjerne tegner. \textbf {Nedest h\IeC {\o }jre:} Resultat efter t\IeC {\ae }rskelv\IeC {\ae }rdi.}}{23}{figure.19}
+\contentsline {figure}{\numberline {20}{\ignorespaces Houghlinjer tegnet ud fra sobelbilledets kanter.}}{24}{figure.20}
+\contentsline {figure}{\numberline {21}{\ignorespaces T\IeC {\ae }rskelv\IeC {\ae }rdier p\IeC {\r a} houghlinjerne tegnet ud fra sobelbilledets kanter.}}{25}{figure.21}
+\contentsline {figure}{\numberline {22}{\ignorespaces De resulterende omr\IeC {\r a}der fundet ved hj\IeC {\ae }lp af Hough cirkel detektion plottet p\IeC {\r a} det originale billede.}}{26}{figure.22}
+\contentsline {figure}{\numberline {23}{\ignorespaces Originalbillede samt det resulterende billede efter foldning med det afledete gaussfilter.}}{27}{figure.23}
+\contentsline {figure}{\numberline {24}{\ignorespaces $G_x$ (venstre) og $G_y$ (h\IeC {\o }jre) plottet med $\sigma $ v\IeC {\ae }rdi 15 og x og y v\IeC {\ae }rdier fra -50 til 50.}}{28}{figure.24}
+\contentsline {figure}{\numberline {25}{\ignorespaces Originalbillede af en celle foldet med det afledete gaussfilter.}}{29}{figure.25}
+\contentsline {figure}{\numberline {26}{\ignorespaces Vesikel med kantken markeret.}}{29}{figure.26}
+\contentsline {figure}{\numberline {27}{\ignorespaces Billeder foldet med matricer. Venstre billede med matrice med 0 i indre. H\IeC {\o }jre billede med matrice med 10 i indre.}}{30}{figure.27}
+\contentsline {figure}{\numberline {28}{\ignorespaces Billede med cellen vi vil unders\IeC {\o }ge markeret.}}{33}{figure.28}
+\contentsline {figure}{\numberline {29}{\ignorespaces Til venstre ses en celle hvor vi \IeC {\o }nsker at detektere vesikler. Til h\IeC {\o }jre ses den vesikel der ledes efter.}}{34}{figure.29}
+\contentsline {figure}{\numberline {30}{\ignorespaces Ground truth markeret.}}{35}{figure.30}
+\contentsline {figure}{\numberline {31}{\ignorespaces Til venstre ses det genererede distance map. Til h\IeC {\o }jre ses samme billede efter en t\IeC {\ae }rskelv\IeC {\ae }rdi p\IeC {\r a} nederste 35\% af farvev\IeC {\ae }rdierne.}}{35}{figure.31}
+\contentsline {figure}{\numberline {32}{\ignorespaces Oprindelige billede med markerede omr\IeC {\r a}der. Gr\IeC {\o }nne er korrekt detekterede vesikler. R\IeC {\o }de er forkerte detekterede vesikler. Bl\IeC {\r a} er vesikler det ikke blev detekteret.}}{36}{figure.32}
+\contentsline {figure}{\numberline {33}{\ignorespaces Udregnede v\IeC {\ae }rdier i omr\IeC {\r a}det fra 200 til 220 p\IeC {\r a} x-aksen. }}{37}{figure.33}
+\contentsline {figure}{\numberline {34}{\ignorespaces Udregnede v\IeC {\ae }rdier i omr\IeC {\r a}det fra 1 til 60 p\IeC {\r a} x-aksen, og 200 til 255 p\IeC {\r a} y-aksen. }}{38}{figure.34}
+\contentsline {figure}{\numberline {35}{\ignorespaces Til venstre ses resultatet efter foldning med vesikel A og C og t\IeC {\ae }rskelv\IeC {\ae }rdi p\IeC {\r a} 30\%. Til h\IeC {\o }jre ses samme foldning bare med t\IeC {\ae }rskelv\IeC {\ae }rdi p\IeC {\r a} 34\%.}}{40}{figure.35}
+\contentsline {figure}{\numberline {36}{\ignorespaces Omr\IeC {\r a}det i det originale billede som vi er interesseret i.}}{41}{figure.36}
+\contentsline {figure}{\numberline {37}{\ignorespaces Ground truth markeret.}}{41}{figure.37}
+\contentsline {figure}{\numberline {38}{\ignorespaces Ground truth markeret.}}{42}{figure.38}
+\contentsline {figure}{\numberline {39}{\ignorespaces Ground truth markeret.}}{43}{figure.39}
+\contentsline {figure}{\numberline {40}{\ignorespaces Omr\IeC {\r a}det i det originale billede som vi er interesseret i.}}{44}{figure.40}
+\contentsline {figure}{\numberline {41}{\ignorespaces Ground truth markeret.}}{44}{figure.41}
+\contentsline {figure}{\numberline {42}{\ignorespaces Ground truth markeret.}}{45}{figure.42}
+\contentsline {figure}{\numberline {43}{\ignorespaces Ground truth markeret.}}{46}{figure.43}
+\contentsline {figure}{\numberline {44}{\ignorespaces Billedudsnit ekstraheret fra tr\IeC {\ae }ningsbilledet og lagt over i intensitetsmatricen. }}{47}{figure.44}
+\contentsline {figure}{\numberline {45}{\ignorespaces Det tilsvarende ground truth billede med associerede udsnit ekstraheret og lagt i labelmatricen.}}{47}{figure.45}
+\contentsline {figure}{\numberline {46}{\ignorespaces }}{48}{figure.46}
+\contentsline {figure}{\numberline {47}{\ignorespaces }}{49}{figure.47}
+\contentsline {figure}{\numberline {48}{\ignorespaces }}{49}{figure.48}
+\contentsline {figure}{\numberline {49}{\ignorespaces Testbilleder \IeC {\o }verst, ground truth i midten og resultatet af segmenteringen nederst.}}{50}{figure.49}
+\contentsline {figure}{\numberline {50}{\ignorespaces ...}}{51}{figure.50}
+\contentsline {figure}{\numberline {51}{\ignorespaces ...}}{51}{figure.51}
+\contentsline {figure}{\numberline {52}{\ignorespaces ...}}{52}{figure.52}
+\contentsline {figure}{\numberline {53}{\ignorespaces ...}}{52}{figure.53}
+\contentsline {figure}{\numberline {54}{\ignorespaces ...}}{53}{figure.54}
+\contentsline {figure}{\numberline {55}{\ignorespaces ...}}{53}{figure.55}
+\contentsline {figure}{\numberline {56}{\ignorespaces ...}}{54}{figure.56}
+\contentsline {figure}{\numberline {57}{\ignorespaces ...}}{54}{figure.57}
+\contentsline {figure}{\numberline {58}{\ignorespaces ...}}{55}{figure.58}
+\contentsline {figure}{\numberline {59}{\ignorespaces ...}}{55}{figure.59}
+\contentsline {figure}{\numberline {60}{\ignorespaces ...}}{56}{figure.60}
+\contentsline {figure}{\numberline {61}{\ignorespaces ...}}{57}{figure.61}
+\contentsline {figure}{\numberline {62}{\ignorespaces ...}}{57}{figure.62}

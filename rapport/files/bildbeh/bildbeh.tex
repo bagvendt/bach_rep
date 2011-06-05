@@ -1,4 +1,6 @@
+\thispagestyle{plain}
 \section{Billedbehandling}
+\pagestyle{headings}
 I billedbehandling kan data blive repræsenteret på mange forskellige måder, alt efter hvilket domæne et signal optræder i. To af områderne er f.eks. frekvensdomænet og tid og sted domænet. Man vælger så hvilket domæne der repræsenterer de ønskede karistika i signalet bedst, ved at lave et gæt, eller ved at forsøge sig frem. Har man f.eks. observeret en række målte data, arbejder man typisk med disse i tid og sted domænet, hvor en diskret fouriertranformation producerer information der kan aflæses i frekvensdomænet. 
 
 Når vi ser med menneskeøjne på et billede af en celle, er de som regel uden klart defineret semantik. Da billedet bliver taget som et tværsnit kan vinklen på cellerne være lidt på kanten af en celle der gør at det er svært at se klare overgange mellem cellerne, og kanterne vil i stedet have noget støj der kan gå ud over billedet, hvilket også blev diskuteret i tidligere afsnit.
@@ -10,19 +12,11 @@ En sådan reduktion af støj, eller ekstraktion af interessante konturer, opnås
 Da man ved filtrering ønsker flere ting, deriblandt både reduktion og ekstraktion, findes der naturligvis mange typer af filtre der kan benyttes i analysen, og det er målet for analysen der bestemmer hvilke filtre der skal benyttes. 
 
 \subsection{Foldning og filtrering}
-% Skriv om dette (kantfejl ved foldning)
-%http://www.echoview.com/files/WebHelp/Reference/Algorithms/Operators/Convolution_algorithms.htm
 Filtreringen foretages ofte ved en foldning af billedet med de valgte filterfunktionener. I matematik og specielt i funktionanalyse, er foldning en matematisk operation på to funktioner, $f$ og $g$, der producerer en tredje funktion der er en modificeret funktion af en af de to funktioner. Foldning opnås ved
 \begin{align}
 	f(t)*g(t)=\int_{-\infty}^{\infty}f(\tau)g(t-\tau)d\tau
 \end{align}
 hvor $*$ er tegnet for foldning. 
-
-Man opnår samme resultat ved at folde f og g i tid og sted domænet som man gør ved at multiplicere deres fouriertransformerede i frekvensdomænet, og så invers fouriertransformere.
-\begin{align}
-	f(t)*g(t) = \mathbb{F}^{-1}(\mathbb{F}(f)\cdot\mathbb{F}(g))
-\end{align}
-hvor $\mathbb{F}$ betyder at der er foretaget en fouriertransformation af funktionen og $\mathbb{F}^{-1}$ er en invers fouriertransformation.
 
 Når man folder et billede med et filter, besøger man hver pixel og går størrelsen på filteret ud med centrum i denne. I hvert af disse områder beregnes så en værdi som så gemmes i den valgte pixel. På den måde udregner filteret en værdi for hver pixel ved hjælp af de omkringliggende pixels og ikke alle pixels i billedet. Problemet med dette er dog at i kanten af billedet vil filteret på den ene side ikke kunne finde nogle nabopixels. Dette er illustreret grafisk i figur \ref{fig:bildbeh_conv_edge_error}. Her findes så forskellige metoder hvor der kan tages højde for dette. Man kan enten undgå helt at udregne værdier for de pixels der skaber dette problem, eller man kan angive hvilke værdier der skal være i disse pixels. Enten kan man spejle billedet på dets 4 kanter, fortsætte med kantens værdi eller tage den modstående kants værdi. Alle disse metoder er lige korrekte, da ingen af dem bruger sande værdier. 
 
@@ -38,7 +32,7 @@ De mest benyttede filtre er de lineære positionsinvariante.\footnote{Forelæsni
 
 Man kan filtrere billederne i både frekvendomænet og tid og sted domænet. Signaler kan konverteres fra tid og sted domænet til frekvensdomænet, og tilbage igen, gennem fouriertransformation.
 
-\subsubsection{Lav-pas filtrering}
+\subsection{Lav-pas filtrering}
 Ved en lav-pas filtrering dæmpes de høje frekvenser og de lave frekvenser får altså lov at passere. Lav-pas filtrering er en effektiv metode til at undertrykke støj, men ulempen er at der sker en reduktion i kontrasten fordi højfrekvent energi fra billedkontraster ikke kan skelnes fra højfrekvent energi fra støj. På figur \ref{fig:low_pass} ses til højre resultatet af en lav-pas filtrering. Filtreringen på figuren ligner en udglatning.
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
@@ -59,19 +53,20 @@ Der findes her en række af filtre såsom idealfiltret, Butterworth filtret, Han
 \subsection{Frekvensområdet}
 Hvor tid og sted domænet f.eks. viser grafer over hvordan signalet ændrer sig over tid, viser grafen i frekvensområdet i stedet hvor meget af signalet der ligger inden for en række frekvenser der danner et bånd. I frekvensområdet arbejder man med fouriertranformationer.
 
-\subsubsection{Fouriertransformation}
+\subsection{Fouriertransformation}
 Fouriertransformation kommer fra studierne i Fourierserier, der er en måde at dekomposere et hvilken som helst periodisk signal til summen af et sæt af simple svingende funktioner, f.eks sinus og cosinus. Fourierserier blev introduceret af Joseph Fourier (1768-1830) med formålet at løse varmeligningen i en metalplade.
 
 Navnet Fouriertransformation refererer både til frekvensdomænet af signalet og processen der transformerer signalet til dets frekvensdomænerepræsentation. Fouriertransformation er klassisk inden for al signal- og billedbehandling. Dette skyldes bl.a. at en række foldninger kan beregnes væsentlig hurtigere ved brug af fouriertransformationen. Fouriertransformationen giver mulighed for visuelt at fortolke billedet på en ny måde og for at specificere visse filtre lettere. Matematisk set er fouriertransformationen blot en ud af mange baseskiftende transformationer.
 
-% SKRIV MERE MATEMATISK HVAD FOURIERTRANSFORMATION ER.
-
-% VIS EKSEMPLER PÅ BILLEDER I FOURIER OMRÅDER OG VIS SKRIDTERE GRAFISK
+Man opnår samme resultat ved at folde f og g i tid og sted domænet som man gør ved at multiplicere deres fouriertransformerede i frekvensdomænet, og så invers fouriertransformere.
+\begin{align}
+	f(t)*g(t) = \mathbb{F}^{-1}(\mathbb{F}(f)\cdot\mathbb{F}(g))
+\end{align}
+hvor $\mathbb{F}$ betyder at der er foretaget en fouriertransformation af funktionen og $\mathbb{F}^{-1}$ er en invers fouriertransformation.
 
 %% Referencer:
 % http://en.wikipedia.org/w/index.php?title=Digital_signal_processing&oldid=426007207
 % http://en.wikipedia.org/w/index.php?title=Frequency_domain&oldid=424506778
 % Forelæsningsnoter til introduktion til billedbehandling, 25. oktober 2006
-
-  
+% http://www.echoview.com/files/WebHelp/Reference/Algorithms/Operators/Convolution_algorithms.htm
  
