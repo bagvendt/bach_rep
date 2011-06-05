@@ -1,10 +1,10 @@
 \section{Programmeringsprog}
 Da vi skulle vælge hvilket værktøj vi ville implementere vores projekt i gjorde vi os ikke specielt mange overvejelser. 
-Vores valg faldt hurtigt på python numpy og scipy, da vi tidligere havde stiftet bekendskab med Matlab, og begge var af samme opfattelse nemlig
-at det syntaksen i Matlabs scripingsprog langt fra var optimalt.
+Vores valg faldt hurtigt på Python, Numpy og Scipy, da vi tidligere havde stiftet bekendskab med MATLAB, og begge var af samme opfattelse nemlig
+at syntaksen i MATLABs scripingsprog langt fra var behageligt at arbejde med.
 
 
-Vi har derfor bygget et framework i python der kraftigt gør brug af numpy bestående af 4 filer: \texttt{proc.py, functions.py, main.py, constants.py}.
+Vi har derfor bygget et framework i Python der kraftigt gør brug af Numpy bestående af 4 filer: \texttt{proc.py, functions.py, main.py, constants.py}.
 
 I \texttt{functions.py} ligger alle vores funktioner, disse inkluderer for eksempel: foldning med en gausskerne og difference of gaussians.
 \texttt{constants.py} indeholder forskellige konstanter og foldningskerner. I \texttt{proc.py} kan funktionerne kaldes med forskellige parametre, på et eller flere billeder, i den rækkefølge man ønsker.
@@ -16,8 +16,24 @@ PROCEDURE_NAVN = (BILLEDNAVN, [
                  (funktion2,
                    {parametre}),])
 \end{verbatim}
+I nedenstående kodeeksempel giver vi et konkret eksempel på en procedure der indlæser et billede, konstruerer en gausskerne som beskrevet i (\ref{ali:premethod_gaussG}), og folder billedet med denne kerne, og derefter viser resultatet på skærmen.
+\begin{figure}[H]
+\begin{verbatim}
+manuel_gauss_test = ( 
+    'img/cirkel.png',
+    [
+    (manual_gauss,{
+        'sigma':15,
+        'x0':30,
+        'y0':30
+    }),
+    (display,{})],
+    )
+\end{verbatim}
+%\label{mis:sprog_manuel_gauss}
+\end{figure}
 Funktionerne bliver udført som forventet, i den rækkefølge de forekommer i listen.
-Da vi i flere af de metoder vi benytter os af behøver de helt rigtige parametre for at opnå et brugbart resultat, har ovenstående syntaks vist sig at være meget nyttig da parametrene blot skal ændres et sted.
+Da vi i flere af de metoder vi benytter os af behøver de helt rigtige parametre for at opnå et brugbart resultat, har ovenstående syntaks vist sig at være meget nyttig da parametrene ændres i samme fil.
 
 Herefter tilføjes proceduren til en liste af procedurer. Denne liste pakkes ud og håndteres i \texttt{main.py}. Vores framework kaldes således: 
 \begin{verbatim}
@@ -28,8 +44,7 @@ Vi har været glade for at have haft dette framework som
 %læringsværktøj
 læringssandkasse men det har vist sig at det til vores projekt er MATLAB underlegent af flere grunde:
 \begin{itemize}
-	\item Numpy/Scipy er ikke specielt tolerant overfor programmeringsfejl. De stacktraces der udskrives ved fejl bringer blot information om hvilke interne Numpy-funktioner og hælper ikke brugeren i retningen af en mulig løsning. Dette er tilfældet i selv nogle af de simpleste tilfælde, f.eks. ved matrixmultiplikation af to matricer af inkombatible dimensioner i %i numpy 1.5.1
-	.
+	\item Numpy/Scipy er ikke specielt tolerant overfor programmeringsfejl. De stacktraces der udskrives ved fejl bringer blot information om hvilke interne Numpy-funktioner der fejler, og hælper ikke brugeren i retningen af en mulig løsning. Dette er tilfældet i selv nogle af de simpleste tilfælde, f.eks. ved matrixmultiplikation af to matricer af inkombatible dimensioner. %i numpy 1.5.1.
 	\item Vi er flere gange i udviklingsforløbet stødt ind i at navngivningen af metoder i Scipy/Numpy er inkonsistent og ret forvirrende. 
 	\item I Numpy/Scipy findes der ofte 2 udgaver af den samme metode, forskellen på disse er blot at den ene modtager 1-dimensionelle arrays (vektorer) som input, og den anden modtager et 2-dimmensionelt array (matricer) som input. Man har således både \texttt{scipy.signal.convolve()} og \texttt{scipy.signal.convolve2d()}. MATLABs ekvivalente metode er \texttt{conv()} der modtager både vektorer og matricer.
 	\item Dokumentationen til Numpy/Scipy er til tider magelfuld og sjældne gange ikke eksisterende. 
