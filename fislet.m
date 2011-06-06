@@ -1,19 +1,28 @@
 n=1;
 percentage=0.35;
 fntsz=18;
-I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb2/AN 1-5_7.jpg');
+I = imread('C:\Users\Marcus\Dropbox\Bachelor\Billeder\csgb2\Tv8.jpg');
 I = double(I(250+[0:400],400+[0:300]));
 
-J = double(imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/vesikler/1-5_7-1.png'));
+gray = mat2gray(I);
+X = gray2ind(gray, 256);
+imwrite(X, 'orig.jpg')
+
+J = double(imread('C:\Users\Marcus\Dropbox\Bachelor\vesikler\1-5_7-1.png'));
 fun = @(x) sum(((x(:)-mean(x(:)))/std(x(:))-(J(:)-mean(J(:)))/std(J(:))).^2);
 K=nlfilter(I,size(J),fun);
 
-imwrite(imadjust(K),'dist.png','png');
+gray = mat2gray(K);
+X = gray2ind(gray, 256);
+imwrite(X, 'dist.jpg')
    
-for threshold = 25:35
+for threshold = 1:99
     percentage = threshold/100;
 
     BNW = (K-min(K(:)))<percentage*(max(K(:))-min(K(:))); 
-    imwrite(imadjust(K),strcat(num2str(threshold),'.png'),'png');
+    gray = mat2gray(BNW);      
+    X = gray2ind(gray, 256);
+    imwrite(X, strcat(num2str(percentage),'.jpg'))
+    %imwrite(imadjust(BNW),strcat(num2str(threshold),'.png'),'png');
 end
 
