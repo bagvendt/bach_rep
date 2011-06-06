@@ -5,7 +5,8 @@ function [ ] = buildingTheDictionary( atomSize )
     fntsz=18;
     
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTrain.png'));
-    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTrain2.png'));
+    %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTrain2.png'));
+    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New3/imTrain.png'));
     
     figure();
     imagesc(I); axis image; colormap(gray); colorbar
@@ -15,7 +16,8 @@ function [ ] = buildingTheDictionary( atomSize )
     height = height-mod(height,atomSize);
     width = width-mod(width,atomSize);
     %label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imGT.png'));
-    label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imGT.png'));
+    %label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imGT.png'));
+    label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New3/imGT.png'));
     figure();
     imagesc(label_image); axis image; colormap(gray); colorbar
     set(gca,'fontsize',fntsz);

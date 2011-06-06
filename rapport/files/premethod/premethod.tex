@@ -30,13 +30,7 @@ At vesiklerne har fællestræk men alligevel er så forskellige, antyder at en e
 
 Det faktum at nogen af vesiklerne er relativt cirkulære, giver os ideen at detektere cirkler i billedet. Til dette benytter vi os af Hough-cirkeldetektion. Metoden er forklaret nærmere i afsnit \ref{premethod_hough}, men for at metoden kan fungere, skal billedet behandles først. Her benytter vi et Gauss filter der udglatter billedet før et sobel filter finder retninger i billedet som en kantdetektor bruger til at finde hvor der er kanter i billedet. Hver af disse funktioner er forklaret nærmere nedenfor, og vi vil til slut evaluere på resultatet.
 
-Vi vil benytte celleudsnittet i figur \ref{fig:premethod_celle} til at finde vesikler i. Billedet er godt da det både indeholder støj, vesikler og en kant på cellen hele vejen rundt.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=2.5]{files/premethod/img/celle1.png}
-	\caption{Celleudsnit fra originalbilledet.\label{fig:premethod_celle}}
-\end{figure}
+Vi vil benytte celleudsnittet i figur \ref{fig:premethod_daddy}, uden pilene, til at finde vesikler i. Billedet er et godt eksempel da det både indeholder støj, vesikler og en kant på cellen hele vejen rundt.
 
 \subsection{Gaussisk blur}
 Et gaussisk blur, eller gaussisk udglatning, er i et lavpasfilter da funktionen i virkeligheden reducerer billedets højfrekvens værdier. Filteret bliver typisk brugt til at reducere billedstøj og udglatte områder. 
@@ -58,38 +52,16 @@ I figur \ref{fig:premethod_gauss} ses to billeder hvor det første er originalbi
 \begin{align}
 	G(x,y) = \frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}\label{ali:premethod_gaussG}
 \end{align}
-hvor x er distancen fra origo på den horisontale akse, y er distancen fra origo på den vertikale akse og $\sigma$ er standard afvigelsen af den gaussike fordeling. Når man omtaler størrelsen på den gaussiske kerne er det størrelsen på dimensionen for $G$ der bygges. Ser vi på (\ref{ali:premethod_gaussG}) så er det kun eksponentialdelen der ændrer sig når x og y ændres. Vi ser så at et større x og y får eksponentialdelen til at gå mod 0. At hæve $\sigma$ værdien vil betyde at eksponentialdelen går langsommere mod 0. Der er ikke nogen grund til at lave en matrice med den gaussiske fordeling større end dens indgange har værdier på tal større end 0. Da vi er ude efter at udglatte billeder med vesikler på størrelse med ca. 20x20 pixels, ønsker vi at bygge en gaussisk fordelingsmatrice en smule 
-%større vs størrere
-større end dette, f.eks. på 30x30 pixels. Vi vælger derfor et $\sigma$ der gør at $G(30,30) > 0$. I figur \ref{fig:premethod_gauss_table} ses en oversigt over $G(30,30)$ med $\sigma$ værdier varierende fra 5 til 15. Det ses at $\sigma$ værdier på 5-10 er meget lave, og vi vælger derfor $\sigma$ til at have værdien 15.  
- 
-\begin{figure}[H]
-	\centering
-	\begin{tabular}{l | l}
-			\textbf{$\sigma$} & $G(30,30)$\\
-			\hline
-			$5$ & $1.476654096\cdot10^{-18}$\\
-			$6$ & $6.139819206\cdot10^{-14}$\\
-			$7$ & $3.425994239\cdot10^{-11}$\\
-			$8$ & $1.942558050\cdot10^{-9}$\\
-			$9$ & $2.936573462\cdot10^{-8}$\\
-			$10$ & $1.964128034\cdot10^{-7}$\\
-			$11$ & $7.740076025\cdot10^{-7}$\\
-			$12$ & $0.000002133620264$\\
-			$13$ & $0.000004582712125$\\
-			$14$ & $0.000008229144803$\\
-			$15$ & $0.00001295566429$
-	\end{tabular}
-	\caption{Tabel over gaussisk fordeling i pixel 30,30 efter forskellige $\sigma$ værdier.\label{fig:premethod_gauss_table}}
-\end{figure}
+hvor x er distancen fra origo på den horisontale akse, y er distancen fra origo på den vertikale akse og $\sigma$ er standard afvigelsen af den gaussike fordeling. Når man omtaler størrelsen på den gaussiske kerne er det størrelsen på dimensionen for $G$ der bygges. Ser vi på (\ref{ali:premethod_gaussG}) så er det kun eksponentialdelen der ændrer sig når x og y ændres. Vi ser så at et større x og y får eksponentialdelen til at gå mod 0. At hæve $\sigma$ værdien vil betyde at eksponentialdelen går langsommere mod 0. Der er ikke nogen grund til at lave en matrice med den gaussiske fordeling større end dens indgange har værdier på tal større end 0. Da vi er ude efter at udglatte billeder med vesikler hvis kant har en bredde på ca. 7 pixels, vælger vi derfor $\sigma$ værdien 7.
 
 I figur \ref{fig:premethod_GaussCelle} ses vores cellebillede fra figur \ref{fig:premethod_celle} der er blevet behandlet med et gaussfilter. Det er tydeligt at billedet er blevet udglattet, men det er samtidig også blevet sværere at se overgangen mellem vesiklerne. Dette er ikke et positivt resultat og vi forkaster funktionen.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{files/premethod/img/gausscell.png}
-	\caption{Celleudsnit behandlet med et gaussfilter og $\sigma$ værdi på 15.\label{fig:premethod_GaussCelle}}
+	\caption{Celleudsnit behandlet med et gaussfilter og $\sigma$ værdi på 7.\label{fig:premethod_GaussCelle}}
 \end{figure}
-
+% TAG NYT BILLEDE MED DENNE NYE 7 I STEDET FOR 15.
 
 \subsection{Sobelfilter og kantdetektion}
 I billedbehandling benyttes Sobel operatoren især i kant detektion. Operatoren udregner gradienten for hvert punkt i billedet. Gradienten i et billede er en retningsændring i intensitet eller farve i et billede. Det resulterende billede indeholder så retningen i den størst mulige ændring fra mørk til lys. Jo større intensitetsforskel der er mellem to tilstødende pixelgrupper des større er sandsynligheden for at der findes en kant mellem disse to grupper. Et eksempel på et billede der er blevet behandlet med et sobelfilter ses i figur \ref{fig:premethod_sobelres}
@@ -267,13 +239,13 @@ Dette kan vi illustrere grafisk ved nedenstående to plots i figur \ref{fig:prem
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\linewidth}
-		\includegraphics[scale=0.6]{files/premethod/img/g_x.jpg}
+		\includegraphics[scale=0.5]{files/premethod/img/g_x.jpg}
 	\end{minipage}
 	\hspace{0.5cm}
 	\begin{minipage}[b]{0.5\linewidth}
-		\includegraphics[scale=0.6]{files/premethod/img/g_y.jpg}
+		\includegraphics[scale=0.5]{files/premethod/img/g_y.jpg}
 	\end{minipage}
-	\caption{$G_x$ (venstre) og $G_y$ (højre) plottet med $\sigma$ værdi 15 og x og y værdier fra -50 til 50.\label{fig:premethod_gxgy}}
+	\caption{$G_x$ (venstre) og $G_y$ (højre) plottet med $\sigma$ værdi 7 og x og y værdier fra -25 til 25 med orientation $[$x y z$]$ = $[$50 50 0$]$.\label{fig:premethod_gxgy}}
 \end{figure}
 
 Vi finder så vores nye billede ved at folde det originale billede med det afledte gaussfilter i x-retningen, det samme for gaussfilteret afledt i y-retningen og så tage kvadratroden af summen af de kvadrerede resultater.
@@ -282,8 +254,8 @@ Vi finder så vores nye billede ved at folde det originale billede med det afled
 \end{align} 
 hvor $I$ er det originale billede, og $G_x$ hhv. $G_y$ er gaussfilteret afledt i x- hhv. y-retningen.
 
-Vores testcellebillede foldet med dette nye filter med en $\sigma$ på 15 giver resultatet i figur \ref{fig:premethod_gaussCell}.
-% UNDERSØG OM DET SKAL VÆRE 15, OG BEGRUND + TAG NYT BILLEDE!
+Vores testcellebillede foldet med dette nye filter med en $\sigma$ på 7 giver resultatet i figur \ref{fig:premethod_gaussCell}. Vi benytter netop denne værdi da kanten på en vesikel netop er 7 pixel bred.
+% TAG NYT BILLEDE!
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{files/premethod/img/gauss_derived_cell2.png}

@@ -4,12 +4,12 @@ When frisk work on formulering af intro shizzz
 
 
 Til Jon:
-- Hvad med koden?
-- Læser du pdfer? og gør censor også? (farver)
++ Hvad med koden?
++ Læser du pdfer? og gør censor også? (farver)
 - Hvor mange eksemplarer afleverer man
-- Hvad med læsevejledning
-- Sigmaværdien
-- Konklution på g_xx g_yy plot
++ Skal synop. afleveres med i rapporten?
++ Sigmaværdien
++ Konklusion på g_xx g_yy plot
 
 29. Maj
 ===========
@@ -19,4 +19,10 @@ Tak for mailen til Jon, har du nogen idé om hvornår de nye billeder kunne komm
 
 Klart defineret semantik - billedbeh 
 
-
+<h1><strong>
+TODO:
+Indledning (+ læsevejl)
+abstract
+evaluering
+konkl
+</strong></h1>

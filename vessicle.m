@@ -1,18 +1,19 @@
 n=1;
 percentage=0.35;
 fntsz=18;
-I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_48.jpg');
+%I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_48.jpg');
+I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb2/AN 2-3_7.jpg');
 %I = imread('/Users/claesnl/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_48.jpg');
-I = double(I(150+[0:255],60+[0:255]));
+%I = double(I(150+[0:255],60+[0:255]));
+I = double(I(200+[0:400],500+[0:350]));
 
 %J4 = I(75:100,120:145); % Vesikel 1 God-finder mange
 %J4 = I(140:165,160:185); % Vesikel 2 Finder sig selv og 3 FP ligner det.
-J4 = I(213:233,163:183); % Vesikel 4 Finder meget. Test med threshold.
-%J4 = I(107:138,25:55);
-%J5 = I(180:205,60:85);
+%J4 = I(213:233,163:183); % Vesikel 4 Finder meget. Test med threshold.
+J4 = I(145:165,135:155); % Vesikel 5 NY VES FRA 2-3_7
 
-I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_48.jpg');
-I = double(I(500+[0:255],200+[0:255]));
+%I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_48.jpg');
+%I = double(I(500+[0:255],200+[0:255]));
 figure(n); n=n+1;
 imagesc(I); axis image; colormap(gray); colorbar
 set(gca,'fontsize',fntsz);
@@ -38,7 +39,7 @@ imagesc(K4); axis image; colormap(gray); colorbar
 set(gca,'fontsize',fntsz);
 title('Distance Map');
    
-for threshold = 5:10
+for threshold = 25:35
     percentage = threshold/100;
 
     %BNW1 = (K1-min(K1(:)))<percentage*(max(K1(:))-min(K1(:)));
