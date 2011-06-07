@@ -1,26 +1,26 @@
-function [ ] = usingTheDictionary( )
+function [ ] = SLD_run( )
     close all;
     clear all;
     
     fntsz=18;
     
-    atomSize = 7;
+    atomSize = 3;
     
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTest.png'));
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTest5.png'));
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTest9.png'));
-    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New3/imTest.png'));
+    I = double(imread('C:\Users\Marcus\Desktop\penis\imTest.png'));
 
     close all;
     
     %buildingTheDictionary(atomSize);
     
-    figure();
+    figure();   
     imagesc(I); axis image; colormap(gray); colorbar
     set(gca,'fontsize',fntsz);
     title('Subset image');
 
-    NewI = SLD( I, atomSize );
+    NewI = SLD_calc( I, atomSize );
 
     figure();
     imagesc(NewI); axis image; colormap(gray); colorbar

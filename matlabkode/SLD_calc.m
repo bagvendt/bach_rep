@@ -1,4 +1,4 @@
-function [ NewI ] = SLD( I, atomSize )    
+function [ NewI ] = SLD_calc( I, atomSize )    
     load('minmis')    
 
     NewI = I.*0;

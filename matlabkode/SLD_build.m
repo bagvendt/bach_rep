@@ -1,12 +1,12 @@
-function [ ] = buildingTheDictionary( atomSize )
+function [ ] = SLD_build( atomSize )
     count = 0;
-    atomSize= 7;
+    atomSize= 3;
     
     fntsz=18;
     
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imTrain.png'));
     %I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imTrain2.png'));
-    I = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New3/imTrain.png'));
+    I = double(imread('C:\Users\Marcus\Dropbox\Bachelor\FuckMeRunning\New3\imTrain.png'));
     
     figure();
     imagesc(I); axis image; colormap(gray); colorbar
@@ -17,7 +17,7 @@ function [ ] = buildingTheDictionary( atomSize )
     width = width-mod(width,atomSize);
     %label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New/imGT.png'));
     %label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New2/imGT.png'));
-    label_image = double(imread('/Users/claesladefoged/Desktop/FuckMeRunning/New3/imGT.png'));
+    label_image = double(imread('C:\Users\Marcus\Desktop\penis\imGT.png'));
     figure();
     imagesc(label_image); axis image; colormap(gray); colorbar
     set(gca,'fontsize',fntsz);
