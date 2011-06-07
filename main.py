@@ -4,7 +4,7 @@ import sys
 def main():
 	arg = sys.argv 
 	if len(arg) != 2:
-		print 'NO WAY'
+		print 'Not gonna happen'
 		sys.exit()
 	
 	a = int(arg[1])

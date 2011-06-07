@@ -19,7 +19,7 @@ sobel_test = (
 	#(fftshift,{}),	
 	(gaussian_blur,{'sigma':15,}),
 	(ifft2,{}),
-	(rigmor_sobel,{}),
+	(r_sobel,{}),
 	(abs_func,{}),
 	(display,{})],
 	)
@@ -31,7 +31,7 @@ epic_test = (
 	#(fftshift,{}),
 	#(gaussian_blur,{'sigma':15,}),
 	#(ifft2,{}),
-	(rigmor_sobel,{}),
+	(r_sobel,{}),
 	(threshold_and_edgemap,{'threshold':40}),
 	#(edge_improved,{}),
 	(abspace,{
@@ -56,7 +56,7 @@ mexican_test = (
 
 sobel_together_with_a_mexican = ( 
 	'img/dots.png',
-	[(rigmor_sobel,{}),
+	[(r_sobel,{}),
 	(threshold_and_edgemap,{'threshold':40}),
 	(edge_improved,{}),
 	(display,{})],
@@ -65,7 +65,7 @@ sobel_together_with_a_mexican = (
 edgemap_test = ( 
 	'img/dots.png',
 	[
-	(rigmor_sobel,{}),
+	(r_sobel,{}),
 	(threshold_and_edgemap,{'threshold':80}),
 	#(edge_improved,{}),
 	(abspace,{
@@ -78,7 +78,7 @@ edgemap_test = (
 edgemap_test2 = ( 
 	'img/dots.png',
 	[
-	(rigmor_sobel,{}),
+	(r_sobel,{}),
 	(threshold_and_edgemap,{'threshold':80}),
 	#(edge_improved,{}),
 	(abspace,{
@@ -125,6 +125,12 @@ ghost1 = ('../img/celle1.png',
 	(display,{})],
 	)
 
+ghost_new= ('../img/celle1.png',
+	[	
+	(gaussian_blur_matrix_conv,{}),
+	(display,{})],
+	)
+
 ghost2 = ('img/circ2.png', #circ2
 	[
 	(invert_color,{}),
@@ -144,4 +150,4 @@ conv = ('img/circ2.png',
 	
 
 #Remember to add new procedures to this list
-func_list = [conv,ghost,ghost1,ghost2, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]
+func_list = [ghost_new,conv,ghost,ghost1,ghost2, smooth_test,sobel_test,epic_test,mexican_test,sobel_together_with_a_mexican,edgemap_test,edgemap_test2,manual_gauss_test]

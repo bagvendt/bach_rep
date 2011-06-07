@@ -28,9 +28,6 @@ def setup(image,env):
 	#img = imread1(image,flatten=1).astype('float32')	
 	img = pylab.imread(image)	
 	img = toimage(img)
-	#r,g,b = img.split()
-	#img = img.draft('L',img.size)
-	#img = ImageOps.grayscale(img)
 	img = img.convert("L")
 	img = fromimage(img)
 	env['org_img'] = copy.deepcopy(img)
@@ -117,7 +114,7 @@ def gaussian_blur_conv(img,env,**kwargs):
 			denom = 2 * (sigma ** 2)
 			frac = (1/(2*math.pi*(sigma**2)))
 			edgemap[ii1][ii2] = frac*math.exp(enum/float(denom))
-	#edgemap,env = invert_dimensions(edgemap,env,**kwargs)
+    #edgemap,env = invert_dimensions(edgemap,env,**kwargs)
 	out = sig.fftconvolve(img,edgemap,"same")
 	print out.shape
 	return (out,env)
@@ -125,8 +122,7 @@ def gaussian_blur_conv(img,env,**kwargs):
 def gaussian_blur_matrix_conv(img,env,**kwargs):
 	return (sig.fftconvolve(img,GAUSS,"same"),env)
 
-def rigmor_sobel(img,env,**kwargs):
-	"""TODO: Maybe og fucking garanteret different name"""
+def r_sobel(img,env,**kwargs):
 	maxval = 0
 	vert = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 	hor  = numpy.array([[-1,-2,-1],[0,0,0],[1,2,1]])
@@ -625,33 +621,4 @@ def image_eukl(img,env,**kwargs):
                value = 100
             canvas[wi+(tw/2)][hi+(th/2)] = value
     return (canvas,env)
-"""
-def image_avg(img,env,**kwargs):
-    #img1,placeholder = rigmor_sobel(img,env,**kwargs)
-    img2,placeholder = low_pass(img,env,**kwargs)
-    #kwargs['sigma1'] = 1.2
-    #kwargs['sigma2'] = 1.3
-    #img3,placeholder = sum_of_derived_gaussians(img,env,**kwargs)
-    kwargs['cut'] = 'img/circ.png'
-    img4,placeholder = image_vec_conv(img,env,**kwargs)
-    #img5,placeholder = hat_convolve(img,env,**kwargs)
-    imgres = img2+img4
-    T = kwargs['cut']
-    T = pylab.imread(T)	
-    T = toimage(T)
-    T = T.convert("L")
-    T = fromimage(T)
-    tw,th = T.shape
-    w,h = img.shape
-    T_2 = 
-    T_4
-    T_val_2 = 
-    for wi in range(w):
-        for hi in range(h):
-            if (wi+tw-1 >= w or hi+th-1 >= h):
-                continue
-            I = imgres[wi:(wi+tw),hi:(hi+th)]
-            
-    return (img,env)
-"""
 			
