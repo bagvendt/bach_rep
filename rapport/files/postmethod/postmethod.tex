@@ -474,8 +474,6 @@ Som beskrevet kan vi nu kombinere de segmenterede billeder og se på de resultat
 
 I figur \ref{fig:animalsss} er resultaterne (a), (b) og (c) fundet med vesikler fra samme celle, hvor (d), (e) og (f) er fra en ukendt celle. Vi kan fra tabellen aflæse at vi i figur \ref{fig:animalsss} rent faktisk finder flere vesikler med de ukendte eksempelbilleder, 93.8\%, end med de kendte eksempelbilleder, 92.3\%. I figur \ref{fig:animalssssssssssss} finder vi 100\% af vesiklerne med kombinationen af 3 resultater, altså både med kendte og ukendte eksempelbilleder. Det observeres dog samtidig at vi finder flere falske positive i områder med ukendte eksempelbilleder. 
 
-Vi mener dog at med minimum 92\% af vesiklerne fundet er metoden robust...
-
 \begin{table}[H]
 	\begin{tabular}{l|l|l|l|l|l|l}
 		$\#$ & Billeder & SP & FP & FN & Recall & 1-Precision \\\hline
@@ -505,11 +503,20 @@ Vi mener dog at med minimum 92\% af vesiklerne fundet er metoden robust...
 	\caption{Recall vs. 1-precision plottet fra tabel \ref{tab:postmethod_tabel2222}. Antal kombinerede resultater: 1=rød, 2=blå, 3=grøn, 4=cyan, 5=magenta, 6=sort. \label{fig:postmethod_recallprec2}}
 \end{figure}
 
-% Kombinationsresultater med kommentar om metodens robusthed ved vesikelliste.
-% Resultater ved "krydsprodukt" af vesiklerne.
-% Begrund ifh. forord at vi kun nu ser på nye billeder da det er dem der benyttes i praksis.
-% Forhåbninger om bedre resultater ved tidligere metoder (Hough, SLD). 
-% Synop konkl.
+Vi har nu konkluderet at vi får de bedste resultater ved at kombinere 3 af resultaterne efter afstandsmåling med en liste af vesikler. Listen af vesikler er en vi har opbygget ved at vælge 3 vesikler fra en celle der virkede som om den virkede som gode repræsentanter. Ved at måle antallet af fundne områder kan man afgøre om segmenteringen har været en success. I figur \ref{fig:animalsssq} har vi vist tre billeder af et distance map efter en tærskelværdi. Det ses tydeligt at der er stor forskel på resultatet, hvilket værdierne under hvert billede også angiver. En udvidelse af programmet kan derfor være at hvis summen af pixelværdierne i resultatbilledet ligger indenfor en tærskelværdi af det ønskede så kan billedet benyttes videre i programmet. På den måde kan man vælge de 3 billeder hvis sum kommer tættest på tærskelværdien til at kombinere med. Hvis ikke nogen af de billeder listen af vesikler producerer kan benyttes, kan man udvide programmet med at bede brugeren om at markere en ny vesikel i det billede der ønskes segmenteret, og på den måde træne programmet til bedre at kunne segmentere. 
+
+Man kan altid forbedre et programs evne til at segmentere korrekt ved at bringe antallet af falske positive ned. Vi har i tidligere afsnit foreslået at man med flere metoder kunne sammenholde resultaterne for så at tage de områder som metoderne var enige om. Vi har dog ikke haft held til at finde andre metoder der har vist sig robuste nok til at kunne tages i betragtning til denne opgave, og de metoder vi har forsøgt os med har vi forkastet igen. Med den markante forbedring i segmenteringsresultaterne ved at have benyttet de nye billeder, kan man spekulere i om SLD algoritmen samt Hough detektionen vil give bedre resultater, og dermed kunne benyttes i programmet. 
+
+\begin{figure}[H]
+  \centering
+  \subfloat[2668]{\label{fig:gull111111111}\includegraphics[width=0.26\textwidth]{files/postmethod/img/2.jpg}}        
+  \hspace{0.1cm}
+  \subfloat[283702]{\label{fig:tiger111222222}\includegraphics[width=0.26\textwidth]{files/postmethod/img/3.jpg}}
+  \hspace{0.1cm}
+  \subfloat[10168198]{\label{fig:mouse1113333}\includegraphics[width=0.26\textwidth]{files/postmethod/img/6.jpg}}
+  \caption{Tre billeder af distance map efter en tærskelværdi. Tallene angivet ved figurene er den summerede pixelværdi i billedet.}
+  \label{fig:animalsssq}
+\end{figure}
 
 \newpage
 \begin{figure}[H]
