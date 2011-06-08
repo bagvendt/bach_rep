@@ -444,9 +444,11 @@ En anden mulig optimering for vores implementation af SLD algoritmen er at indf�
 Vi har dog valgt ikke at arbejde videre med SLD algoritmen da denne kun var til for at skabe mere tillid til resultaterne der findes ved at folde med en vesikel. \\
 
 \subsection{Evaluering}
-I tidligere afsnit har vi beskrevet metoden \emph{Segmentering med eksempelbilleder}. Vi fik her segmenteret en ukendt vesikel med en sand-positiv-ratio på 33\%. Vi ønskede at forbedre dette resultat ved at benytte flere segmenteringsalgoritmer, og introducerede da SLD. Da vi ikke kunne få et godt resultat med ukendte billeder, selv med forskellig 
+I tidligere afsnit har vi beskrevet metoden \emph{Segmentering med eksempelbilleder}. Vi fik her segmenteret en ukendt vesikel med en sand-positiv-ratio på 33\%. Vi ønskede at forbedre dette resultat ved at benytte flere segmenteringsalgoritmer, og introducerede da SLD. Da vi ikke kunne få et godt resultat med ukendte billeder, selv med forskellig behandling af billederne algoritmen benyttede sig af, valgte vi ikke at gå videre med kombinationen af de to metoder. Vores endelige program består da udelukkende af metoden udviklet i \emph{Segmentering med eksempelbilleder} afsnittet, og det er den vi nu vil evaluere resultaterne af.
 
-Som nævnt i forordsafsnittet har vi sent i projektet modtaget nye cellebilleder. Vi vil nu afprøve vores segmenteringsprogram på disse nye billeder. Vi har udvalgt to celler fra disse billeder som vi ønsker at segmentere. Vi har for hver af områderne valgt 3 vesikler, så vi i alt kan finde afstand med 6 forskellige vesikler. I figur \ref{fig:animalsss} (a)-(f) ses første celle hvor hver af de 6 billeder svarer til segmentering med en enkelt vesikel. Ved at observere på resultaterne finder vi at de bedste billeder blev fundet ved en tærskelværdi på omkring 34\% ligesom vi har konkluderet tidligere i tabel \ref{tab:postmethod_tabelll}, og vi har i de resulterende billeder markeret SP, FP og FN. Som vi har beskrevet i afsnittet \emph{Segmentering med eksempelbilleder} består metoden i af finde afstand til en liste af eksempelvesikler i en celle, og kombinere de gode af resultaterne. I (g) har vi kombineret 3 af de resulterende billeder til det endelige billede. I figur \ref{fig:animalssssssssssss} ses segmenteringen med de samme 6 vesikler, bare på en ny celle og i (g) har vi her kun benyttet 2 af resultaterne til det endelige billede.
+Metoden går i al simpelhed ud på at segmentere en celle ved i hver pixel at udregne den euklidiske afstand til en vesikel, og gemme resultaterne i et nyt distance map. Ved at køre en tærskelværdi på resultatet får vi de segmenterede områder frem. Ved at kombinere resultaterne efter flere segmenteringer med forskellige vesikler, kunne vi opnå et bedre resultat. 
+
+Som nævnt i forordsafsnittet har vi sent i projektet modtaget nye cellebilleder. Vi vil nu afprøve vores segmenteringsprogram på disse nye billeder. Vi har udvalgt to celler fra disse billeder som vi ønsker at segmentere. Vi har for hver af områderne valgt 3 vesikler, så vi i alt kan finde afstand med 6 forskellige vesikler. I figur \ref{fig:animalsss} (a)-(f) ses første celle hvor hver af de 6 billeder svarer til segmentering med en enkelt vesikel. Ved at observere på resultaterne finder vi at de bedste billeder blev fundet ved en tærskelværdi på omkring 34\% ligesom vi har konkluderet tidligere i tabel \ref{tab:postmethod_tabelll}, og vi har i de resulterende billeder markeret SP, FP og FN. I figur \ref{fig:animalssssssssssss} ses segmenteringen med de samme 6 vesikler, bare på en ny celle.
 
 Vi er altså interesserede i at vide hvor mange af vesiklerne vores program finder, og hvor ofte det detekterer områderne forkert. Denne trade-off fanges mest præcist ved en recall-precision kurve.
 
@@ -458,7 +460,9 @@ Den anden ting vi er interesserede i, antallet af falske detektioner relativ til
 \begin{align}
 	1-Precision &= \frac{\textit{Antal falske positive}}{\textit{Antal korrekte positive + Antal falske positive}}
 \end{align}
-Ved at plotte \emph{recall} imod \emph{(1-precision)} udtrykkes det ønskede tradeoff. Dette har vi gjort i figur \ref{fig:postmethod_recallprec} hvor de røde cirkler er fra resultaterne fra de nye billeder hvor de 3 blå cirkler er de tidligere resultater med vesikel A, B og C med tærskelværdi på 34\% fra tabel \ref{tab:postmethod_tabelll}. De røde cirkler er resultaterne fra figur \ref{fig:animalsss} (a)-(f) og \ref{fig:animalssssssssssss} (a)-(f).
+Ved at plotte \emph{recall} imod \emph{(1-precision)} udtrykkes det ønskede tradeoff. Dette har vi gjort i figur \ref{fig:postmethod_recallprec} hvor de røde cirkler er fra resultaterne fra de nye billeder og de 3 blå cirkler er de tidligere resultater med vesikel A, B og C med tærskelværdi på 34\% fra tabel \ref{tab:postmethod_tabelll}. De røde cirkler er resultaterne fra figur \ref{fig:animalsss} (a)-(f) og \ref{fig:animalssssssssssss} (a)-(f). 
+
+Her kan vi aflæse at vi har fået en klar forbedring af fejlraten i forhold til resultaterne fundet med de tidligere billeder da de røde cirkler er placeret fra ca. 0.25 til 0.5 på x-aksen imod de gamle resultater der er placeret fra ca. 0.4 til 0.8. Recall-værdien, som er sand-positiv-ratioen fra tidligere, kan vi også aflæse en klar forbedring af. En anden bemærkelsesværdig observation er at de røde cirkler er relativt pænt samlet. I de tidligere afsnit observerede vi at cellebilleder hvor man fandt afstand til vesikler fra samme celle blev klart bedre segmenteret end hvis vesiklerne var fra en anden celle. Denne observation gør sig ikke gældende med de nye billeder. Da resultaterne er så mærkbart bedre med de nye billeder, vil vi i den resterende del af evalueringen kun benytte disse.
 
 \begin{figure}[H]
 	\centering
@@ -466,7 +470,30 @@ Ved at plotte \emph{recall} imod \emph{(1-precision)} udtrykkes det ønskede tra
 	\caption{Recall vs. 1-precision plottet fra resultaterne vist i figur \ref{fig:animalsss} og \ref{fig:animalssssssssssss}.\label{fig:postmethod_recallprec}}
 \end{figure}
 
-Her kan vi aflæse at vi har fået en klar forbedring af fejlraten i forhold til resultaterne fundet med de tidligere billeder da de røde cirkler er placeret fra ca. 0.25 til 0.5 på x-aksen imod de gamle resultater der er placeret fra ca. 0.4 til 0.8. Recall-værdien, som er sand-positiv-ratioen fra tidligere, kan vi også aflæse en klar forbedring af. En anden bemærkelsesværdig observation er at de røde cirkler er relativt pænt samlet. I de tidligere afsnit observerede vi at cellebilleder hvor man fandt afstand til vesikler fra samme celle blev klart bedre segmenteret end hvis vesiklerne var fra en anden celle. Denne observation gør sig ikke gældende med de nye billeder. 
+Som beskrevet kan vi nu kombinere de segmenterede billeder og se på de resultaterne dette medfører. Spørgsmålet er bare hvor mange af billederne vi skal kombinere. Vi har derfor i tabel \ref{tab:postmethod_tabel2222} forsøgt at kombinere ved først at vælge 2, 3, 4, 5 og til sidst 6 af billederne.
+
+\begin{table}
+	\begin{tabular}{l|l|l|l|l|l|l|l}
+		$\#$ & Antal billeder & Billeder & SP & FP & FN & SPR & FR \\\hline
+		1	&	2	&	\ref{fig:animalsss} (a)+(b)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	2	&	\ref{fig:animalsss} (c)+(d)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	2	&	\ref{fig:animalsss} (e)+(f)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	2	&	\ref{fig:animalssssssssssss} (a)+(b)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	2	&	\ref{fig:animalssssssssssss} (c)+(d)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	2	&	\ref{fig:animalssssssssssss} (e)+(f)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	3	&	\ref{fig:animalsss} (a)+(b)+(c)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	3	&	\ref{fig:animalsss} (d)+(e)+(f)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	3	&	\ref{fig:animalssssssssssss} (a)+(b)+(c)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	3	&	\ref{fig:animalssssssssssss} (d)+(e)+(f)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	4	&	\ref{fig:animalsss} (a)+(b)+(c)+(d)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	4	&	\ref{fig:animalssssssssssss} (a)+(b)+(c)+(d)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	5	&	\ref{fig:animalsss} (a)+(b)+(c)+(d)+(e)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	5	&	\ref{fig:animalssssssssssss} (a)+(b)+(c)+(d)+(e)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	6	&	\ref{fig:animalsss} (a)+(b)+(c)+(d)+(e)+(f)	& x	& x	&x 	&x 	&x\\\hline
+		1	&	6	&	\ref{fig:animalssssssssssss} (a)+(b)+(c)+(d)+(e)+(f)	& x	& x	&x 	&x 	&x
+	\end{tabular}
+	\caption{Oversigt over resultaterne ved at kombinere flere billeder til et endeligt resultat.\label{tab:postmethod_tabel2222}}
+\end{table}
 
 % Kombinationsresultater med kommentar om metodens robusthed ved vesikelliste.
 % Resultater ved "krydsprodukt" af vesiklerne.
@@ -477,18 +504,17 @@ Her kan vi aflæse at vi har fået en klar forbedring af fejlraten i forhold til
 \newpage
 \begin{figure}[H]
   \centering
-  \subfloat[42 / 33 / 23]{\label{fig:gull111}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-1.png}}        
+  \subfloat[47 / 23 / 18]{\label{fig:gull111}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-1.png}}        
   \hspace{0.1cm}
-  \subfloat[54 / 23 / 11]{\label{fig:tiger111}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-2.png}}
+  \subfloat[38 / 11 / 27]{\label{fig:tiger111}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-2.png}}
   \hspace{0.1cm}
-  \subfloat[38 / 25 / 27]{\label{fig:mouse111}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-3.png}}\\
-  \subfloat[49 / 22 / 16]{\label{fig:gull222}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-4.png}}        
+  \subfloat[40 / 29 / 25]{\label{fig:mouse111}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-3.png}}\\
+  \subfloat[46 / 25 / 19]{\label{fig:gull222}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-4.png}}        
   \hspace{0.1cm}
-  \subfloat[60 / 25 / 5]{\label{fig:tiger222}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-5.png}}
+  \subfloat[59 / 32 / 6]{\label{fig:tiger222}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-5.png}}
   \hspace{0.1cm}
-  \subfloat[46 / 16 / 19]{\label{fig:mouse222}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-6.png}}\\
-  \subfloat[65 / 53 / 0]{\label{fig:gull333}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1_245comb.png}}
-  \caption{Resultater af segmenteringen efter afstandsmåling med 6 vesikler. (a)-(f) er udført på samme celle. (g) er kombinationen af (b), (d) og (e). Under hvert billede er angivet antallet af Sand positiv (Grøn) / Falsk positiv (Rød) / Falsk negativ (Blå).}
+  \subfloat[42 / 14 / 23]{\label{fig:mouse222}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_1-6.png}}
+  \caption{Resultater af segmenteringen efter afstandsmåling med 6 vesikler. (a)-(f) er udført på samme celle. Under hvert billede er angivet antallet af Sand positiv (Grøn) / Falsk positiv (Rød) / Falsk negativ (Blå).}
   \label{fig:animalsss}
 \end{figure}
 
@@ -503,8 +529,7 @@ Her kan vi aflæse at vi har fået en klar forbedring af fejlraten i forhold til
   \hspace{0.1cm}
   \subfloat[25 / 13 / 3]{\label{fig:tiger8}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_2-5.png}}
   \hspace{0.1cm}
-  \subfloat[27 / 13 / 1]{\label{fig:mouse9}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_2-6.png}}\\
-  \subfloat[28 / 18 / 0]{\label{fig:gull99}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_2_56comb.png}}
-  \caption{Resultater af segmenteringen efter afstandsmåling med 6 vesikler. (a)-(f) er udført på samme celle. (g) er kombinationen af (e) og (g). Under hvert billede er angivet antallet af Sand positiv (Grøn) / Falsk positiv (Rød) / Falsk negativ (Blå).}
+  \subfloat[27 / 13 / 1]{\label{fig:mouse9}\includegraphics[width=0.26\textwidth]{files/postmethod/img/eval_2-6.png}}
+  \caption{Resultater af segmenteringen efter afstandsmåling med 6 vesikler. (a)-(f) er udført på samme celle. Under hvert billede er angivet antallet af Sand positiv (Grøn) / Falsk positiv (Rød) / Falsk negativ (Blå).}
   \label{fig:animalssssssssssss}
 \end{figure}
