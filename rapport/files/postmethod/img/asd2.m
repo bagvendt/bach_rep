@@ -46,7 +46,7 @@ PRECISION_6 = TP_6./(TP_6+FP_6);
 figure();
 plot(1-PRECISION,RECALL,'or',1-PRECISION_2,RECALL_2,'ob',1-PRECISION_3,RECALL_3,'og',1-PRECISION_4,RECALL_4,'oc',1-PRECISION_5,RECALL_5,'om',1-PRECISION_6,RECALL_6,'ok');
 % 1 = r?d, 2 = bl?, 3 = gr?n, 4 = cyan, 5 = magenta, 6 = sort
-axis([0 1.1 0 1.1]);
+axis([0.15 0.7 0.5 1.1]);
 set(gca,'fontsize',14);
 xlabel('1-Precision');
 ylabel('Recall');
