@@ -448,7 +448,7 @@ I tidligere afsnit har vi beskrevet metoden \emph{Segmentering med eksempelbille
 
 Metoden går i al simpelhed ud på at segmentere en celle ved i hver pixel at udregne den euklidiske afstand til en vesikel, og gemme resultaterne i et nyt distance map. Ved at køre en tærskelværdi på resultatet får vi de segmenterede områder frem. Ved at kombinere resultaterne efter flere segmenteringer med forskellige vesikler, kunne vi opnå et bedre resultat. 
 
-Som nævnt i forordsafsnittet har vi sent i projektet modtaget nye cellebilleder. Vi vil nu afprøve vores segmenteringsprogram på disse nye billeder. Vi har udvalgt to celler fra disse billeder som vi ønsker at segmentere. Vi har for hver af områderne valgt 3 vesikler, så vi i alt kan finde afstand med 6 forskellige vesikler. I figur \ref{fig:animalsss} (a)-(f) ses første celle hvor hver af de 6 billeder svarer til segmentering med en enkelt vesikel. Ved at observere på resultaterne finder vi at de bedste billeder blev fundet ved en tærskelværdi på omkring 34\% ligesom vi har konkluderet tidligere i tabel \ref{tab:postmethod_tabelll}, og vi har i de resulterende billeder markeret SP, FP og FN. I figur \ref{fig:animalssssssssssss} ses segmenteringen med de samme 6 vesikler, bare på en ny celle.
+Som nævnt i forordsafsnittet har vi sent i projektet modtaget nye cellebilleder. Vi vil nu afprøve vores segmenteringsprogram på disse nye billeder. Vi har udvalgt to celler fra disse billeder som vi ønsker at segmentere. Vi har for hver af områderne valgt 3 vesikler, så vi i alt kan finde afstand med 6 forskellige vesikler, 3 fra samme cellebillede, 3 fra et "ukendt" cellebillede. I figur \ref{fig:animalsss} (a)-(f) ses første celle hvor hver af de 6 billeder svarer til segmentering med en enkelt vesikel. Ved at observere på resultaterne finder vi at de bedste billeder blev fundet ved en tærskelværdi på omkring 34\% ligesom vi har konkluderet tidligere i tabel \ref{tab:postmethod_tabelll}, og vi har i de resulterende billeder markeret SP, FP og FN. I figur \ref{fig:animalssssssssssss} ses segmenteringen med de samme 6 vesikler, bare på en ny celle.
 
 Vi er altså interesserede i at vide hvor mange af vesiklerne vores program finder, og hvor ofte det detekterer områderne forkert. Denne trade-off fanges mest præcist ved en recall-precision kurve.
 
@@ -470,9 +470,13 @@ Her kan vi aflæse at vi har fået en klar forbedring af fejlraten i forhold til
 	\caption{Recall vs. 1-precision plottet fra resultaterne vist i figur \ref{fig:animalsss} og \ref{fig:animalssssssssssss}.\label{fig:postmethod_recallprec}}
 \end{figure}
 
-Som beskrevet kan vi nu kombinere de segmenterede billeder og se på de resultaterne dette medfører. Spørgsmålet er bare hvor mange af billederne vi skal kombinere. Vi har derfor i tabel \ref{tab:postmethod_tabel2222} forsøgt at kombinere ved først at vælge 2, 3, 4, 5 og til sidst 6 af resultaterne. Vi har derefter plottet \emph{Recall} vs. \emph{1-Precision} igen for disse nye resultater. Vi kan her aflæse at der sker en lille forbedring ved at kombinere to af resultaterne (blå cirkler) hvor den laveste \emph{recall} værdi er på $0.785$. Allerede ved at kombinere tre af resultaterne (grønne cirkler) får vi detekteret næsten alle vesiklerne uden at vores \emph{precision} forværres i for stor en grad. Vi ser samtidig at resultaterne ved at kombinere hhv. 4 (cyan cirkler), 5 (magenta cirkler) og 6 (sorte cirkler) forbedrer \emph{recall} værdien i en særlig grad, hvorimod \emph{precision} værdien forværres betydeligt her. Her kan vi altså konkludere at de bedste resultater blev opnået ved kombination af 3 tidligere resultater. 
+Som beskrevet kan vi nu kombinere de segmenterede billeder og se på de resultaterne dette medfører. Spørgsmålet er bare hvor mange af billederne vi skal kombinere. Vi har derfor i tabel \ref{tab:postmethod_tabel2222} forsøgt at kombinere ved først at vælge 2, 3, 4, 5 og til sidst 6 af resultaterne. Vi har derefter plottet \emph{Recall} vs. \emph{1-Precision} igen for disse nye resultater i figur \ref{fig:postmethod_recallprec2}. Vi kan her aflæse at der sker en lille forbedring ved at kombinere to af resultaterne (blå cirkler) hvor den laveste \emph{recall} værdi er på $0.785$. Allerede ved at kombinere tre af resultaterne (grønne cirkler) får vi detekteret næsten alle vesiklerne uden at vores \emph{precision} forværres i for stor en grad. Vi ser samtidig at resultaterne ved at kombinere hhv. 4 (cyan cirkler), 5 (magenta cirkler) og 6 (sorte cirkler) forbedrer \emph{recall} værdien i en særlig grad, hvorimod \emph{precision} værdien forværres betydeligt her. Her kan vi altså konkludere at de bedste segmenteringer opnåes ved kombination af 3 resultater. Hvor vi gennemsnitlig fandt 75\% af vesiklerne ved at finde afstand til en enkelt vesikel, stiger gennemsnittet til 97\% ved at kombinere resultaterne af afstanden til 3 vesikler. 
 
-\begin{table}
+I figur \ref{fig:animalsss} er resultaterne (a), (b) og (c) fundet med vesikler fra samme celle, hvor (d), (e) og (f) er fra en ukendt celle. Vi kan fra tabellen aflæse at vi i figur \ref{fig:animalsss} rent faktisk finder flere vesikler med de ukendte eksempelbilleder, 93.8\%, end med de kendte eksempelbilleder, 92.3\%. I figur \ref{fig:animalssssssssssss} finder vi 100\% af vesiklerne med kombinationen af 3 resultater, altså både med kendte og ukendte eksempelbilleder. Det observeres dog samtidig at vi finder flere falske positive i områder med ukendte eksempelbilleder. 
+
+Vi mener dog at med minimum 92\% af vesiklerne fundet er metoden robust...
+
+\begin{table}[H]
 	\begin{tabular}{l|l|l|l|l|l|l}
 		$\#$ & Billeder & SP & FP & FN & Recall & 1-Precision \\\hline
 		2	&	\ref{fig:animalsss} (a)+(b)	&51	&26	&14 							&0.785 	&0.338\\\hline
@@ -498,7 +502,7 @@ Som beskrevet kan vi nu kombinere de segmenterede billeder og se på de resultat
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.9]{files/postmethod/img/recallvsprecision2.png}
-	\caption{Recall vs. 1-precision plottet fra tabel \ref{tab:postmethod_tabel2222}. Antal kombinerede resultater: 1=rød, 2=blå, 3=grøn, 4=cyan, 5=magenta, 6=sort. \label{fig:postmethod_recallprec}}
+	\caption{Recall vs. 1-precision plottet fra tabel \ref{tab:postmethod_tabel2222}. Antal kombinerede resultater: 1=rød, 2=blå, 3=grøn, 4=cyan, 5=magenta, 6=sort. \label{fig:postmethod_recallprec2}}
 \end{figure}
 
 % Kombinationsresultater med kommentar om metodens robusthed ved vesikelliste.
