@@ -1,27 +1,24 @@
 \thispagestyle{plain}
 \section{Forord}
-Følgende er undertegnedes bachelorprojekt udarbejdet i perioden Ostekage - $ostekage_2$ ved Datalogisk Institut Københavns Universitet, under vejledning af Professor Jon Sporring.
+Følgende er undertegnedes bachelorprojekt udarbejdet i perioden 31. Januar 2011 til den 10. Juni 2011 ved Datalogisk Institut Københavns Universitet, under vejledning af Professor Jon Sporring.
 
-Vores faglige forudsætninger ved påbegyndelsen af vores projekt har været de forventede af 3. års datalogistuderende på Københavns Universitet. Vi er således gået ind i projektet med et solidt kendskab til en bred vifte af datalogiske problemløsningsværktøjer, men uden kendskab til de metoder der benyttes i billedbehandling, herunder specielt medicinsk billedbehandling.
+Vores faglige forudsætninger ved påbegyndelsen af dette projekt har været de forventede af 3. års datalogistuderende på Københavns Universitet. 
+Vi er således gået ind i projektet med et solidt kendskab til en bred vifte af datalogiske problemløsningsværktøjer, men uden kendskab til de metoder der benyttes indenfor billedbehandling, herunder specielt medicinsk billedbehandling.
+Det fremgår derfor også af vores synopsis at en af grundpillerne for projektet har været at tilegne os viden om en mængde teknikker indenfor billedbehandling for derefter at kunne benytte og implementere disse teknikker.
 
-Det fremgår derfor også af vores synopsis at en af grundpillerne for projektet har været at tilegne os viden om en mængde teknikker indenfor billedbehandling for derefter at kunne benytte og implementere disse teknikker. 
+I rapporten beskriver vi således flere af de basale elementer i billedbehandling, for derefter at belyse hvorledes vi har benyttet disse til at frembringe en relativt stabil detektion af synaptiske vesikler i nerveceller.
 
-I rapporten beskriver vi således flere af de basale elementer i billedbehandling, for derefter at belyse hvorledes vi har benyttet disse til at frembringe en relativt stabil detektion af synaptiske vesikkler i nerveceller.
+Til sidst i projektperioden har vi haft cellebilleder til rådighed af markant højere kvalitet. Vesiklerne i disse "nye" billeder står simpelthen væsentligt klarer frem, end det er tilfældet i de gamle cellebilleder.
+Vores endelige metode er således blevet til med udgangspunkt i de gamle billeder, mens vi primært har udarbejdet vores evaluering ud fra de nye cellebillder.
 
-% Forsskellig kvalitet på testbillederne. Som det også fremgår er testbillederne ringe kval.
-% Ingen beklagelse, det er forskellige kameraindstillinger. 
-% Konkluderer med det nye: de nye er taget med de korrekte indstillinger - så det er også af disse at lortet skal benyttes.
+Vi føler at denne fremgangsmåde er rimelig da det er vores klare overbevisning at fremtidig vessikeldetektion med Cryo-EM billeder vil foregå med billeder af denne "nye" kvalitet.
 
-Til sidst i projektperioden har vi haft cellebilleder til rådighed, med en markant højere deltaljeringsgrad.
+Det forventes af læseren at have et generelt kendskab til de forskellige metoder og termer inden for signal- og billedbehandling.
 
-Vi benytter dog kun disse i evalueringen af metoden. 
-
-Derfor er figurerne, vi har benyttet til at udforme vores detektionsværktøj, beskrevet med de "gamle" cellebilleder. Den endelige evaluering af vores metode er derimod udarbejdet med de nye cellebilleder.
-%
-Forventer af læseren hvorfor vi ikke vil gå minotiøst i dybden med f.eks foldning
+\textbf{evt. Tak til Anders Dahl og Aarhus manden} 
 
 \section{Introduktion}
-\subsection{Vesikler og meningen med detektionen}
+\subsection{"Problem statement"}
 \pagestyle{headings}
 En celle i nervesystemet kaldes for en neuron eller en nervecelle. Nerveceller er de vigtigste i nervesystemet, som hjernen og rygsøjlen er en del af.
 Nerveceller har bl.a. til opgave at modtage og sende information ved hjælp af elektriske og kemiske signaler. I en nervecelle er der en række synaptiske vesikler, der indeholder neurotransmittere. Nerveceller kommunikerer ved hjælp af impulssignaler. Når en nervecelle skal sende et impulssignal til en anden nervecelle, sendes en synaptiske vesikel til kanten af nervecellen og udsender neurotransmittere. Nervecellerne genskaber så de synaptiske vesikler så der igen kan sendes nye signaler. I figur \ref{fig:intro_syntrans} ses to nerveceller hvor der er markeret en synaptisk vesikel i den øverste. I den menneskelige hjerne har en synaptisk vesikel en gennemsnitlig diameter på 39.5 nm med en standard afvigelse på 5.1 nm. En af klasserne af neurotransmittere er aminosyre.
