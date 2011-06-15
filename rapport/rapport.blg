@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: rapport.aux
 The style file: unsrt.bst
 Database file #1: bibtexfile.bib
-You've used 2 entries,
+You've used 18 entries,
             1791 wiz_defined-function locations,
-            452 strings with 3890 characters,
-and the built_in function-call counts, 246 in all, are:
-= -- 13
-> -- 8
+            497 strings with 5457 characters,
+and the built_in function-call counts, 2078 in all, are:
+= -- 124
+> -- 76
 < -- 0
-+ -- 4
-- -- 2
-* -- 3
-:= -- 40
-add.period$ -- 4
-call.type$ -- 2
-change.case$ -- 0
++ -- 37
+- -- 19
+* -- 13
+:= -- 304
+add.period$ -- 37
+call.type$ -- 18
+change.case$ -- 3
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 10
-empty$ -- 37
-format.name$ -- 2
-if$ -- 54
+cite$ -- 18
+duplicate$ -- 94
+empty$ -- 316
+format.name$ -- 19
+if$ -- 481
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 0
-newline$ -- 11
-num.names$ -- 2
-pop$ -- 15
+int.to.str$ -- 18
+missing$ -- 2
+newline$ -- 76
+num.names$ -- 18
+pop$ -- 119
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 10
+skip$ -- 93
 stack$ -- 0
 substring$ -- 0
-swap$ -- 2
+swap$ -- 17
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 2
-width$ -- 3
-write$ -- 17
+while$ -- 18
+width$ -- 20
+write$ -- 137

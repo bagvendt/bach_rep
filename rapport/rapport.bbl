@@ -1,4 +1,9 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{synapticvesicle}
+\url{http://en.wikipedia.org/w/index.php?title=Synaptic_vesicle&oldid=422206613}.
+\newblock Udgivet under Creative Commons Attribution-Share Alike 3.0 Unported
+  license.
 
 \bibitem{neuron}
 Modificeret udgave~af
@@ -6,9 +11,80 @@ Modificeret udgave~af
 \newblock Udgivet af Mouagip under Creative Commons Attribution-Share Alike 3.0
   Unported license.
 
+\bibitem{dsp}
+\url{http://en.wikipedia.org/w/index.php?title=Digital_signal_processing&oldid=426007207}.
+\newblock Udgivet under Creative Commons Attribution-Share Alike 3.0 Unported
+  license.
+
+\bibitem{soren}
+Søren~Ingvar Olsen.
+\newblock {\em Forelæsningsnoter til introduktion til billedbehandling}.
+\newblock Københavns Universitet, 2006.
+
+\bibitem{converr}
+\url{http://www.echoview.com/files/WebHelp/Reference/Algorithms/Operators/Convolution_algorithms.htm}.
+
+\bibitem{newyork}
+\url{http://idlastro.gsfc.nasa.gov/idl_html_help/Filtering_an_Imagea.html}.
+
+\bibitem{freq}
+\url{http://en.wikipedia.org/w/index.php?title=Frequency_domain&oldid=424506778}.
+\newblock Udgivet under Creative Commons Attribution-Share Alike 3.0 Unported
+  license.
+
+\bibitem{gaussblur}
+\url{http://en.wikipedia.org/wiki/File:Halftone,_Gaussian_Blur.jpg}, 2009.
+\newblock Udgivet af Alex:D under Creative Commons Attribution-Share Alike 3.0
+  Unported license.
+
+\bibitem{gauss}
+\url{http://en.wikipedia.org/w/index.php?title=Gaussian_blur&oldid=422700764}.
+\newblock Udgivet af Alex:D under Creative Commons Attribution-Share Alike 3.0
+  Unported license.
+
+\bibitem{edge}
+\url{http://en.wikipedia.org/w/index.php?title=Edge_detection&oldid=425584110}.
+\newblock Udgivet under Creative Commons Attribution-Share Alike 3.0 Unported
+  license.
+
+\bibitem{imggrad}
+\url{http://en.wikipedia.org/w/index.php?title=Image_gradient&oldid=421160257}.
+\newblock Udgivet under Creative Commons Attribution-Share Alike 3.0 Unported
+  license.
+
+\bibitem{sobel1}
+\url{http://en.wikipedia.org/wiki/File:Valve_original_(1).PNG}, 2008.
+\newblock Udgivet af Simpsons contributor under Creative Commons
+  Attribution-Share Alike 3.0 Unported license.
+
+\bibitem{sobel2}
+\url{http://en.wikipedia.org/wiki/File:Valve_original_(1).PNG}, 2008.
+\newblock Udgivet af Simpsons contributor under Creative Commons
+  Attribution-Share Alike 3.0 Unported license.
+
+\bibitem{sobel}
+\url{http://en.wikipedia.org/w/index.php?title=Sobel_operator&oldid=422155717}.
+\newblock Udgivet under Creative Commons Attribution-Share Alike 3.0 Unported
+  license.
+
+\bibitem{houghrep}
+Jaroslav Borovicka.
+\newblock Circle detection using hough transforms documentation, 2003.
+\newblock
+  \url{http://linux.fjfi.cvut.cz/~pinus/bristol/imageproc/hw1/report.pdf}.
+
 \bibitem{roc:sensitivity}
 \url{http://en.wikipedia.org/w/index.php?title=Sensitivity_and_specificity&oldid=432665475#Sensitivity}.
 \newblock Udgivet under Creative Commons Attribution-Share Alike 3.0 Unported
   license.
+
+\bibitem{sld}
+Anders~Dahl et. al.
+\newblock Learning dictionaries of discriminative image patches.
+\newblock Ikke publiseret, 2011.
+
+\bibitem{gen}
+S.~Agarwal and D.~Roth.
+\newblock Learning a sparse representation for object detection.
 
 \end{thebibliography}
