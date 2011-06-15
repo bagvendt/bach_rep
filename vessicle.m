@@ -38,8 +38,9 @@ figure(n); n=n+1;
 imagesc(K4); axis image; colormap(gray); colorbar
 set(gca,'fontsize',fntsz);
 title('Distance Map');
-   
-for threshold = 25:35
+figure(n); n=n+1;
+mesh(K4);
+for threshold = 30:35
     percentage = threshold/100;
 
     %BNW1 = (K1-min(K1(:)))<percentage*(max(K1(:))-min(K1(:)));
