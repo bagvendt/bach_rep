@@ -1,10 +1,68 @@
 \input{files/header}
 
+\pagestyle{empty}
+\begin{center} %\parindent=0pt
+\newcommand{\HRule}{\rule{\textwidth}{1mm}}
+\vspace*{2cm}\hspace{4cm}%\stretch{0.1}}
+\HRule\\[1cm]\huge{\textbf{
+Detektion af vesikler i celler}}\\[0.7cm]
+\huge{Bachelorprojekt}\\[1cm]
+\HRule\\[3cm]
+\large{Claes Nøhr Ladefoged\\[0.7cm]
+       Marcus Bjerg Gregersen\\[0.7cm]}
+%\vspace{1cm}%*{\stretch{2.5}}
+%\large Version 0.03
+%\\
+ \vspace{2cm}
+\end{center}
+\begin{flushleft}
+Juni 2011\\
+\vspace{0,5cm}
+Under vejledning af Jon Sporring\\
+Datalogisk Institut\\
+Københavns Universitet
+\end{flushleft}
+\newpage
+
 \input{files/abstract/abstract}
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}
+\section*{Forord}
+Følgende er undertegnedes bachelorprojekt udarbejdet i perioden 31. Januar 2011 til den 10. Juni 2011 ved Datalogisk Institut Københavns Universitet, under vejledning af Professor Jon Sporring.
+
+Vores faglige forudsætninger ved påbegyndelsen af dette projekt har været de forventede af 3. års datalogistuderende på Københavns Universitet. 
+Vi er således gået ind i projektet med et solidt kendskab til en bred vifte af datalogiske problemløsningsværktøjer, men uden kendskab til de metoder der benyttes indenfor billedbehandling, herunder specielt medicinsk billedbehandling.
+Det fremgår derfor også af vedlagte synopsis at en af grundpillerne for projektet, har været at tilegne os viden om en mængde teknikker indenfor billedbehandling for derefter at kunne benytte og implementere disse teknikker.
+I rapporten beskriver vi således flere af de basale elementer i billedbehandling, for derefter at belyse hvorledes vi har benyttet disse til at frembringe en relativt stabil detektion af synaptiske vesikler i nerveceller.
+
+Til sidst i projektperioden har vi haft cellebilleder til rådighed af markant højere kvalitet. Vesiklerne i disse "nye" billeder er simpelthen væsentligt tydeligere, end det er tilfældet i de gamle cellebilleder.
+Vores endelige metode er således blevet til med udgangspunkt i de gamle billeder, mens vi primært har udarbejdet vores evaluering ud fra de nye cellebilleder.
+Vi føler at denne fremgangsmåde er rimelig da det er vores klare overbevisning at fremtidig vessikeldetektion med Cryo-EM billeder vil foregå med billeder af mindst denne "nye" kvalitet.
+
+Det forventes at læseren har et generelt kendskab til de forskellige metoder og termer inden for signal- og billedbehandling.
+
+Vi vil gerne takke Postdoc Anders Lindbjerg Dahl, DTU, for at stille Sparce Label Dictionaries metoden til rådighed for os.
+Ligeledes vil vi gerne takke Professor Jens Randel Nyengaard, AU, for at stille cellebillederne til rådighed for os, samt at annotere ground truth i disse.
+\\
+\\
+\\
+\begin{table}[!htb]
+\begin{flushleft}
+\begin{tabular}{c p{2.6cm} c}
+  \underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~} & & \underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}\\
+  Claes Nøhr Ladefoged & & Marcus Bjerg Gregersen
+\end{tabular}
+\end{flushleft}
+\end{table}
 
 \newpage
-\input{files/intro/intro}
+\tableofcontents
+\newpage
 
+\newpage
+\pagenumbering{arabic} % skifter sidetal til "tal"
+\input{files/intro/intro}
 \newpage
 \input{files/bildbeh/bildbeh}
 
@@ -14,7 +72,6 @@
 \newpage
 \input{files/premethod/premethod}
 
-\newpage
 \input{files/postmethod/postmethod}
 
 \newpage
@@ -26,5 +83,70 @@
 \pagestyle{headings}
 \bibliographystyle{unsrt}
 \bibliography{bibtexfile}
+
+\newpage
+\thispagestyle{plain}
+\section{Appendix}
+\subsection*{Synopsis}
+\subsubsection*{Projektets titel}
+Detektion af vesikler i celler.
+
+\subsubsection*{Problemformulering for projektet}
+At konstruere et program der automatisk detekterer synaptiske vesikler i celler, ud fra et billedudsnit der indeholder en enkelt celle. 
+%Derefter vil vi sammenholde dette med ground truth for samme billede udpeget af biologer. 
+
+\subsubsection*{En afgrænsning af problemformuleringen som beskriver eventuelle emner eller aspekter som gruppen har valgt ikke at behandle. }
+Vi vil ikke behandle detektion af cellerne, og de billeder vi behandler vil derfor kun være af en enkelt celle. Vores succeskriterie er den af biologer definerede ground truth.
+
+\subsubsection*{Begrundelse som fortæller hvorfor problemformuleringen er væsentlig og interessant. }
+Biologer arbejder med billeder af celler og undersøger hvordan stress påvirker placeringen af vesiklerne i celler hos henholdsvis depressive og ikke depressive patienter under graviditet. Til forsøget benyttes billeder af rotters celler. 
+% Ret ovenstående startformulering.
+
+Forskningen kræver at man på billederne lokaliserer cellerne, vesiklerne i cellerne, og laver statistik over deres placering. Vores problem er at automatisere detekteringen af vesiklerne i cellerne.
+\subsubsection*{En liste over de opgaver der skal løses for at gennemføre projektet med angivelse af forventet tidsforbrug for hver af dem. }
+Vi har i alt 16 uger til projektet skal afleveres, hvor vi skal igennem nedenstående 4 punkter. Dette har vi så tegnet i nedenstående gantt diagram.
+\begin{enumerate}
+	\item Selvstudie i medicinsk billedbehandling
+	\item Implementere algoritmer til detektion af vesiklerne i cellerne
+	\item Evaluering af algoritmerne
+	\item Rapportskrivning
+\end{enumerate}
+\begin{gantt}{5}{16}
+    \begin{ganttitle}
+      \numtitle{1}{1}{16}{1}
+    \end{ganttitle}
+    \ganttbar{(1)}{0}{9}
+    \ganttbar{(2)}{1}{10}
+    \ganttbar{(3)}{9}{5}
+    \ganttbar{(4)}{0}{16}
+\end{gantt}
+
+% \begin{gantt}{4}{8}
+% 	\centering
+%     \begin{ganttitle}
+%       \numtitle{1}{1}{8}{1}
+%     \end{ganttitle}
+%     \ganttbar{Rapportskrivning}{0}{8}
+%     \ganttbar{Selvstudie}{0}{8}
+%     \ganttbar{Algoritmeimplementering}{1}{7}
+% \end{gantt}
+% 
+% \begin{gantt}{4}{8}
+% 	\centering
+%     \begin{ganttitle}
+%       \numtitle{9}{1}{16}{1}
+%     \end{ganttitle}
+%     \ganttbar{Rapportskrivning}{0}{8}
+%     \ganttbar{Algoritmeimplementering}{0}{7}
+%     \ganttbar{Færdiggøre endelige program}{2}{5}
+% \end{gantt}
+
+\subsubsection*{Evt. metodiske overvejelser, relevant litteratur eller andet der kan uddybe og begrunde listen over opgaver.}
+Vi vil tage udgangspunkt i bogen \emph{Bernd Jähne, "Digital Image Processing", 6. udgave} hvori vi vil benytte kapitel 1-3. Yderligere vil vi benytte Søren Olsens noter til kurset \emph{Introduktion til Billedbehandling} fra 2006-2007.
+
+Vi vil studere forskellige metoder til at detektere vesikler og vælge de der producerer det bedste resultat. Vi vil sammenholde vore resultater med ground truth for at optimere vores algoritmer.
+
+\subsubsection*{Læringsmål}
+Vi ønsker at tilegne os viden om en mængde af teknikker indenfor billedbehandling og derefter kunne analysere og implementere disse til at løse delopgaver i vores problem. Et af vore læringsmål er derfor at kunne benytte en tillært teknik på vores datasæt og analysere resultatet og evaluere dette i forhold til andre metoder. Vi ønsker at fremvise disse forskellige metoder, samt diskutere fordele og ulemper, for derefter at præsentere vores endelige løsning på problemet.
 
 \end{document}
