@@ -23,12 +23,13 @@ Marcus Bjerg Gregersen}
 \begin{frame}
 \frametitle{Resultatet}
 \begin{figure}[H]
+	\centering
 	\begin{minipage}[b]{0.49\linewidth}
 		\includegraphics[scale=0.4]{img/ves/0.jpg}
 	\end{minipage}
 	%\hspace{0.5cm}
 	\begin{minipage}[b]{0.49\linewidth}
-		\includegraphics[scale=0.4]{img/ves/1_2_3.png}
+		\includegraphics[scale=0.4]{img/ves/1_2.png}
 	\end{minipage}
 \end{figure}
 \end{frame}
@@ -48,17 +49,16 @@ Marcus Bjerg Gregersen}
 \end{frame}
 
 \begin{frame}
-\frametitle{Billedbehandling - Fouriertransformation}
+\frametitle{Billedbehandling - Fouriertransformation \& foldning}
 Fouriertransformation
 \begin{figure}[H]
 \includegraphics[scale=0.35]{img/billedbeh/fourier.png}
 \hspace{0.1cm}  for $x \in \mathbb{R}$
 \end{figure}
-Invers fouriertransformation
-\begin{figure}[H]
-\includegraphics[scale=0.35]{img/billedbeh/fourier_invers.png}
-\hspace{0.1cm}  for $x \in \mathbb{R}$
-\end{figure}
+Foldning
+\begin{align*}
+	f(t)*g(t)=\int_{-\infty}^{\infty}f(\tau)g(t-\tau)d\tau
+\end{align*}
 \end{frame}
 
 \begin{frame}
@@ -70,6 +70,9 @@ Invers fouriertransformation
 
 \begin{frame}
 \frametitle{Billedbehandling - Fouriertransformation}
+\begin{figure}[H]
+\includegraphics[scale=0.29]{img/billedbeh/lenaex3.png}
+\end{figure}
 \begin{figure}[H]
 \includegraphics[scale=0.29]{img/billedbeh/lenaex1.png}
 \end{figure}
@@ -130,10 +133,6 @@ Invers fouriertransformation
 \end{figure}
 \end{frame}
 
-\begin{frame}
-\frametitle{Billedbehandling - Hough-cirkeldetektion}
-PLACEHOLDER
-\end{frame}
 
 \begin{frame}
 \frametitle{Segmentering med eksempelbilleder}
@@ -246,7 +245,33 @@ PLACEHOLDER
 
 %Seperabel
 %Foldning fungerer.
-%
+
 \input{claes}
+\begin{frame}
+\frametitle{Resultater}
+\begin{figure}[H]
+	\centering
+	\begin{minipage}[b]{0.49\linewidth}
+		\includegraphics[scale=1]{../files/postmethod/img/eval_1-1.png}
+	\end{minipage}
+	%\hspace{0.5cm}
+	\begin{minipage}[b]{0.49\linewidth}
+		\includegraphics[scale=1]{../files/postmethod/img/eval_1-2.png}
+	\end{minipage}
+\end{figure}
+\end{frame}
+
+
+%Ves i et slide. med 1 og 2 <-- sensitivity (RECALL OG 1-PRES) 
+%Recall graf
+%Tal i et slide
+%Kombineret res af 1-2 <--- MED RECALL OG 1-PRESS.
+%TAL perspektiveret til tidligere tal??
+
+
+\begin{frame}
+\frametitle{SLUT}
+Ikke som i slut men som i SLUT
+\end{frame}
 
 \end{document}
