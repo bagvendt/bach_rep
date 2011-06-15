@@ -1,3 +1,0 @@
-I roden af mappen ses 4 billeder. AN 1-5_7.jpg og AN 2-3_7.jpg er de store billeder vi har taget udsnit fra. AN 1-5_7_new.jpg og AN 2-3_7_new.jpg er de samme billeder, hvor ground truth er markeret.
-
-I hver af de to mapper er 6 nye mapper. Navnet på mapperne her svarer til hvor vesiklen er taget fra, så 1-5_7-2 er fra AN 1-5_7.jpg. I hver af disse billeder er resultatet fra distance mappet (dist.jpg), originalbilledudsnittet (orig.jpg), 99 billeder af tærskelværdier, navnet angiver tærskelverdien for billedet, og det resulterende billede hvor vi har markeret TP, FP og FN.
