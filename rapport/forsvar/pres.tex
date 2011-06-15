@@ -87,6 +87,52 @@ Invers fouriertransformation
 
 \begin{frame}
 \frametitle{Billedbehandling - Gaussisk udglatning}
+\begin{align*}
+	G(x,y) = \frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}\label{ali:premethod_gaussG}
+\end{align*}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../files/premethod/img/gausscell.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Billedbehandling - Sobelfilter}
+\begin{align*}
+	G_y = \begin{bmatrix}
+		-1 & -2 & -1\\
+		0 & 0 & 0\\
+		1 & 2 & 1
+	\end{bmatrix} * I
+	&&
+	G_x = \begin{bmatrix}
+		-1 & 0 & 1\\
+		-2 & 0 & 2\\
+		-1 & 0 & 1
+	\end{bmatrix} * I
+	\end{align*}
+\begin{align*}
+	G &= \sqrt{G_x^2 + G_y^2}
+	&\Theta = \arctan\left(\frac{G_y}{G_x}\right)
+\end{align*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Billedbehandling - Sobelfilter}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{../files/premethod/img/sobel3.png}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{../files/premethod/img/edgemap2.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Billedbehandling - Hough-cirkeldetektion}
+PLACEHOLDER
 \end{frame}
 
 \begin{frame}
