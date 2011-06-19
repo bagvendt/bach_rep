@@ -60,14 +60,20 @@ Marcus Bjerg Gregersen}
 \frametitle{Billedbehandling - Fouriertransformation \& foldning}
 Fouriertransformation
 \begin{align*}
-	F\{f\} = f(u) &= \int_{-\infty}^{\infty} f(x) e^{-2 \pi i u x} dx
+	F\{f(u)\} &= \int_{-\infty}^{\infty} f(x) e^{-2 \pi i u x} dx
 \end{align*}
 
 Foldning
 \begin{align*}
 	f(t)*g(t)=\int_{-\infty}^{\infty}f(\tau)g(t-\tau)d\tau
 \end{align*}
+Relation
+\begin{align*}
+	f(t)*g(t)= F^{-1} \{F\{f\} \cdot  F\{g\} \}
+\end{align*} 
+
 \end{frame}
+
 
 \begin{frame}
 \frametitle{Billedbehandling - Fouriertransformation}
@@ -254,11 +260,20 @@ Foldning
 
 %Seperabel
 %Foldning fungerer.
+
 \begin{frame}
 \frametitle{Resultater}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{../files/postmethod/img/3.jpg}
+	\includegraphics[scale=0.4]{img/finalmethod/thres_plot_before.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Resultater}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/finalmethod/thres_plot.png}
 \end{figure}
 \end{frame}
 
@@ -310,7 +325,7 @@ Foldning
 \frametitle{Resultater}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{../files/postmethod/img/recallvsprecision2.png}
+	\includegraphics[scale=0.6]{img/finalmethod/recallvsprecision2.png}
 \end{figure}
 \end{frame}
 
