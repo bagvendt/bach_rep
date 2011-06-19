@@ -2,10 +2,10 @@ n=1;
 percentage=0.35;
 fntsz=18;
 %I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_48.jpg');
-I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb2/AN 2-3_7.jpg');
+%I = imread('/Users/claesladefoged/Dropbox/Skole/3/Bachelor/Billeder/csgb2/AN 2-3_7.jpg');
 %I = imread('/Users/claesnl/Dropbox/Skole/3/Bachelor/Billeder/csgb/test20_48.jpg');
 %I = double(I(150+[0:255],60+[0:255]));
-I = double(I(200+[0:400],500+[0:350]));
+%I = double(I(200+[0:400],500+[0:350]));
 
 %J4 = I(75:100,120:145); % Vesikel 1 God-finder mange
 %J4 = I(140:165,160:185); % Vesikel 2 Finder sig selv og 3 FP ligner det.
