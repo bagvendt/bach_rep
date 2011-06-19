@@ -49,12 +49,20 @@ Marcus Bjerg Gregersen}
 \end{frame}
 
 \begin{frame}
+\frametitle{Mesh af en vesikel}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/ves/mesh.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
 \frametitle{Billedbehandling - Fouriertransformation \& foldning}
 Fouriertransformation
-\begin{figure}[H]
-\includegraphics[scale=0.35]{img/billedbeh/fourier.png}
-\hspace{0.1cm}  for $x \in \mathbb{R}$
-\end{figure}
+\begin{align*}
+	F\{f\} = f(u) &= \int_{-\infty}^{\infty} f(x) e^{-2 \pi i u x} dx
+\end{align*}
+
 Foldning
 \begin{align*}
 	f(t)*g(t)=\int_{-\infty}^{\infty}f(\tau)g(t-\tau)d\tau
@@ -282,18 +290,18 @@ Foldning
 \begin{table}[H]
 	\begin{tabular}{l|l|l|l}
 		$\#$ ves. & Billeder & Recall & 1-Precision \\\hline
-		2	&	(a)+(b)	 							&0.785 	&0.338\\\hline
-		2	&	(c)+(d)	 							&0.785 	&0.414\\\hline
-		2	&	(e)+(f)								&0.938 	&0.408\\\hline
-		2	&	(a)+(b)  					&1 		&0.525\\\hline
-		2	&	(c)+(d)  					&0.821 	&0.378\\\hline
-		2	&	(e)+(f)  					&1 		&0.417\\\hline
-		3	&	(a)+(b)+(c)	 						&0.923 	&0.4\\\hline
-		3	&	(d)+(e)+(f)	 						&0.938 	&0.5\\\hline
-		3	&	(a)+(b)+(c)				&1 		&0.578\\\hline
-		3	&	(d)+(e)+(f)				&1 		&0.481\\\hline
-		4	&	(a)+(b)+(c)+(d)						&0.954 	&0.456\\\hline
-		4	&	(a)+(b)+(c)+(d)  			&1 		&0.582\\
+		\textbf{2}	&	\textbf{1:(a)+(b)}	 							&\textbf{0.785} 	&\textbf{0.338}\\\hline
+		2	&	1:(c)+(d)	 							&0.785 	&0.414\\\hline
+		2	&	1:(e)+(f)								&0.938 	&0.408\\\hline
+		2	&	2:(a)+(b)  					&1 		&0.525\\\hline
+		2	&	2:(c)+(d)  					&0.821 	&0.378\\\hline
+		2	&	2:(e)+(f)  					&1 		&0.417\\\hline
+		3	&	1:(a)+(b)+(c)	 						&0.923 	&0.4\\\hline
+		3	&	1:(d)+(e)+(f)	 						&0.938 	&0.5\\\hline
+		3	&	2:(a)+(b)+(c)				&1 		&0.578\\\hline
+		3	&	2:(d)+(e)+(f)				&1 		&0.481\\\hline
+		\textbf{4}	&	\textbf{1:(a)+(b)+(c)+(d)}						&\textbf{0.954} 	&\textbf{0.456}\\\hline
+		4	&	2:(a)+(b)+(c)+(d)  			&1 		&0.582\\
 	\end{tabular}
 \end{table}
 \end{frame}
